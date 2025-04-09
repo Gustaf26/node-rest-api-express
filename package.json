@@ -1,0 +1,27 @@
+{
+  "name": "node_test_rest_api",
+  "version": "1.0.0",
+  "description": "My first node api",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "sqlite"
+  ],
+  "author": "Gustaf26",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.9",
+    "sqlite3": "^5.1.7"
+  }
+}
