@@ -1,34 +1,47 @@
 import express from 'express';
-import { initiateDb } from './connect.js'
+import { initiateDb, closeConnexion } from './connect.js'
 import createError from 'http-errors'
+
 
 const routes = express.Router();
 
 let db;
 
-const closeConnexion = (database) => {
+const checkIfFriend = (db, contactId, ownId, contactRow, res) => {
 
-    database.close((err) => {
+    let query = "SELECT * FROM persons WHERE id = ?";
+
+    db.get(query, [ownId], (err, row) => {
         if (err) {
-            console.error('Error closing the connection', err.message);
+            console.log(err);
             return;
         }
-        console.log('Database connection closed.');
-    });
+
+        if (row) {
+
+            let nearFriends = JSON.parse(row.nearFriends)
+            console.log(nearFriends)
+
+            if (nearFriends.includes(contactId)) res.send({ "contact": { name: contactRow.name, email: contactRow.email, phone: contactRow.phone } })
+            else { res.send({ "contact": { name: contactRow.name, phone: contactRow.phone } }) }
+            closeConnexion(db)
+        }
+
+        else {
+            closeConnexion(db)
+            return res.status(400).send({ "msg": 'You must provide a correct own id' })
+        }
+    })
+
 }
 
 
-routes.all('/', (req, res, next) => {
-
-    db = initiateDb()
-
-    next()
-
-})
 
 routes.get('/', async (req, res, next) => {
 
-    let query = 'SELECT * FROM contacts'
+    let query = 'SELECT * FROM persons'
+
+    db = initiateDb()
 
     let contacts = { contacts: [] }
 
@@ -38,7 +51,7 @@ routes.get('/', async (req, res, next) => {
                 console.log(err);
                 return;
             }
-            rows.forEach(row => contacts.contacts.push({ contact_id: row.contact_id, contact_name: row.contact_name, contact_email: row.contact_email }))
+            rows.forEach(row => contacts.contacts.push({ id: row.id, name: row.name, email: row.email }))
 
             if (contacts.contacts.length === 0) throw new Error('No contacts found');
 
@@ -56,60 +69,32 @@ routes.get('/', async (req, res, next) => {
 
 });
 
-// Load user by id
 
-routes.param('id', function (req, res, next, id) {
+routes.get('/:contactId', async (req, res, next) => {
 
-    db = initiateDb()
+    let contactId = Number(req.params.contactId)
+    let ownId = req.body.own_id
 
-    req.contactId = id
-
-    if (req.contactId) {
-        let query = "SELECT * FROM contacts WHERE contact_id = ?";
-
-        try {
-            db.get(query, [req.contactId], (err, row) => {
-                if (err) {
-                    throw (err);
-                }
-
-                if (row) next();
-            })
-        }
-        catch (error) {
-            next(createError(404, 'failed to find contact'));
-            closeConnexion(db)
-        }
-    } else {
-        next(createError(404, 'failed to find contact'));
-        closeConnexion(db)
-    }
-});
-
-routes.get('/:contactId', async (req, res) => {
-
-    let id = Number(req.params.contactId)
+    console.log(ownId)
 
     db = initiateDb()
 
-    let query = "SELECT * FROM contacts WHERE contact_id = ?";
+    let query = "SELECT * FROM persons WHERE id = ?";
 
     try {
-        db.get(query, [id], (err, row) => {
+        db.get(query, [contactId], (err, contactRow) => {
             if (err) {
                 console.log(err);
                 return;
             }
 
-            if (row) res.send({ "contact": row })
+            if (contactRow) {
+                checkIfFriend(db, contactId, ownId, contactRow, res, next)
+            }
 
             else res.send({ "msg": "No such contact" });
 
-            closeConnexion(db)
-
         });
-
-
     } catch (error) {
         res.send({ "error": error });
     }

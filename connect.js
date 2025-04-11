@@ -20,24 +20,18 @@ function connected(err) {
         console.log(err.message);
         return;
     }
-    console.log('Created the DB or SQLite DB does already exist');
+    console.log('Database is open');
 }
 
-let sql = `CREATE TABLE IF NOT EXISTS contacts(
-  contact_id INTEGER PRIMARY KEY,
-  contact_name TEXT NOT NULL,
-  contact_email TEXT NOT NULL
-)`;
+const closeConnexion = (database) => {
 
-let DB = initiateDb()
+    database.close((err) => {
+        if (err) {
+            console.error('Error closing the connection', err.message);
+            return;
+        }
+        console.log('Database connection closed.');
+    });
+}
 
-DB.run(sql, [], (err) => {
-    //callback function
-    if (err) {
-        console.log('error creating enemies table');
-        return;
-    }
-    console.log('CREATED TABLE');
-});
-
-export { initiateDb };
+export { initiateDb, closeConnexion };
