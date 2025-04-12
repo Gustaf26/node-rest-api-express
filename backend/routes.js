@@ -51,7 +51,7 @@ routes.get('/', async (req, res, next) => {
                 console.log(err);
                 return;
             }
-            rows.forEach(row => contacts.contacts.push({ id: row.id, name: row.name, email: row.email }))
+            rows.forEach(row => contacts.contacts.push({ id: row.id, name: row.name, email: row.email, thumbnail: row.thumbnail, phone: row.phone }))
 
             if (contacts.contacts.length === 0) throw new Error('No contacts found');
 

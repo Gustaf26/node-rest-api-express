@@ -1,0 +1,52 @@
+[
+    {
+        "commonContacts": "[3,4]",
+        "email": "peter@Petersson.se",
+        "events": null,
+        "id": 1,
+        "name": "Peter",
+        "nearFriends": "[2, 5]",
+        "phone": 1234567,
+        "thumbnail": "https://img.freepik.com/free-photo/handsome-sensitive-red-head-man-smiling_23-2149509820.jpg?t=st=1744460715~exp=1744464315~hmac=bbe38c6e4df5d83ddd0ea86f03e6d2ca24625756a48d9426754800085cde0ef2&w=2000"
+    },
+    {
+        "commonContacts": "[4,5]",
+        "email": "kalle@kallesson.se",
+        "events": null,
+        "id": 2,
+        "name": "Kalle",
+        "nearFriends": "[1,3]",
+        "phone": 2345678,
+        "thumbnail": "https://img.freepik.com/free-photo/portrait-young-man-with-green-hoodie_23-2148514952.jpg?t=st=1744460747~exp=1744464347~hmac=1ae67a3e5619643274d221dc67115dc5f853938944bad8f674d811e46d129f89&w=2000"
+    },
+    {
+        "commonContacts": "[4,5]",
+        "email": "sven@svensson.se",
+        "events": null,
+        "id": 3,
+        "name": "Sven",
+        "nearFriends": "[1,2]",
+        "phone": 3456789,
+        "thumbnail": "https://img.freepik.com/free-photo/close-up-portrait-curly-handsome-european-male_176532-8133.jpg?t=st=1744460769~exp=1744464369~hmac=34c8a5f2e0ca8b277d7e44600c4ec1133fe9af700e3c16688f5199c26bbfaf45&w=2000"
+    },
+    {
+        "commonContacts": "[1,2]",
+        "email": "sara@sarasson.se",
+        "events": null,
+        "id": 4,
+        "name": "Sara",
+        "nearFriends": "[3,5]",
+        "phone": 456789,
+        "thumbnail": "https://img.freepik.com/free-photo/redhead-young-woman-smiling-looking-camera_23-2148183260.jpg?t=st=1744460799~exp=1744464399~hmac=f2d47a9c3cc825f2764baac4679a1bc9ad630a885491d3776466f7f2100b9b6d&w=826"
+    },
+    {
+        "commonContacts": "[1,2]",
+        "email": "lili@lilisson.se",
+        "events": null,
+        "id": 5,
+        "name": "Liljan",
+        "nearFriends": "[3,4]",
+        "phone": 56789123,
+        "thumbnail": "https://img.freepik.com/free-photo/woman-with-blond-short-hair-tanned-smiling-cute-gazing-camera-with-friendly_176420-44610.jpg?t=st=1744460815~exp=1744464415~hmac=6c28c876d82d98ced6ad1402d050bb43cefadd651068093d85b7409d5deb0221&w=2000"
+    }
+]

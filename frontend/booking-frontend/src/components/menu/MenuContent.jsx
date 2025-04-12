@@ -1,31 +1,23 @@
-import * as React from 'react';
-// import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react';
 
-// import { useCreate } from '../../contexts/CreateContext'
-// import { useMobile } from '../../contexts/MobileContext';
+import MainContext from '../../contexts/MainContext';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-// import Select, { selectClasses } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import AnalyticsRoundedIcon from '@mui/icons-material/AnalyticsRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
-import CheckroomIcon from '@mui/icons-material/Checkroom';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
-// import { Fullscreen } from '@mui/icons-material';
-// import { MenuItem } from '@mui/material';
+
 
 const mainListItems = [
     { text: 'Home', icon: <HomeRoundedIcon />, url: 'cms/index' },
-    { text: 'Analytics', icon: <AnalyticsRoundedIcon />, url: 'cms/index' },
     { text: 'Users', icon: <PeopleRoundedIcon />, url: 'cms/index' },
-    { text: 'Products', icon: <CheckroomIcon />, url: '/cms/products/prod-list' },
 ];
 
 const secondaryListItems = [
@@ -36,6 +28,7 @@ const secondaryListItems = [
 
 export default function MenuContent() {
 
+    const { setOption } = useContext(MainContext)
 
     return (
         <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
@@ -43,8 +36,8 @@ export default function MenuContent() {
                 {mainListItems.map((item, index) => (
                     <ListItem key={index} disablePadding sx={{ display: 'block' }}>
                         <ListItemButton>
-                            <ListItemIcon>{item.icon}</ListItemIcon>
-                            <ListItemText primary={item.text} />
+                            <ListItemIcon onClick={() => { setOption(item.text); console.log(item.text) }}>{item.icon}</ListItemIcon>
+                            <ListItemText onClick={() => { setOption(item.text); console.log(item.text) }} primary={item.text} />
                         </ListItemButton>
                     </ListItem>
                 ))}

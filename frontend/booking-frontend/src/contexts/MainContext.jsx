@@ -1,0 +1,44 @@
+import { createContext, useState, useEffect } from 'react';
+
+import { BounceLoader } from "react-spinners";
+
+const MainContext = createContext();
+
+export const MainContextProvider = (props) => {
+
+    const [contacts, setContacts] = useState([])
+    const [loading, setLoading] = useState(true);
+    const [sideOption, setOption] = useState('Home')
+
+    useEffect(() => {
+
+        async function getContacts() {
+
+            fetch('http://127.0.0.1:3000/')
+                .then(res => res.json())
+                .then(res => { setContacts(res.contacts); setLoading(false) })
+                .catch(err => console.log(err))
+        }
+
+        getContacts()
+
+    }, [])
+
+    const contextValues = {
+        contacts,
+        sideOption,
+        setOption
+    };
+
+    return (<MainContext.Provider value={contextValues}>
+        {loading && (
+            <div className="d-flex justify-content-center my-5">
+                <BounceLoader color={"#888"} size={100} />
+            </div>
+        )}
+        {!loading && props.children}
+    </MainContext.Provider>
+    )
+}
+
+export default MainContext 

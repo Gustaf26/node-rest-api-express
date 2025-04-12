@@ -14,9 +14,15 @@ import Typography from '@mui/material/Typography';
 
 export default function SideMenu() {
 
-    const [fullScreen, setFullScreen] = useState(false)
-    const [open, setOpen] = useState(true)
+    const [fullScreen, setFullWidth] = useState(false)
+    const [open, setOpen] = useState(false)
 
+    useEffect(() => {
+
+        if (open) setFullWidth(false)
+        else setFullWidth(true)
+
+    }, [open])
 
     const Drawer = styled(MuiDrawer)({
         width: fullScreen ? 70 : 240,
@@ -51,7 +57,7 @@ export default function SideMenu() {
                     ml: '10px'
                 }}
             >
-                <SelectWidth widthProps={{ open, setOpen, setFullScreen }} />
+                <SelectWidth widthProps={{ open, setOpen }} />
             </Box>
             <Divider />
             <MenuContent />

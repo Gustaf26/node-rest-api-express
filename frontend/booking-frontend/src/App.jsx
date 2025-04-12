@@ -1,20 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import SideMenu from './components/menu/SideMenu.jsx'
+import MainContext from "./contexts/MainContext";
+import ContactList from './components/contacts/contactList.jsx';
 
 import './App.css'
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
 
 function App() {
 
+  const { sideOption } = useContext(MainContext);
+
+  const [selectedPeriod, setPeriod] = useState(0)
+
+  const periodButtons = ['Month', 'Week', 'Day']
+
   return (
     <>
-      <div>
-
-      </div>
       <SideMenu />
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div id="container">
+        <header>
+          <button>Today</button>
+          <span id="month-span">July 2025</span>
+          <input placeholder="Search" />
+          <ButtonGroup variant="contained" aria-label="Basic button group">
+            {periodButtons.map((period, i) => {
+              return (<Button onClick={() => setPeriod(i)} className={i === selectedPeriod && "selected-period"}>{period}</Button>)
+            })}
+          </ButtonGroup>
+          <Button id="new-event-button">+ New Event</Button>
+        </header>
+        <div id="sections-container">
+          <aside>
+            {sideOption === 'Users' && <ContactList />}
+          </aside>
+          <section>
+
+          </section>
+        </div>
+      </div>
     </>
   )
 }
