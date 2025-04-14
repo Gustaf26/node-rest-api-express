@@ -32,14 +32,13 @@ function App() {
           </ButtonGroup>
           <Button id="new-event-button">+ New Event</Button>
         </header>
-        <div id="sections-container">
-          <aside>
-            {sideOption === 'Users' && <ContactList />}
-          </aside>
-          <section>
 
-          </section>
-        </div>
+        <aside>
+          {sideOption === 'Users' && <ContactList />}
+        </aside>
+        <section>
+          <p>THIS IS A SECTION</p>
+        </section>
       </div>
     </>
   )
