@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react'
 import SideMenu from './components/menu/SideMenu.jsx'
 import MainContext from "./contexts/MainContext";
 import ContactList from './components/contacts/contactList.jsx';
+import MainCalendar from './components/calendars/MainCalendar.jsx';
 
 import './App.css'
 import Button from '@mui/material/Button';
@@ -37,7 +38,7 @@ function App() {
           {sideOption === 'Users' && <ContactList />}
         </aside>
         <section>
-          <p>THIS IS A SECTION</p>
+          <MainCalendar />
         </section>
       </div>
     </>

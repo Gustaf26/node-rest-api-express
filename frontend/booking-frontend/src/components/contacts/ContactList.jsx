@@ -30,19 +30,18 @@ export default function ContactList() {
                     <BounceLoader color={"#888"} size={100} />
                 </div>
             )}
-            {!loading && (<Table id="contactucts-list-table">
+            {!loading && (<Table>
                 <TableHead>
-                    <TableCell><b>Name</b></TableCell>
-                    <TableCell><b>Email</b></TableCell>
-                    <TableCell><b>Phone</b></TableCell>
+                    <TableCell className="thead-name"><b>Name</b></TableCell>
+                    <TableCell className="thead-email"><b>Email</b></TableCell>
+                    <TableCell className="thead-phone"><b>Phone</b></TableCell>
                 </TableHead>
                 {contacts.map((contact, i) => {
                     return (<TableRow key={contact.id} style={{
-                        visibility: loading ? 'hidden' : 'visible',
-                        width: '100%', cursor: 'pointer', position: 'relative'
+                        visibility: loading ? 'hidden' : 'visible'
                     }}>
-                        <TableCell style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <img style={{ marginRight: '20px', borderRadius: '25px', width: '40px', height: '40px', objectFit: 'cover' }} alt={contact.name} src={contact.thumbnail} />
+                        <TableCell>
+                            <img alt={contact.name} src={contact.thumbnail} />
 
                             <span>{contact.name}</span>
 

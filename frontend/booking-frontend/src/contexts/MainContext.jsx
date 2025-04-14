@@ -9,6 +9,7 @@ export const MainContextProvider = (props) => {
     const [contacts, setContacts] = useState([])
     const [loading, setLoading] = useState(true);
     const [sideOption, setOption] = useState('Home')
+    const [calendarOption, setCalendarOption] = useState('month')
 
     useEffect(() => {
 
@@ -27,7 +28,8 @@ export const MainContextProvider = (props) => {
     const contextValues = {
         contacts,
         sideOption,
-        setOption
+        setOption,
+        calendarOption
     };
 
     return (<MainContext.Provider value={contextValues}>
