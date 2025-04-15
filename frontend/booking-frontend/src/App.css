@@ -84,6 +84,12 @@
         height: 100%;
         line-height: 40px;
       }
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgb(238, 234, 234);
+        border-radius: 5px;
+      }
     }
 
     & button {

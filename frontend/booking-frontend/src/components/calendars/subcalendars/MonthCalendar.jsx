@@ -2,9 +2,9 @@ import { useState, useEffect, useContext } from "react"
 
 import MainContext from "../../../contexts/MainContext"
 
-const thisMonth = new Date().getMonth() + 1
-const monthDays = thisMonth % 2 === 0 && thisMonth !== 2 ? 30 : thisMonth % 2 === 0 ? 28 : 31
+// const thisMonth = new Date().getMonth() + 1
 const weekDays = 35
+const today = new Date().getDate()
 
 const WeekCell = (props) => {
 
@@ -18,7 +18,6 @@ const WeekCell = (props) => {
     let saturdays = fridays.map(day => day + 1)
     let sundays = saturdays.map(day => day + 1)
 
-    console.log(props.dayDate)
 
     return (<div className={day === props.today ? "month-calendar-day today" : "month-calendar-day"}>
         {mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
@@ -35,13 +34,13 @@ const WeekCell = (props) => {
 
 const MonthCalendar = () => {
 
-    const [thisMonthDays, setThisMonthDays] = useState(monthDays)
-    const today = new Date().getDate()
-    const month = new Date().getMonth()
-    const [weekCells, setWeekCells] = useState([])
-    const startingDay = new Date(`2025-${month + 1}-01`).getDay()
+    const { events, actualMonth } = useContext(MainContext)
 
-    const { events } = useContext(MainContext)
+    const [weekCells, setWeekCells] = useState([])
+    // const [startingDay, setStartingDate] = useState(new Date(`2025-${actualMonth + 1}-01`).getDay())
+    const [monthDays, setMonthDays] = useState((actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30 : (actualMonth + 1) % 2 === 0 ? 28 : 31)
+    const [thisMonthDays, setThisMonthDays] = useState(monthDays)
+
 
 
     useEffect(() => {
@@ -49,24 +48,28 @@ const MonthCalendar = () => {
         let allWeekdays = []
         let dayNumber = 0
 
+        let preliminaryStart = new Date(`2025-${actualMonth + 1}-01`).getDay()
+
+        console.log(preliminaryStart)
 
         for (let j = 0; j < weekDays; j++) {
 
             let dayDate
 
-            if (j >= startingDay) {
+            if (j >= preliminaryStart - 1) {
                 dayNumber++;
-                dayDate = "2025-" + thisMonth.toString() + `-${dayNumber}`
+                dayDate = "2025-" + (actualMonth + 1).toString() + `-${dayNumber}`
             }
             allWeekdays.push(
-                <WeekCell events={events.length > 0 ? events : []} dayDate={dayDate} day={j} today={today} key={"weekday" + j} dayNr={(dayNumber >= 1) && (dayNumber <= thisMonthDays) ? dayNumber : ''}>
+                <WeekCell events={events.length > 0 ? events : []} dayDate={dayDate} day={j} today={today} key={"weekday" + j}
+                    dayNr={(dayNumber >= 1) && (dayNumber <= thisMonthDays) ? dayNumber : ''}>
                 </WeekCell>
             )
         }
 
         setWeekCells(allWeekdays)
 
-    }, [events])
+    }, [actualMonth])
 
     return (<div id="months-calendar-container">
         {weekCells.length > 0 && weekCells.map(weekcell => {
