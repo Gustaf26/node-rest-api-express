@@ -300,6 +300,12 @@
         }
 
       }
+
+      & span.event-day {
+        color: rgb(73, 113, 142);
+        background-color: rgb(219, 226, 228);
+        padding: 8px;
+      }
     }
   }
 

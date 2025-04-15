@@ -6,33 +6,33 @@ const routes = express.Router();
 
 let db;
 
-const checkIfFriend = (db, contactId, ownId, contactRow, res) => {
+// const checkIfFriend = (db, contactId, ownId, contactRow, res) => {
 
-    let query = "SELECT * FROM persons WHERE id = ?";
+//     let query = "SELECT * FROM persons WHERE id = ?";
 
-    db.get(query, [ownId], (err, row) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
+//     db.get(query, [ownId], (err, row) => {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         }
 
-        if (row) {
+//         if (row) {
 
-            let nearFriends = JSON.parse(row.nearFriends)
-            console.log(nearFriends)
+//             let nearFriends = JSON.parse(row.nearFriends)
+//             console.log(nearFriends)
 
-            if (nearFriends.includes(contactId)) res.send({ "contact": { name: contactRow.name, email: contactRow.email, phone: contactRow.phone } })
-            else { res.send({ "contact": { name: contactRow.name, phone: contactRow.phone } }) }
-            closeConnexion(db)
-        }
+//             if (nearFriends.includes(contactId)) res.send({ "contact": { name: contactRow.name, email: contactRow.email, phone: contactRow.phone } })
+//             else { res.send({ "contact": { name: contactRow.name, phone: contactRow.phone } }) }
+//             closeConnexion(db)
+//         }
 
-        else {
-            closeConnexion(db)
-            return res.status(400).send({ "msg": 'You must provide a correct own id' })
-        }
-    })
+//         else {
+//             closeConnexion(db)
+//             return res.status(400).send({ "msg": 'You must provide a correct own id' })
+//         }
+//     })
 
-}
+// }
 
 
 
@@ -68,6 +68,35 @@ routes.get('/', async (req, res, next) => {
 
 });
 
+routes.get('/events/:eventId', async (req, res, next) => {
+
+    let eventId = Number(req.params.eventId)
+    // let ownId = req.body.own_id
+
+    // console.log(ownId)
+
+    db = initiateDb()
+
+    let query = "SELECT * FROM events WHERE id = ?";
+
+
+    db.get(query, [eventId], (err, contactRow) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        if (contactRow) {
+            // checkIfFriend(db, contactId, ownId, contactRow, res, next)
+            res.send({ 'msg': contactRow })
+        }
+
+        else res.status(403).send({ "msg": "No such contact" });
+
+    });
+
+});
+
 
 routes.get('/:contactId', async (req, res, next) => {
 
@@ -80,24 +109,21 @@ routes.get('/:contactId', async (req, res, next) => {
 
     let query = "SELECT * FROM persons WHERE id = ?";
 
-    try {
-        db.get(query, [contactId], (err, contactRow) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
 
-            if (contactRow) {
-                // checkIfFriend(db, contactId, ownId, contactRow, res, next)
-                res.send({ 'msg': contactRow })
-            }
+    db.get(query, [contactId], (err, contactRow) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
 
-            else res.send({ "msg": "No such contact" });
+        if (contactRow) {
+            // checkIfFriend(db, contactId, ownId, contactRow, res, next)
+            res.send({ 'msg': contactRow })
+        }
 
-        });
-    } catch (error) {
-        res.send({ "error": error });
-    }
+        else res.status(403).send({ "msg": "No such contact" });
+
+    });
 
 });
 

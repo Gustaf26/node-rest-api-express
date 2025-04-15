@@ -11,6 +11,7 @@ const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'
 export const MainContextProvider = (props) => {
 
     const [contacts, setContacts] = useState([])
+    const [events, setEvents] = useState([])
     const [userInfo, setUserInfo] = useState()
     const [loading, setLoading] = useState(true);
     const [sideOption, setOption] = useState('Home')
@@ -37,6 +38,14 @@ export const MainContextProvider = (props) => {
                     res.msg.nearFriends = friends
                     res.msg.events = myEvents
                     setUserInfo(res.msg)
+
+                    myEvents = []
+                    res.msg.events.forEach(async (event) => {
+                        return fetch(`http://127.0.0.1:3000/events/${event}`)
+                            .then(res => res.json())
+                            .then(res => setEvents(prev => [...prev, res.msg]))
+                            .catch(err => console.log(err))
+                    })
                 })
                 .catch(err => console.log(err))
         }
@@ -83,7 +92,8 @@ export const MainContextProvider = (props) => {
         chosenMonth,
         setChosenMonth,
         setActualMonth,
-        actualMonth
+        actualMonth,
+        events
     };
 
     return (<MainContext.Provider value={contextValues}>
