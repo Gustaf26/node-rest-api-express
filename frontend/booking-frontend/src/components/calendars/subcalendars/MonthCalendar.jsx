@@ -24,7 +24,8 @@ const WeekCell = (props) => {
         {mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
             thursdays.includes(day) ? 'Thu' : fridays.includes(day) ? 'Fri' : saturdays.includes(day) ? 'Sat' : 'Sun'}
         {props.events.map(event => {
-            if (event.date === props.dayDate) return (<span className="event-day">{event.place}-{event.title}</span>)
+            if (event.date === props.dayDate) return (<span style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'crimson' }}
+                className="event-day">{event.place}-{event.title}</span>)
             else return null
         })}
         <span className={day === props.today ? "month-cal-day-nr today" : "month-cal-day-nr"}>{props.dayNr}</span>

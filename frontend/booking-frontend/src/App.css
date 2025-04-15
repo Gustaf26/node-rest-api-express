@@ -280,6 +280,7 @@
       align-items: start;
       justify-content: space-between;
       font-size: small;
+      background-color: rgb(242, 242, 242);
 
       &.today {
         color: rgb(72, 151, 209);
@@ -305,6 +306,7 @@
         color: rgb(73, 113, 142);
         background-color: rgb(219, 226, 228);
         padding: 8px;
+        border-radius: 3px;
       }
     }
   }

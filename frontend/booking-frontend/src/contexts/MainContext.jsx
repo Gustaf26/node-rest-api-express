@@ -37,13 +37,21 @@ export const MainContextProvider = (props) => {
                     res.msg.commonContacts = commonContacts
                     res.msg.nearFriends = friends
                     res.msg.events = myEvents
+                    let preliminaryUserinfo = res.msg
                     setUserInfo(res.msg)
 
-                    myEvents = []
+
                     res.msg.events.forEach(async (event) => {
                         return fetch(`http://127.0.0.1:3000/events/${event}`)
                             .then(res => res.json())
-                            .then(res => setEvents(prev => [...prev, res.msg]))
+                            .then(res => {
+                                res.msg.persons = JSON.parse(res.msg.persons);
+                                res.msg.persons.forEach(personId => {
+                                    if (preliminaryUserinfo.nearFriends.includes(personId)) { res.msg.contactType = 'friend' }
+                                    else { res.msg.contactType = 'contact' }
+                                })
+                                setEvents(prev => [...prev, res.msg])
+                            })
                             .catch(err => console.log(err))
                     })
                 })
