@@ -4,6 +4,10 @@ import { BounceLoader } from "react-spinners";
 
 const MainContext = createContext();
 
+const thisMonth = new Date().getMonth()
+
+const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
 export const MainContextProvider = (props) => {
 
     const [contacts, setContacts] = useState([])
@@ -11,6 +15,13 @@ export const MainContextProvider = (props) => {
     const [loading, setLoading] = useState(true);
     const [sideOption, setOption] = useState('Home')
     const [calendarOption, setCalendarOption] = useState('month')
+    const [actualMonth, setActualMonth] = useState(thisMonth)
+    const [chosenMonth, setChosenMonth] = useState(allMonths[actualMonth])
+
+
+    useEffect(() => {
+        setChosenMonth(allMonths[actualMonth])
+    }, [actualMonth])
 
     useEffect(() => {
 
@@ -38,7 +49,6 @@ export const MainContextProvider = (props) => {
 
         async function getUserContacts() {
 
-            console.log(userInfo)
             let myContacts = []
 
             fetch('http://127.0.0.1:3000/')
@@ -46,13 +56,13 @@ export const MainContextProvider = (props) => {
                 .then(res => {
                     userInfo && userInfo.commonContacts.forEach(contactId => {
                         res.contacts.forEach(generalContact => {
-                            console.log(generalContact)
+
                             if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
                         })
                     })
                     userInfo && userInfo.nearFriends.forEach(contactId => {
                         res.contacts.forEach(generalContact => {
-                            console.log(generalContact)
+
                             if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
                         })
                     })
@@ -69,16 +79,19 @@ export const MainContextProvider = (props) => {
         contacts,
         sideOption,
         setOption,
-        calendarOption
+        calendarOption,
+        chosenMonth,
+        setChosenMonth,
+        setActualMonth,
+        actualMonth
     };
 
     return (<MainContext.Provider value={contextValues}>
-        {loading && (
+        {loading ? (
             <div className="d-flex justify-content-center my-5">
                 <BounceLoader color={"#888"} size={100} />
             </div>
-        )}
-        {!loading && props.children}
+        ) : props.children}
     </MainContext.Provider>
     )
 }
