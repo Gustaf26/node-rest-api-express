@@ -30,21 +30,19 @@ export default function ContactList() {
                     <BounceLoader color={"#888"} size={100} />
                 </div>
             )}
-            {!loading && (<Table>
-                <TableHead>
-                    <TableCell className="thead-name"><b>Name</b></TableCell>
-                    <TableCell className="thead-email"><b>Email</b></TableCell>
-                    <TableCell className="thead-phone"><b>Phone</b></TableCell>
-                </TableHead>
+            {!loading && (<ul id="contacts-table">
+                <li className="th">
+                    <span className="td"><b></b></span>
+                    <span className="td"><b>Name</b></span>
+                    <span className="td"><b>Email</b></span>
+                    <span className="td"><b>Phone</b></span>
+                </li>
                 {contacts.map((contact, i) => {
-                    return (<TableRow key={contact.id} style={{
+                    return (<li className="tr" key={contact.id} style={{
                         visibility: loading ? 'hidden' : 'visible'
                     }}>
-                        <TableCell>
+                        <span className="td">
                             <img alt={contact.name} src={contact.thumbnail} />
-
-                            <span>{contact.name}</span>
-
                             {Number(editable) === contact.id && (
                                 <div style={{
                                     position: 'absolute', top: '0', left: '0', width: '100%',
@@ -54,12 +52,13 @@ export default function ContactList() {
                                     <DeleteIcon onClick={(e) => { e.stopPropagation(); }} className="delete-contact-icon contact-list-icon" />
                                     <ModeEditIcon onClick={(e) => { e.stopPropagation(); }} className="edit-contact-icon contact-list-icon" id={`edit-icon-${contact.id}`} />
                                 </div>)}
-                        </TableCell>
-                        <TableCell>{contact.email}</TableCell>
-                        <TableCell>{contact.phone}</TableCell>
-                    </TableRow>)
+                        </span>
+                        <span className="td">{contact.name}</span>
+                        <span className="td">{contact.email}</span>
+                        <span className="td">{contact.phone}</span>
+                    </li>)
                 })}
-            </Table>)}
+            </ul>)}
         </>
     )
 }

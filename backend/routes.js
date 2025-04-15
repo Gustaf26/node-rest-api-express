@@ -1,7 +1,6 @@
 import express from 'express';
 import { initiateDb, closeConnexion } from './connect.js'
-import createError from 'http-errors'
-
+// import createError from 'http-errors'
 
 const routes = express.Router();
 
@@ -73,9 +72,9 @@ routes.get('/', async (req, res, next) => {
 routes.get('/:contactId', async (req, res, next) => {
 
     let contactId = Number(req.params.contactId)
-    let ownId = req.body.own_id
+    // let ownId = req.body.own_id
 
-    console.log(ownId)
+    // console.log(ownId)
 
     db = initiateDb()
 
@@ -89,7 +88,8 @@ routes.get('/:contactId', async (req, res, next) => {
             }
 
             if (contactRow) {
-                checkIfFriend(db, contactId, ownId, contactRow, res, next)
+                // checkIfFriend(db, contactId, ownId, contactRow, res, next)
+                res.send({ 'msg': contactRow })
             }
 
             else res.send({ "msg": "No such contact" });
