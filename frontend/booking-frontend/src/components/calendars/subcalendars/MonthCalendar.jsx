@@ -8,6 +8,8 @@ const today = new Date().getDate()
 
 const WeekCell = (props) => {
 
+    const [activeDay, setActiveDay] = useState()
+
     let day = props.day
 
     let mondays = [0, 7, 14, 21, 28]
@@ -18,8 +20,20 @@ const WeekCell = (props) => {
     let saturdays = fridays.map(day => day + 1)
     let sundays = saturdays.map(day => day + 1)
 
+    const activateDay = (e) => {
 
-    return (<div className={day === props.today ? "month-calendar-day today" : "month-calendar-day"}>
+        let allDayEls = [...document.querySelectorAll('.month-calendar-day')]
+
+        allDayEls.forEach((dayEl) => {
+
+            if ([...dayEl.classList].includes('active')) { dayEl.classList.remove('active') }
+        })
+        e.target.classList.add('active')
+    }
+
+
+    return (<div onClick={(e) => activateDay(e)} className={day === props.today ? "month-calendar-day today" : props.dayNr === "" ? "month-calendar-day empty" :
+        "month-calendar-day"}>
         {mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
             thursdays.includes(day) ? 'Thu' : fridays.includes(day) ? 'Fri' : saturdays.includes(day) ? 'Sat' : 'Sun'}
         {props.events.map(event => {
@@ -40,7 +54,6 @@ const MonthCalendar = () => {
     // const [startingDay, setStartingDate] = useState(new Date(`2025-${actualMonth + 1}-01`).getDay())
     const [monthDays, setMonthDays] = useState((actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30 : (actualMonth + 1) % 2 === 0 ? 28 : 31)
     const [thisMonthDays, setThisMonthDays] = useState(monthDays)
-
 
 
     useEffect(() => {

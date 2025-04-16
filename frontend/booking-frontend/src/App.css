@@ -293,6 +293,25 @@
         background-color: rgb(190, 219, 240);
       }
 
+      &.active {
+        color: rgb(72, 151, 209);
+        background-color: rgb(207, 226, 240);
+
+        &:hover {
+          color: rgb(72, 151, 209);
+          background-color: rgb(207, 226, 240);
+        }
+      }
+
+      &.empty {
+        background-color: rgb(242, 242, 242);
+
+        &:hover {
+          background-color: rgb(242, 242, 242);
+          cursor: initial;
+        }
+      }
+
       &:hover {
         background-color: rgb(219, 226, 228);
         cursor: pointer;
