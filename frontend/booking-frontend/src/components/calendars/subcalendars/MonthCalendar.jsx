@@ -32,15 +32,18 @@ const WeekCell = (props) => {
     }
 
 
-    return (<div onClick={(e) => activateDay(e)} className={day === props.today ? "month-calendar-day today" : props.dayNr === "" ? "month-calendar-day empty" :
+    return (<div key={"month-calendar-day" + props.dayNr} onClick={(e) => activateDay(e)} className={day === props.today ? "month-calendar-day today" : props.dayNr === "" ? "month-calendar-day empty" :
         "month-calendar-day"}>
+
         {mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
             thursdays.includes(day) ? 'Thu' : fridays.includes(day) ? 'Fri' : saturdays.includes(day) ? 'Sat' : 'Sun'}
+
         {props.events.map(event => {
-            if (event.date === props.dayDate) return (<span style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'crimson' }}
+            if (event.date === props.dayDate) return (<span key={event.title} style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'crimson' }}
                 className="event-day">{event.place}-{event.title}</span>)
             else return null
         })}
+
         <span className={day === props.today ? "month-cal-day-nr today" : "month-cal-day-nr"}>{props.dayNr}</span>
     </div>)
 }
@@ -51,10 +54,7 @@ const MonthCalendar = () => {
     const { events, actualMonth } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
-    // const [startingDay, setStartingDate] = useState(new Date(`2025-${actualMonth + 1}-01`).getDay())
     const [monthDays, setMonthDays] = useState((actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30 : (actualMonth + 1) % 2 === 0 ? 28 : 31)
-    const [thisMonthDays, setThisMonthDays] = useState(monthDays)
-
 
     useEffect(() => {
 
@@ -63,7 +63,16 @@ const MonthCalendar = () => {
 
         let preliminaryStart = new Date(`2025-${actualMonth + 1}-01`).getDay()
 
-        console.log(preliminaryStart)
+        let preliminaryMonthDays
+
+        if ((actualMonth + 1) <= 7) {
+
+            preliminaryMonthDays = (actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30
+                : (actualMonth + 1) % 2 === 0 ? 28 : 31
+        }
+        else preliminaryMonthDays = (actualMonth + 1) % 2 === 0 ? 31 : 30
+
+        setMonthDays(preliminaryMonthDays)
 
         for (let j = 0; j < weekDays; j++) {
 
@@ -75,14 +84,14 @@ const MonthCalendar = () => {
             }
             allWeekdays.push(
                 <WeekCell events={events.length > 0 ? events : []} dayDate={dayDate} day={j} today={today} key={"weekday" + j}
-                    dayNr={(dayNumber >= 1) && (dayNumber <= thisMonthDays) ? dayNumber : ''}>
+                    dayNr={(dayNumber >= 1) && (dayNumber <= preliminaryMonthDays) ? dayNumber : ''}>
                 </WeekCell>
             )
         }
 
         setWeekCells(allWeekdays)
 
-    }, [actualMonth])
+    }, [actualMonth, events])
 
     return (<div id="months-calendar-container">
         {weekCells.length > 0 && weekCells.map(weekcell => {
