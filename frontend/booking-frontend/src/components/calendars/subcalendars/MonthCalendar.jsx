@@ -5,6 +5,7 @@ import MainContext from "../../../contexts/MainContext"
 // const thisMonth = new Date().getMonth() + 1
 const weekDays = 35
 const today = new Date().getDate()
+const thisMonth = new Date().getMonth()
 
 const WeekCell = (props) => {
 
@@ -32,7 +33,7 @@ const WeekCell = (props) => {
     }
 
 
-    return (<div key={"month-calendar-day" + props.dayNr} onClick={(e) => activateDay(e)} className={day === props.today ? "month-calendar-day today" : props.dayNr === "" ? "month-calendar-day empty" :
+    return (<div key={"month-calendar-day" + props.dayNr} onClick={(e) => activateDay(e)} className={day === props.today && thisMonth === props.actualMonth ? "month-calendar-day today" : props.dayNr === "" ? "month-calendar-day empty" :
         "month-calendar-day"}>
 
         {mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
@@ -44,7 +45,7 @@ const WeekCell = (props) => {
             else return null
         })}
 
-        <span className={day === props.today ? "month-cal-day-nr today" : "month-cal-day-nr"}>{props.dayNr}</span>
+        <span className={day === props.today && thisMonth === props.actualMonth ? "month-cal-day-nr today" : "month-cal-day-nr"}>{props.dayNr}</span>
     </div>)
 }
 
@@ -83,7 +84,7 @@ const MonthCalendar = () => {
                 dayDate = "2025-" + (actualMonth + 1).toString() + `-${dayNumber}`
             }
             allWeekdays.push(
-                <WeekCell events={events.length > 0 ? events : []} dayDate={dayDate} day={j} today={today} key={"weekday" + j}
+                <WeekCell actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate} day={j} today={today} key={"weekday" + j}
                     dayNr={(dayNumber >= 1) && (dayNumber <= preliminaryMonthDays) ? dayNumber : ''}>
                 </WeekCell>
             )
