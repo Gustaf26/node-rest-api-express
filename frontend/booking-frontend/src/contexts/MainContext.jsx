@@ -97,6 +97,7 @@ export const MainContextProvider = (props) => {
         sideOption,
         setOption,
         calendarOption,
+        setCalendarOption,
         chosenMonth,
         setChosenMonth,
         setActualMonth,

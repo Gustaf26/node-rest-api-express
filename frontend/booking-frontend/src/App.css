@@ -266,7 +266,8 @@
     }
   }
 
-  & #months-calendar-container {
+  & #months-calendar-container,
+  #week-calendar-container {
     display: grid;
     height: 100%;
     padding: 10px;
@@ -274,7 +275,8 @@
     grid-template-rows: 100px 100px 100px 100px 100px;
 
 
-    & .month-calendar-day {
+    & .month-calendar-day,
+    .week-calendar-day {
       border: 0.5px solid lightgrey;
       display: flex;
       flex-direction: column;

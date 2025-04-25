@@ -3,23 +3,23 @@ import { useState, useEffect, useContext } from 'react'
 import MainContext from '../../contexts/MainContext.jsx'
 
 import MonthCalendar from './subcalendars/MonthCalendar.jsx'
+import WeekCalendar from './subcalendars/WeekCalendar.jsx'
 
 const MainCalendar = () => {
-
-    const [calendarType, setCalendarType] = useState('month')
 
     const { calendarOption } = useContext(MainContext)
 
 
-    useEffect(() => {
-        setCalendarType(calendarOption)
-    }, [])
+    // useEffect(() => {
+    //     setCalendarType(calendarOption)
+    // }, [])
 
 
     return (
         <>
             <div>
-                {calendarType === 'month' && <MonthCalendar />}
+                {calendarOption === 'month' && <MonthCalendar />}
+                {calendarOption === 'week' && <WeekCalendar />}
             </div>
         </>
     )

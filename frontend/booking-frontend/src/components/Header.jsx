@@ -9,12 +9,12 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MainContext from '../contexts/MainContext';
 
 const thisMonth = new Date().getMonth()
-const periodButtons = ['Month', 'Week', 'Day']
+const periodButtons = ['month', 'week', 'day']
 
 export default function Header() {
 
     const [selectedPeriod, setPeriod] = useState(0)
-    const { chosenMonth, setActualMonth, actualMonth } = useContext(MainContext)
+    const { chosenMonth, setActualMonth, actualMonth, setCalendarOption } = useContext(MainContext)
     const [alertMonthLimit, setAlertMonthLimit] = useState(false)
 
 
@@ -38,7 +38,7 @@ export default function Header() {
             <input placeholder="Search" />
             <ButtonGroup variant="contained" aria-label="Basic button group">
                 {periodButtons.map((period, i) => {
-                    return (<Button onClick={() => setPeriod(i)} className={i === selectedPeriod && "selected-period"}>{period}</Button>)
+                    return (<Button onClick={() => { setPeriod(i); setCalendarOption(period) }} className={i === selectedPeriod && "selected-period"}>{period}</Button>)
                 })}
             </ButtonGroup>
             <Button id="new-event-button">+ New Event</Button>
