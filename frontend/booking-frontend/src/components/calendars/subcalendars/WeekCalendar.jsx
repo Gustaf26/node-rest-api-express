@@ -3,17 +3,23 @@ import { useState, useEffect, useContext } from "react"
 
 import MainContext from "../../../contexts/MainContext"
 
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-const today = new Date().getDay()
+
+let todaysWeekDayNr = new Date().getDay()
+
+todaysWeekDayNr = todaysWeekDayNr === 0 ? 7 : todaysWeekDayNr + 1
+
 const thisMonth = new Date().getMonth()
+
+const todaysDate = new Date().getDate()
 
 const DayCell = (props) => {
 
-    const [activeDay, setActiveDay] = useState()
+    let weekDayNr = props.weekDayNr
 
-    let day = props.day
-
-    let allWeekdDaysName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fre', 'Sat', 'Sun']
+    let allWeekDaysName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fre', 'Sat', 'Sun']
 
     const activateDay = (e) => {
 
@@ -27,8 +33,8 @@ const DayCell = (props) => {
     }
 
 
-    return (<div key={"week-calendar-day" + props.dayNr} onClick={(e) => activateDay(e)}
-        className={day === props.today ?
+    return (<div key={"week-calendar-day" + weekDayNr} onClick={(e) => activateDay(e)}
+        className={weekDayNr === todaysWeekDayNr && props.dayDate == todaysDate ?
             "week-calendar-day today" : "week-calendar-day"}>
 
         {/* {props.events.map(event => {
@@ -40,7 +46,8 @@ const DayCell = (props) => {
             else return null
         })} */}
 
-        <span className={day === props.today ? "week-cal-day-nr today" : "week-cal-day-nr"}>{allWeekdDaysName[props.dayNr]}{"  "}{props.dayDate}</span>
+        <span className={weekDayNr === props.todaysWeekDayNr && props.dayDate == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
+            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayDate >= 1 ? props.dayDate : ''}</span>
     </div>)
 }
 
@@ -51,38 +58,59 @@ export default function WeekCalendar() {
     const { events, actualMonth } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
-    const weekDays = 7
+    const [monthDays, setMonthDays] = useState((actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30 : (actualMonth + 1) % 2 === 0 ? 28 : 31)
+    const [weekPlusIndex, setPlusIndex] = useState(1)
+    const [weekMinusIndex, setMinusIndex] = useState(1)
+
+    const updateCalendar = (action) => {
+
+        let allWeekdays = []
+
+        let todaysDate = new Date().getDate()
+
+        let referenceDate = (action === 'plus') ? todaysDate + (weekPlusIndex * 7) : todaysDate - (weekMinusIndex * 7)
+
+        if (referenceDate > (monthDays + 6) || referenceDate <= 1) {
+            return
+        }
+
+        if (action === 'plus') { setPlusIndex(prev => prev + 1); setMinusIndex(prev => prev - 1) }
+        else { setMinusIndex(prev => prev + 1); setPlusIndex(prev => prev - 1) }
+
+
+        for (let j = 0; j < 7; j++) {
+
+            let dayDate = new Date(`2025-${thisMonth}-${referenceDate - (todaysWeekDayNr - 1) + j}`).getDate()
+
+            allWeekdays.push(
+                <DayCell actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
+                    weekDayNr={j + 1} todaysWeekDayNr={todaysWeekDayNr} key={"weekday" + j}>
+                </DayCell>
+            )
+        }
+
+
+        setWeekCells(allWeekdays)
+
+    }
 
     useEffect(() => {
 
         let allWeekdays = []
-        let dayNumber = 1
         let todaysDate = new Date().getDate()
 
-
-        // if ((actualMonth + 1) <= 7) {
-
-        //     preliminaryMonthDays = (actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30
-        //         : (actualMonth + 1) % 2 === 0 ? 28 : 31
-        // }
-        // else preliminaryMonthDays = (actualMonth + 1) % 2 === 0 ? 31 : 30
-
-        // setMonthDays(preliminaryMonthDays)
-
-        for (let j = 0; j < weekDays; j++) {
-
-
-            dayNumber++;
+        for (let j = 0; j < 7; j++) {
 
             let dayDate;
 
-            if (j < today) dayDate = new Date(`2025-${thisMonth}-${todaysDate - today + j}`).getDate()
-            else if (j === today) dayDate = new Date(`2025-${thisMonth}-${todaysDate}`).getDate()
+
+            if (j < todaysWeekDayNr - 1) dayDate = new Date(`2025-${thisMonth}-${todaysDate - (todaysWeekDayNr - 1) + j}`).getDate()
+            else if (j === todaysWeekDayNr - 1) dayDate = new Date(`2025-${thisMonth}-${todaysDate}`).getDate()
             else dayDate = new Date(`2025-${thisMonth}-${todaysDate + j}`).getDate()
 
             allWeekdays.push(
-                <DayCell actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate} day={j} today={today} key={"weekday" + j}
-                    dayNr={j}>
+                <DayCell actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
+                    weekDayNr={j + 1} todaysWeekDayNr={todaysWeekDayNr} key={"weekday" + j}>
                 </DayCell>
             )
         }
@@ -95,9 +123,17 @@ export default function WeekCalendar() {
 
 
     return (<div id="week-calendar-container">
+        <KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
+            updateCalendar('minus')
+        }} />
+
+
         {weekCells.length > 0 && weekCells.map(weekcell => {
             return weekcell
         })}
+        <KeyboardArrowRightIcon className="right-arrow-week" onClick={() => {
+            updateCalendar('plus')
+        }} />
     </div>)
 
 }
