@@ -9,7 +9,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 let todaysWeekDayNr = new Date().getDay()
 
-todaysWeekDayNr = todaysWeekDayNr === 0 ? 7 : todaysWeekDayNr + 1
+// todaysWeekDayNr = todaysWeekDayNr === 0 ? 7 : todaysWeekDayNr + 1
 
 const thisMonth = new Date().getMonth()
 
@@ -34,7 +34,7 @@ const DayCell = (props) => {
 
 
     return (<div key={"week-calendar-day" + weekDayNr} onClick={(e) => activateDay(e)}
-        className={weekDayNr === todaysWeekDayNr && props.dayDate == todaysDate ?
+        className={weekDayNr === todaysWeekDayNr && props.dayDate === todaysDate ?
             "week-calendar-day today" : "week-calendar-day"}>
 
         {/* {props.events.map(event => {
@@ -67,10 +67,11 @@ export default function WeekCalendar() {
         let allWeekdays = []
 
         let todaysDate = new Date().getDate()
+        let thisDayNr = new Date().getDay()
 
         let referenceDate = (action === 'plus') ? todaysDate + (weekPlusIndex * 7) : todaysDate - (weekMinusIndex * 7)
 
-        if (referenceDate > (monthDays + 6) || referenceDate <= 1) {
+        if ((referenceDate - thisDayNr) > (monthDays) || referenceDate <= -5) {
             return
         }
 
@@ -98,15 +99,16 @@ export default function WeekCalendar() {
 
         let allWeekdays = []
         let todaysDate = new Date().getDate()
+        let todaysDayNr = new Date().getDay()
 
         for (let j = 0; j < 7; j++) {
 
             let dayDate;
 
 
-            if (j < todaysWeekDayNr - 1) dayDate = new Date(`2025-${thisMonth}-${todaysDate - (todaysWeekDayNr - 1) + j}`).getDate()
-            else if (j === todaysWeekDayNr - 1) dayDate = new Date(`2025-${thisMonth}-${todaysDate}`).getDate()
-            else dayDate = new Date(`2025-${thisMonth}-${todaysDate + j}`).getDate()
+            if (j < todaysWeekDayNr) dayDate = new Date(`2025-${thisMonth}-${todaysDate - (todaysWeekDayNr) + j + 1}`).getDate()
+            else if (j === todaysWeekDayNr) dayDate = new Date(`2025-${thisMonth}-${todaysDate + 1}`).getDate()
+            else dayDate = new Date(`2025-${thisMonth}-${todaysDate - todaysDayNr + j + 1}`).getDate()
 
             allWeekdays.push(
                 <DayCell actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
