@@ -40,8 +40,8 @@ const WeekCell = (props) => {
             thursdays.includes(day) ? 'Thu' : fridays.includes(day) ? 'Fri' : saturdays.includes(day) ? 'Sat' : 'Sun'}
 
         {props.events.map(event => {
-            if (event.date === props.dayDate) return (<span key={event.title} style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'crimson' }}
-                className="event-day">{event.place}-{event.title}</span>)
+            if (event.date === props.dayDate) return (<span key={event.title} style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'rgb(202, 110, 110)' }}
+                className="event-day"><span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
             else return null
         })}
 

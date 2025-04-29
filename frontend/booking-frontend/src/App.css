@@ -94,6 +94,7 @@
 
     & button {
       background-color: rgb(229, 229, 229);
+      box-shadow: 1px 1px 6px rgb(156, 176, 186);
 
       &.selected-period {
         background-color: rgb(84, 144, 194);
@@ -114,6 +115,7 @@
       min-width: 300px;
       border-radius: 5px;
       border: 1px solid lightgrey;
+      box-shadow: 1px 1px 8px lightgrey;
     }
   }
 
@@ -129,6 +131,7 @@
     justify-content: center;
     padding: 10px;
     font-size: 0.9em;
+    box-shadow: 2px 2px 8px grey;
 
 
     & {
@@ -260,6 +263,7 @@
   grid-area: 2 / 2 / 4 / 3;
   background-color: white;
   border-radius: 10px;
+  box-shadow: 2px 2px 8px rgb(178, 176, 176);
 
   & {
     @media screen and (max-width:1200px) {
@@ -356,10 +360,23 @@
       }
 
       & span.event-day {
-        color: rgb(73, 113, 142);
+        color: rgb(69, 46, 46);
         background-color: rgb(219, 226, 228);
         padding: 8px;
         border-radius: 3px;
+
+        & .event-place {
+          color: rgb(13, 82, 13);
+          text-decoration: underline;
+        }
+
+        & .event-title {
+          font-weight: 600;
+        }
+
+        &:hover {
+          background-color: aliceblue !important;
+        }
       }
     }
   }
