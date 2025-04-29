@@ -9,8 +9,6 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 let todaysWeekDayNr = new Date().getDay()
 
-// todaysWeekDayNr = todaysWeekDayNr === 0 ? 7 : todaysWeekDayNr + 1
-
 const thisMonth = new Date().getMonth()
 
 const todaysDate = new Date().getDate()
@@ -58,7 +56,7 @@ export default function WeekCalendar() {
     const { events, actualMonth } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
-    const [monthDays, setMonthDays] = useState((actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30 : (actualMonth + 1) % 2 === 0 ? 28 : 31)
+    const [monthDays, setMonthDays] = useState((actualMonth) % 2 === 0 && (actualMonth) !== 2 && (actualMonth) !== 8 ? 30 : (actualMonth) % 2 === 0 ? 28 : 31)
     const [weekPlusIndex, setPlusIndex] = useState(1)
     const [weekMinusIndex, setMinusIndex] = useState(1)
 
