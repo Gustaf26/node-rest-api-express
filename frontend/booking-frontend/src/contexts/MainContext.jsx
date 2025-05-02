@@ -18,6 +18,7 @@ export const MainContextProvider = (props) => {
     const [calendarOption, setCalendarOption] = useState('month')
     const [actualMonth, setActualMonth] = useState(thisMonth)
     const [chosenMonth, setChosenMonth] = useState(allMonths[actualMonth])
+    const [eventOnCreation, setEventOnCreation] = useState(false)
 
 
     useEffect(() => {
@@ -102,7 +103,9 @@ export const MainContextProvider = (props) => {
         setChosenMonth,
         setActualMonth,
         actualMonth,
-        events
+        events,
+        eventOnCreation,
+        setEventOnCreation
     };
 
     return (<MainContext.Provider value={contextValues}>
