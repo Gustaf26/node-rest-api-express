@@ -11,13 +11,12 @@ import './App.css'
 
 function App() {
 
-  const { sideOption } = useContext(MainContext);
-
+  const { sideOption, eventOnCreation, setEventOnCreation } = useContext(MainContext);
 
   return (
     <>
       <SideMenu />
-      <div id="container">
+      <div id="container" style={{ height: eventOnCreation ? '100vh' : 'fit-content', overflow: eventOnCreation ? 'hidden' : '' }}>
         <Header />
         <aside>
           {/* {sideOption === 'Users' && <ContactList />} */}

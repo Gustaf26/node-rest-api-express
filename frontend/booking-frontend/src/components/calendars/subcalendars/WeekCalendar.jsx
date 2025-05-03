@@ -28,18 +28,20 @@ const DayCell = (props) => {
         e.target.classList.add('active')
     }
 
+    console.log(props.dayDate)
+
     return (<div key={"week-calendar-day" + weekDayNr} onClick={(e) => activateDay(e)}
         className={weekDayNr === todaysWeekDayNr && props.dayDate === todaysDate ?
-            "week-calendar-day today" : "week-calendar-day"}>
+            "week-calendar-day today" : isNaN(props.dayDate) ? "week-calendar-day empty" : "week-calendar-day"}>
 
-        {/* {props.events.map(event => {
+        {props.events.map(event => {
             if (event.date === props.dayDate) return (<span key={event.title} style={{
                 backgroundColor: event.contactType === 'friend' ? 'lightgreen'
                     : 'crimson'
             }}
                 className="event-day">{event.place}-{event.title}</span>)
             else return null
-        })} */}
+        })}
 
         <span className={weekDayNr === props.todaysWeekDayNr && props.dayDate == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
             {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayDate >= 1 && props.dayDate <= props.monthDays ? props.dayDate : ''}</span>
@@ -98,30 +100,8 @@ export default function WeekCalendar() {
 
     useEffect(() => {
 
-        // let allWeekdays = []
-        // let todaysDate = new Date().getDate()
-        // let todaysDayNr = new Date().getDay()
-
-        // for (let j = 0; j < 7; j++) {
-
-        //     let dayDate;
-
-
-        //     if (j < todaysWeekDayNr) dayDate = new Date(`2025-${thisMonth}-${todaysDate - (todaysWeekDayNr) + j + 1}`).getDate()
-        //     else if (j === todaysWeekDayNr) dayDate = new Date(`2025-${thisMonth}-${todaysDate + 1}`).getDate()
-        //     else dayDate = new Date(`2025-${thisMonth}-${todaysDate - todaysDayNr + j + 1}`).getDate()
-
-        //     allWeekdays.push(
-        //         <DayCell actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
-        //             monthDays={monthDays} weekDayNr={j + 1} todaysWeekDayNr={todaysWeekDayNr} key={"weekday" + j}>
-        //         </DayCell>
-        //     )
-        // }
-
-        // updateCalendar('reset')
 
         setActualMonth(thisMonth)
-        // setWeekCells(allWeekdays)
 
     }, [])
 

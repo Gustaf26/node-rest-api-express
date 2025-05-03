@@ -86,14 +86,22 @@ const WeekCell = (props) => {
                         className="event-day"><span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
                     else return null
                 })} */}
-                    <div>
-                        <label>Friends</label>
-                        <input required placeholder="Enter name or click on contact"></input>
-                        <label>Event Place</label>
-                        <input required placeholder="Enter place"></input>
+                    <div id="event-creation-categories">
+                        <div>
+                            <label>Friends</label>
+                            <input required placeholder="Enter name or click on contact"></input>
+                        </div>
+                        <div>
+                            <label>Event Place</label>
+                            <input required placeholder="Enter place"></input>
+                        </div>
+
                     </div>
-                    <label>Event Description</label>
-                    <textarea placeholder="Write event here..."></textarea>
+                    <div className="event-creation-description">
+                        <label>Event Description</label>
+                        <textarea placeholder="Write event here..."></textarea>
+                    </div>
+
                     <Button onClick={() => setEventOnCreation(false)} id="new-event-button">SAVE</Button>
                 </form>
             )

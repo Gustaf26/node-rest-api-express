@@ -25,9 +25,9 @@ export const MainContextProvider = (props) => {
         setChosenMonth(allMonths[actualMonth])
     }, [actualMonth])
 
-    useEffect(() => {
-        window.innerWidth < 500 && setCalendarOption('week')
-    })
+    // useEffect(() => {
+    //     window.innerWidth < 500 && setCalendarOption('week')
+    // })
 
     useEffect(() => {
 
