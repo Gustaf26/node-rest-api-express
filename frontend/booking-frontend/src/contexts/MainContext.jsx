@@ -26,6 +26,10 @@ export const MainContextProvider = (props) => {
     }, [actualMonth])
 
     useEffect(() => {
+        window.innerWidth < 500 && setCalendarOption('week')
+    })
+
+    useEffect(() => {
 
         async function getMyInfo() {
 

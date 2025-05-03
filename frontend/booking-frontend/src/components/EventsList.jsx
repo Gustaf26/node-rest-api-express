@@ -35,7 +35,7 @@ export default function EventsList() {
                 </li>
                 {events.map((event, i) => {
                     if (actualMonth === new Date(event.date).getMonth()) {
-                        return (<li key={event.id} style={{
+                        return (<li><ul className="events-list-info-list" key={event.id} style={{
                             visibility: loading ? 'hidden' : 'visible'
                         }}>
                             <span className="events-list-span title">{event.title}</span>
@@ -48,7 +48,7 @@ export default function EventsList() {
                                     else return null
                                 })
                             })}
-                        </li>)
+                        </ul></li>)
                     }
                 })}
                 {events.filter(event => actualMonth === new Date(event.date).getMonth()).length === 0 ? <li><span><em>There are no events this month</em></span></li> : null}
