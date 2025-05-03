@@ -47,10 +47,10 @@ export const MainContextProvider = (props) => {
                             .then(res => res.json())
                             .then(res => {
                                 res.msg.persons = JSON.parse(res.msg.persons);
-                                res.msg.persons.forEach(personId => {
-                                    if (preliminaryUserinfo.nearFriends.includes(personId)) { res.msg.contactType = 'friend' }
-                                    else { res.msg.contactType = 'contact' }
-                                })
+                                // res.msg.persons.forEach(personId => {
+                                //     if (preliminaryUserinfo.nearFriends.includes(personId)) { res.msg.contactType = 'friend' }
+                                //     else { res.msg.contactType = 'contact' }
+                                // })
                                 setEvents(prev => [...prev, res.msg])
                             })
                             .catch(err => console.log(err))
