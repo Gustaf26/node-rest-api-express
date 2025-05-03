@@ -25,13 +25,14 @@ export default function Header() {
                 <KeyboardArrowLeftIcon onClick={() => {
                     if (actualMonth === 0) setAlertMonthLimit(true)
                     else setAlertMonthLimit(false)
+                    setEventOnCreation(false)
                     setActualMonth(prev => prev === 0 ? thisMonth : prev - 1)
                 }} />
                 <span id="month-span">{chosenMonth} 2025</span>
                 <KeyboardArrowRightIcon onClick={() => {
                     if (actualMonth === 11) setAlertMonthLimit(true)
                     else setAlertMonthLimit(false)
-
+                    setEventOnCreation(false)
                     setActualMonth(prev => prev === 11 ? thisMonth : prev + 1)
                 }} />
             </div>

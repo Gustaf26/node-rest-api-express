@@ -250,6 +250,8 @@ body {
 
     &.modal {
 
+      border-radius: 10px;
+
       & div,
       div.empty,
       div.active,
@@ -302,7 +304,7 @@ body {
           & form {
             display: flex;
             width: 50%;
-            margin: 20px auto;
+            margin: 10px auto;
             min-width: 300px;
             max-width: 400px;
             padding: 20px;
@@ -333,6 +335,10 @@ body {
 
               &::placeholder {
                 color: rgb(155, 180, 200);
+              }
+
+              &:focus {
+                outline: 1px solid rgb(46, 135, 198);
               }
             }
 
