@@ -2,6 +2,8 @@ import { useState, useEffect, useContext } from "react"
 
 import MainContext from "../../../contexts/MainContext"
 
+import Button from '@mui/material/Button';
+
 // const thisMonth = new Date().getMonth() + 1
 const weekDays = 35
 const today = new Date().getDate()
@@ -41,38 +43,61 @@ const WeekCell = (props) => {
     }} onDoubleClick={(e) => {
         setEventOnCreation(true);
         setEventElement(() => Number(e.target.id));
-    }
-    }
+    }}
         className={eventElement === dayNr && eventOnCreation ? 'eventOnCreation' : day === thisDay && thisMonth === actualMonth ? "month-calendar-day today"
             : dayNr === "" ? "month-calendar-day empty" :
                 "month-calendar-day"}>
 
+        {eventElement === dayNr && eventOnCreation && <span id="close-event-on-creation" onClick={() => setEventOnCreation(false)}> X</span>}
         {
-            mondays.includes(dayNr) ? 'Mon' : tuesdays.includes(dayNr) ? 'Tue' : wednesdays.includes(dayNr) ? 'Wed' :
-                thursdays.includes(dayNr) ? 'Thu' : fridays.includes(dayNr) ? 'Fri' : saturdays.includes(dayNr) ? 'Sat' : 'Sun'
+            eventElement !== dayNr && !eventOnCreation && (<span>{mondays.includes(dayNr) ? 'Mon' : tuesdays.includes(dayNr) ? 'Tue' : wednesdays.includes(dayNr) ? 'Wed' :
+                thursdays.includes(dayNr) ? 'Thu' : fridays.includes(dayNr) ? 'Fri' : saturdays.includes(dayNr) ? 'Sat' : 'Sun'}</span>)
         }
 
         {
-            events && events.map(event => {
-                if (event.date === dayDate) return (<span key={event.title} style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'rgb(237, 193, 193)' }}
+            eventElement !== dayNr && !eventOnCreation && events && events.map(event => {
+                if (event.date === dayDate) return (<span key={event.title} style={{
+                    backgroundColor: event.contactType === 'friend' ? 'lightgreen'
+                        : 'rgb(237, 193, 193)'
+                }}
                     className="event-day"><span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
                 else return null
             })
         }
 
-        <span className={dayNr === thisDay && thisMonth === actualMonth ? "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
+        {
+            eventElement !== dayNr && !eventOnCreation && <span className={dayNr === thisDay && thisMonth === actualMonth ?
+                "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
+        }
 
-        {eventElement === dayNr && eventOnCreation && (
-            <form>
-                <div><label>Friends</label>
-                    <input></input>
-                    <label>Event Place</label>
-                    <input></input></div>
+        {
+            eventElement === dayNr && eventOnCreation && (
+                <form>
+                    <div id="event-on-creation-date">
+                        <span className={dayNr === thisDay && thisMonth === actualMonth ?
+                            "month-cal-day-nr today" : "month-cal-day-nr"}>{mondays.includes(dayNr) ? 'Monday' : tuesdays.includes(dayNr) ? 'Tuesday' : wednesdays.includes(dayNr) ? 'Wednesday' :
+                                thursdays.includes(dayNr) ? 'Thursday' : fridays.includes(dayNr) ? 'Friday' : saturdays.includes(dayNr) ? 'Saturday' : 'Sunday'}
+                            {" "}{dayNr}
+                        </span>
+                    </div>
 
-                <label>Event Description</label>
-                <textarea></textarea>
-            </form>
-        )}
+                    {/* {events && events.map(event => {
+                    if (event.date === dayDate) return (<span key={event.title} style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'rgb(237, 193, 193)' }}
+                        className="event-day"><span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
+                    else return null
+                })} */}
+                    <div>
+                        <label>Friends</label>
+                        <input required placeholder="Enter name or click on contact"></input>
+                        <label>Event Place</label>
+                        <input required placeholder="Enter place"></input>
+                    </div>
+                    <label>Event Description</label>
+                    <textarea placeholder="Write event here..."></textarea>
+                    <Button onClick={() => setEventOnCreation(false)} id="new-event-button">SAVE</Button>
+                </form>
+            )
+        }
     </div >)
 }
 

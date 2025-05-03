@@ -7,6 +7,12 @@
   background-color: rgb(238, 238, 238);
 }
 
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 #side-bar {
   position: absolute;
   left: 0;
@@ -29,7 +35,7 @@
 #container {
   display: grid;
   grid-template-columns: 4fr 6fr;
-  grid-template-rows: fit-content 450px auto;
+  grid-template-rows: 80px 550px;
   gap: 20px;
   width: 80%;
   min-height: 90vh;
@@ -260,9 +266,10 @@
 /* SECTION FOR CALENDARS */
 
 & section {
-  grid-area: 2 / 2 / 4 / 3;
+  grid-area: 2 / 2 / 3 / 3;
   background-color: white;
   border-radius: 10px;
+  height: fit-content;
   box-shadow: 2px 2px 8px rgb(178, 176, 176);
 
   & {
@@ -280,6 +287,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 100px 100px 100px 100px 100px;
     position: relative;
+    overflow: hidden;
 
     &.modal {
 
@@ -287,25 +295,69 @@
       div.empty,
       div.active,
       div.today {
-        background-color: rgba(1, 1, 1, 0.3);
+        background-color: rgba(1, 1, 1, 0);
 
         &.eventOnCreation {
           background-color: white;
           animation: move-eventElement-to-center 3s forwards;
           padding: 10px;
+          display: flex;
+          justify-content: center;
           position: absolute;
-          left: 25%;
-          top: 25%;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: calc(100% - 20px);
           opacity: 0;
-          width: 50%;
-          height: 50%;
+          background-color: rgba(195, 193, 193, 0.3);
+          backdrop-filter: contrast(50%) brightness(50%);
+          text-align: center;
+
+          & #close-event-on-creation {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: large;
+            font-weight: 600;
+            color: rgb(168, 205, 237);
+            border: 0.5px solid rgb(181, 213, 241);
+            padding: 3px 10px;
+            border-radius: 50%;
+
+            &:hover {
+              cursor: pointer;
+              background-color: white;
+              color: rgb(44, 81, 113)
+            }
+          }
+
+          & #event-on-creation-date {
+            font-weight: 900;
+            background-color: rgb(181, 213, 241);
+            color: rgb(26, 76, 118);
+            margin: 5px;
+            font-size: large;
+            font-family: 'Courier New', Courier, monospace;
+          }
 
           & form {
             display: flex;
+            width: 50%;
+            margin: 20px auto;
+            min-width: 300px;
+            max-width: 400px;
+            padding: 20px;
             flex-direction: column;
-            height: 90%;
+            height: calc(100% - 60px);
             justify-content: start;
-            margin: 10px;
+            /* margin: 10px; */
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.9);
+
+            & label {
+              color: rgb(26, 76, 118);
+            }
 
             & label,
             input {
@@ -315,15 +367,47 @@
             & input {
               border-radius: 5px;
               outline: none;
-              border: 1px solid lightgrey;
+              border: 0.5px solid rgb(26, 76, 118);
               padding: 5px;
+              width: calc(100% - 20px);
+              color: rgb(26, 76, 118);
+
+              &::placeholder {
+                color: rgb(155, 180, 200);
+              }
+            }
+
+            & button {
+              background-color: rgb(84, 144, 194);
+              border: 1px solid lightgrey !important;
+              outline: none;
+              color: white;
+              margin: 20px auto;
+              min-width: 100px;
+
+              &:hover {
+                background-color: rgb(131, 172, 205);
+                border: 0.5px solid rgb(34, 73, 105) !important;
+                color: rgb(34, 73, 105);
+                font-weight: 600;
+              }
             }
           }
 
           & textarea {
             min-height: 40%;
-            border: 1px solid lightgrey;
+            border: 0.5px solid rgb(26, 76, 118);
             border-radius: 5px;
+            padding: 5px;
+            font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+            &:focus {
+              outline: 1px solid rgb(46, 135, 198);
+            }
+
+            &::placeholder {
+              color: rgb(155, 180, 200);
+            }
           }
 
         }
@@ -435,25 +519,25 @@
 @keyframes move-eventElement-to-center {
 
   0% {
-    position: absolute;
+    /* position: absolute;
     left: 25%;
-    top: 25%;
+    top: 25%; */
     opacity: 0;
   }
 
   50% {
-    position: absolute;
+    /* position: absolute;
     left: 25%;
-    top: 25%;
+    top: 25%; */
     opacity: 0.5;
   }
 
   100% {
-    position: absolute;
+    /* position: absolute;
     left: 25%;
     top: 25%;
     width: 50%;
-    height: 50%;
+    height: 50%; */
     opacity: 1;
   }
 }
