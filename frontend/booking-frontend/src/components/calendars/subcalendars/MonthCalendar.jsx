@@ -12,8 +12,9 @@ const thisMonth = new Date().getMonth()
 const WeekCell = (props) => {
 
     const [activeDay, setActiveDay] = useState()
+    const [eventFriend, setEventFriend] = useState([])
 
-    const { eventOnCreation, setEventOnCreation } = useContext(MainContext)
+    const { eventOnCreation, setEventOnCreation, contacts } = useContext(MainContext)
 
     const { day, dayNr, events, thisDay, dayDate, today, actualMonth, eventElement, setEventElement } = props.weekCellProps
 
@@ -49,6 +50,11 @@ const WeekCell = (props) => {
                 "month-calendar-day"}>
 
         {eventElement === dayNr && eventOnCreation && <span id="close-event-on-creation" onClick={() => setEventOnCreation(false)}> X</span>}
+
+        {eventElement === dayNr && contacts && contacts.map((contact, i) => {
+            return (<img onClick={() => setEventFriend((prev) => [...prev, contact])} style={{ top: `${((i + 1) * 100) + 120}px` }} alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />)
+        })}
+
         {
             eventElement !== dayNr && !eventOnCreation && (<span>{mondays.includes(dayNr) ? 'Mon' : tuesdays.includes(dayNr) ? 'Tue' : wednesdays.includes(dayNr) ? 'Wed' :
                 thursdays.includes(dayNr) ? 'Thu' : fridays.includes(dayNr) ? 'Fri' : saturdays.includes(dayNr) ? 'Sat' : 'Sun'}</span>)
@@ -89,7 +95,11 @@ const WeekCell = (props) => {
                     <div id="event-creation-categories">
                         <div>
                             <label>Friends</label>
-                            <input required placeholder="Enter name or click on contact"></input>
+                            <div contentEditable={true} id="event-creation-friends-input" >
+                                {eventFriend && eventFriend.map(friend => {
+                                    return <p><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}</p>
+                                })}
+                            </div>
                         </div>
                         <div>
                             <label>Event Place</label>
@@ -112,7 +122,7 @@ const WeekCell = (props) => {
 
 const MonthCalendar = () => {
 
-    const { events, actualMonth, eventOnCreation, setEventOnCreation } = useContext(MainContext)
+    const { events, actualMonth, eventOnCreation } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
     const [monthDays, setMonthDays] = useState((actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30 : (actualMonth + 1) % 2 === 0 ? 28 : 31)
