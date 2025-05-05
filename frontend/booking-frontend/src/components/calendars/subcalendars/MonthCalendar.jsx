@@ -50,10 +50,13 @@ const WeekCell = (props) => {
                 "month-calendar-day"}>
 
         {eventElement === dayNr && eventOnCreation && <span id="close-event-on-creation" onClick={() => setEventOnCreation(false)}> X</span>}
-
-        {eventElement === dayNr && contacts && contacts.map((contact, i) => {
-            return (<img onClick={() => setEventFriend((prev) => [...prev, contact])} style={{ top: `${((i + 1) * 100) + 120}px` }} alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />)
-        })}
+        <ul>
+            {eventElement === dayNr && eventOnCreation && contacts && contacts.map((contact, i) => {
+                return (<li><img onClick={() => setEventFriend((prev) => [...prev, contact])} style={{ top: `${((i + 1) * 100) + 120}px` }}
+                    alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
+                </li>)
+            })}
+        </ul>
 
         {
             eventElement !== dayNr && !eventOnCreation && (<span>{mondays.includes(dayNr) ? 'Mon' : tuesdays.includes(dayNr) ? 'Tue' : wednesdays.includes(dayNr) ? 'Wed' :
@@ -97,7 +100,7 @@ const WeekCell = (props) => {
                             <label>Friends</label>
                             <div contentEditable={true} id="event-creation-friends-input" >
                                 {eventFriend && eventFriend.map(friend => {
-                                    return <p><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}</p>
+                                    return <p><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}<span>x</span></p>
                                 })}
                             </div>
                         </div>
