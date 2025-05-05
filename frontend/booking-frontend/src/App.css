@@ -437,6 +437,12 @@ body {
                 min-height: 50%;
                 margin: 5px;
 
+                & input {
+                  background-color: rgba(0, 0, 0, 0) !important;
+                  outline: none;
+                  border: none;
+                }
+
                 & p {
                   /* width: 80%; */
                   height: fit-content;
@@ -468,9 +474,12 @@ body {
                     border: 1px solid rgb(142, 141, 141);
                     color: white;
                     margin: 0 0 0 8px;
-                  }
 
-                  &:hover {}
+
+                    &:hover {
+                      cursor: pointer;
+                    }
+                  }
                 }
               }
 

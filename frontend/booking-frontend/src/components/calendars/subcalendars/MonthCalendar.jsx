@@ -52,7 +52,7 @@ const WeekCell = (props) => {
         {eventElement === dayNr && eventOnCreation && <span id="close-event-on-creation" onClick={() => setEventOnCreation(false)}> X</span>}
         <ul>
             {eventElement === dayNr && eventOnCreation && contacts && contacts.map((contact, i) => {
-                return (<li><img onClick={() => setEventFriend((prev) => [...prev, contact])} style={{ top: `${((i + 1) * 100) + 120}px` }}
+                return (<li><img onClick={() => setEventFriend((prev) => !prev.includes(contact) ? [...prev, contact] : [...prev])} style={{ top: `${((i + 1) * 100) + 120}px` }}
                     alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
                 </li>)
             })}
@@ -98,10 +98,13 @@ const WeekCell = (props) => {
                     <div id="event-creation-categories">
                         <div>
                             <label>Friends</label>
-                            <div contentEditable={true} id="event-creation-friends-input" >
+                            <div id="event-creation-friends-input" >
                                 {eventFriend && eventFriend.map(friend => {
-                                    return <p><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}<span>x</span></p>
+                                    return <p><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}
+                                        <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
+                                        }>x</span></p>
                                 })}
+                                <input placeholder="Search for friend..."></input>
                             </div>
                         </div>
                         <div>
