@@ -11,8 +11,9 @@ const thisMonth = new Date().getMonth()
 
 const WeekCell = (props) => {
 
-    const [activeDay, setActiveDay] = useState()
+    // const [activeDay, setActiveDay] = useState()
     const [eventFriend, setEventFriend] = useState([])
+    const [posibleContacts, setPosibleContacts] = useState([])
 
     const { eventOnCreation, setEventOnCreation, contacts } = useContext(MainContext)
 
@@ -37,6 +38,25 @@ const WeekCell = (props) => {
         e.target.classList.add('active')
     }
 
+    const showPossibleContacts = (e) => {
+
+        let dummyContacts = []
+
+        if (e.target.value === "") { setPosibleContacts(dummyContacts); return }
+
+        let filteredFriends = eventFriend.filter(friend => friend.name.toLowerCase().includes(e.target.value))
+
+        if (filteredFriends.length === 0) {
+            contacts.forEach(contact => {
+                if (contact.name.toLowerCase().includes(e.target.value.toLowerCase()) && !dummyContacts.includes(contact)) {
+                    dummyContacts.push(contact)
+                }
+            })
+        }
+
+        setPosibleContacts(dummyContacts)
+    }
+
 
     return (<div id={dayNr} key={'month-week-cell' + dayNr} onClick={(e) => {
         !eventOnCreation && activateDay(e);
@@ -50,10 +70,15 @@ const WeekCell = (props) => {
                 "month-calendar-day"}>
 
         {eventElement === dayNr && eventOnCreation && <span id="close-event-on-creation" onClick={() => setEventOnCreation(false)}> X</span>}
-        <ul>
+        <ul className="event-contacts-thumbnails">
             {eventElement === dayNr && eventOnCreation && contacts && contacts.map((contact, i) => {
-                return (<li><img onClick={() => setEventFriend((prev) => !prev.includes(contact) ? [...prev, contact] : [...prev])} style={{ top: `${((i + 1) * 100) + 120}px` }}
-                    alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
+                return (<li>
+                    <img onClick={() => {
+                        setPosibleContacts([]);
+                        setEventFriend((prev) => !prev.includes(contact) ? [...prev, contact] :
+                            [...prev])
+                    }} style={{ top: `${((i + 1) * 100) + 120}px` }}
+                        alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
                 </li>)
             })}
         </ul>
@@ -104,7 +129,16 @@ const WeekCell = (props) => {
                                         <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
                                         }>x</span></p>
                                 })}
-                                <input placeholder="Search for friend..."></input>
+                                <input placeholder="Search for friend..." onChange={(e) => { showPossibleContacts(e) }}></input>
+                                <ul id="event-creation-friends-autocomplete">
+                                    {posibleContacts && posibleContacts.map(contact => {
+                                        return (<li onClick={() => {
+                                            setPosibleContacts([]);
+                                            setEventFriend((prev) => !prev.includes(contact) ? [...prev, contact] :
+                                                [...prev])
+                                        }}>{contact.name}<img src={contact.thumbnail} /></li>)
+                                    })}
+                                </ul>
                             </div>
                         </div>
                         <div>
