@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react"
 import MainContext from "../../../contexts/MainContext"
 
 import Button from '@mui/material/Button';
+import EventOnCreation from './EventOnCreation'
 
 // const thisMonth = new Date().getMonth() + 1
 const weekDays = 35
@@ -17,7 +18,7 @@ const WeekCell = (props) => {
 
     const { eventOnCreation, setEventOnCreation, contacts } = useContext(MainContext)
 
-    const { day, dayNr, events, thisDay, dayDate, today, actualMonth, eventElement, setEventElement } = props.weekCellProps
+    const { day, dayNr, events, thisDay, dayDate, actualMonth, eventElement, setEventElement } = props.weekCellProps
 
     let mondays = [0, 7, 14, 21, 28]
     let tuesdays = mondays.map(day => day + 1)
@@ -65,12 +66,43 @@ const WeekCell = (props) => {
         setEventOnCreation(true);
         setEventElement(() => Number(e.target.id));
     }}
-        className={eventElement === dayNr && eventOnCreation ? 'eventOnCreation' : day === thisDay && thisMonth === actualMonth ? "month-calendar-day today"
+        className={eventElement === dayNr && eventOnCreation ? 'eventOnCreation' : dayNr === thisDay && thisMonth === actualMonth ? "month-calendar-day today"
             : dayNr === "" ? "month-calendar-day empty" :
                 "month-calendar-day"}>
 
-        {eventElement === dayNr && eventOnCreation && <span id="close-event-on-creation" onClick={() => setEventOnCreation(false)}> X</span>}
-        <ul className="event-contacts-thumbnails">
+        {
+            eventElement !== dayNr && !eventOnCreation && (<span>{mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
+                thursdays.includes(day) ? 'Thu' : fridays.includes(day) ? 'Fri' : saturdays.includes(day) ? 'Sat' : 'Sun'}</span>)
+        }
+
+        {
+            eventElement !== dayNr && !eventOnCreation && events && events.map(event => {
+                if (event.date === dayDate) return (
+                    <span key={event.title} style={{
+                        backgroundColor: event.contactType === 'friend' ? 'lightgreen'
+                            : 'rgb(237, 193, 193)'
+                    }}
+                        className="event-day">
+                        <span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
+                else return null
+            })
+        }
+
+        {
+            eventElement !== dayNr && !eventOnCreation && <span className={dayNr === thisDay && thisMonth === actualMonth ?
+                "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
+        }
+
+        {eventElement === dayNr && eventOnCreation && (<EventOnCreation day={day} dayDate={dayDate} dayNr={dayNr} thisDay={thisDay} dayDate={dayDate} setEventElement={setEventElement} />)}
+
+        {/* {eventElement === dayNr && eventOnCreation && <span id="close-event-on-creation" onClick={() => {
+            setEventElement([]);
+            setEventFriend([]);
+            setEventOnCreation(false)
+        }}>
+            X</span>} */}
+
+        {/* <ul className="event-contacts-thumbnails">
             {eventElement === dayNr && eventOnCreation && contacts && contacts.map((contact, i) => {
                 return (<li>
                     <img onClick={() => {
@@ -81,45 +113,21 @@ const WeekCell = (props) => {
                         alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
                 </li>)
             })}
-        </ul>
+        </ul> */}
 
-        {
-            eventElement !== dayNr && !eventOnCreation && (<span>{mondays.includes(dayNr) ? 'Mon' : tuesdays.includes(dayNr) ? 'Tue' : wednesdays.includes(dayNr) ? 'Wed' :
-                thursdays.includes(dayNr) ? 'Thu' : fridays.includes(dayNr) ? 'Fri' : saturdays.includes(dayNr) ? 'Sat' : 'Sun'}</span>)
-        }
 
-        {
-            eventElement !== dayNr && !eventOnCreation && events && events.map(event => {
-                if (event.date === dayDate) return (<span key={event.title} style={{
-                    backgroundColor: event.contactType === 'friend' ? 'lightgreen'
-                        : 'rgb(237, 193, 193)'
-                }}
-                    className="event-day"><span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
-                else return null
-            })
-        }
-
-        {
-            eventElement !== dayNr && !eventOnCreation && <span className={dayNr === thisDay && thisMonth === actualMonth ?
-                "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
-        }
-
-        {
+        {/* {
             eventElement === dayNr && eventOnCreation && (
                 <form>
                     <div id="event-on-creation-date">
                         <span className={dayNr === thisDay && thisMonth === actualMonth ?
-                            "month-cal-day-nr today" : "month-cal-day-nr"}>{mondays.includes(dayNr) ? 'Monday' : tuesdays.includes(dayNr) ? 'Tuesday' : wednesdays.includes(dayNr) ? 'Wednesday' :
-                                thursdays.includes(dayNr) ? 'Thursday' : fridays.includes(dayNr) ? 'Friday' : saturdays.includes(dayNr) ? 'Saturday' : 'Sunday'}
+                            "month-cal-day-nr today" : "month-cal-day-nr"}>{mondays.includes(day) ? 'Monday' : tuesdays.includes(day) ? 'Tuesday' : wednesdays.includes(day) ? 'Wednesday' :
+                                thursdays.includes(day) ? 'Thursday' : fridays.includes(day) ? 'Friday' : saturdays.includes(day) ? 'Saturday' : 'Sunday'}
                             {" "}{dayNr}
                         </span>
                     </div>
 
-                    {/* {events && events.map(event => {
-                    if (event.date === dayDate) return (<span key={event.title} style={{ backgroundColor: event.contactType === 'friend' ? 'lightgreen' : 'rgb(237, 193, 193)' }}
-                        className="event-day"><span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
-                    else return null
-                })} */}
+                    
                     <div id="event-creation-categories">
                         <div>
                             <label>Friends</label>
@@ -153,9 +161,9 @@ const WeekCell = (props) => {
                     </div>
 
                     <Button onClick={() => setEventOnCreation(false)} id="new-event-button">SAVE</Button>
-                </form>
-            )
-        }
+                </form> */}
+        {/* ) */}
+        {/* } */}
     </div >)
 }
 

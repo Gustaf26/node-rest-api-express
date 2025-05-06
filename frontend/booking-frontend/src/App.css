@@ -651,7 +651,7 @@ body {
     }
 
     &.empty {
-      display: none;
+      visibility: hidden;
     }
 
     &.today {
