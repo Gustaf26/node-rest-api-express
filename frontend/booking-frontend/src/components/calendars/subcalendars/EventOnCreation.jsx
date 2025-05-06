@@ -92,13 +92,22 @@ export default function EventOnCreation(props) {
                             })}
                         </ul>
                     </div>
-                </div>
-                <div>
                     <label>Event Place</label>
-                    <input required placeholder="Enter place"></input>
+                    <div id="event-creation-place">
+                        <input required placeholder="Enter place"></input>
+                    </div>
                 </div>
-
+                <div id="event-creation-other-events">
+                    <label>Other events this day:</label>
+                    <div>
+                        {events ? events.map(event => {
+                            return <p>{event.title}
+                                <span>x</span></p>
+                        }) : <span>No events this day</span>}
+                    </div>
+                </div>
             </div>
+
             <div className="event-creation-description">
                 <label>Event Description</label>
                 <textarea placeholder="Write event here..."></textarea>
