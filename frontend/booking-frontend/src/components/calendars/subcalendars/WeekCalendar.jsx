@@ -6,12 +6,17 @@ import MainContext from "../../../contexts/MainContext"
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
+import EventOnCreation from "./EventOnCreation";
+
 
 let todaysWeekDayNr = new Date().getDay()
 
 const todaysDate = new Date().getDate()
 
 const DayCell = (props) => {
+
+    const { setEventOnCreation, eventOnCreation } = useContext(MainContext)
+    const [eventElement, setEventElement] = useState()
 
     let weekDayNr = props.weekDayNr
 
@@ -28,10 +33,13 @@ const DayCell = (props) => {
         e.target.classList.add('active')
     }
 
-    console.log(props.dayDate)
 
-    return (<div key={"week-calendar-day" + weekDayNr} onClick={(e) => activateDay(e)}
-        className={weekDayNr === todaysWeekDayNr && props.dayDate === todaysDate ?
+    return (<div id={props.dayDate} key={"week-calendar-day" + weekDayNr} onClick={(e) => activateDay(e)}
+        onDoubleClick={(e) => {
+            setEventOnCreation(true);
+            setEventElement(Number(e.target.id));
+        }}
+        className={eventElement === props.dayDate && eventOnCreation ? 'eventOnCreation' : weekDayNr === todaysWeekDayNr && props.dayDate === todaysDate ?
             "week-calendar-day today" : isNaN(props.dayDate) ? "week-calendar-day empty" : "week-calendar-day"}>
 
         {props.events.map(event => {
@@ -43,8 +51,17 @@ const DayCell = (props) => {
             else return null
         })}
 
-        <span className={weekDayNr === props.todaysWeekDayNr && props.dayDate == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
-            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayDate >= 1 && props.dayDate <= props.monthDays ? props.dayDate : ''}</span>
+        {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayDate == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
+            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayDate >= 1 && props.dayDate <= props.monthDays ? props.dayDate : ''}</span>}
+
+        {eventElement === Number(props.dayDate) && eventOnCreation && (
+            <EventOnCreation
+                day={weekDayNr - 1}
+                dayNr={props.dayDate}
+                thisDay={todaysDate}
+                dayDate={props.dayDate}
+                setEventElement={setEventElement} />)}
+
     </div>)
 }
 
@@ -52,7 +69,7 @@ const DayCell = (props) => {
 
 export default function WeekCalendar() {
 
-    const { events, actualMonth, setActualMonth } = useContext(MainContext)
+    const { events, actualMonth, eventOnCreation, setActualMonth } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
     const [monthDays, setMonthDays] = useState((actualMonth) % 2 === 0 && (actualMonth) !== 2 && (actualMonth) !== 8 ? 30 : (actualMonth) % 2 === 0 ? 28 : 31)
@@ -100,7 +117,6 @@ export default function WeekCalendar() {
 
     useEffect(() => {
 
-
         setActualMonth(thisMonth)
 
     }, [])
@@ -114,7 +130,7 @@ export default function WeekCalendar() {
     }, [actualMonth])
 
 
-    return (<div id="week-calendar-container">
+    return (<div id="week-calendar-container" className={eventOnCreation ? 'modal' : ''}>
         <KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
             updateCalendar('minus')
         }} />

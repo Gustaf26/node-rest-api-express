@@ -276,6 +276,8 @@ body {
       }
     }
 
+    /* Removing blank days from mobile calendars*/
+
     & div.empty {
       @media screen and (max-width:1000px) {
         display: none;

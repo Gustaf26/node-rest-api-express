@@ -30,7 +30,7 @@ export default function EventOnCreation(props) {
 
         if (e.target.value === "") { setPosibleContacts(dummyContacts); return }
 
-        let filteredFriends = c.filter(friend => friend.name.toLowerCase().includes(e.target.value))
+        let filteredFriends = contacts.filter(friend => friend.name.toLowerCase().includes(e.target.value))
 
         if (filteredFriends.length === 0) {
             contacts.forEach(contact => {
@@ -64,21 +64,6 @@ export default function EventOnCreation(props) {
             })}
         </ul>
 
-        {events && events.map(event => {
-            if (event.date === dayDate) return (
-                <span key={event.title} style={{
-                    backgroundColor: event.contactType === 'friend' ? 'lightgreen'
-                        : 'rgb(237, 193, 193)'
-                }}
-                    className="event-day">
-                    <span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
-            else return null
-        })
-        }
-
-
-        <span className={dayNr === thisDay && thisMonth === actualMonth ?
-            "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
         <form>
             <div id="event-on-creation-date">
                 <span className={dayNr === thisDay && thisMonth === actualMonth ?
