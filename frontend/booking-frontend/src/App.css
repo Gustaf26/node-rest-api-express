@@ -262,7 +262,6 @@ body {
   }
 
   & #week-container-container {
-    position: relative;
     width: 100%;
     display: flex;
 
@@ -380,7 +379,7 @@ body {
           & ul.event-contacts-thumbnails {
             position: absolute;
             top: 25vh;
-            left: 0;
+            left: 40px;
             margin-left: 15%;
             list-style-type: none;
             background-color: rgba(255, 255, 255, 0.5);
