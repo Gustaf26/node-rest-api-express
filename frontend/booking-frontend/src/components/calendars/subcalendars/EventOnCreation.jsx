@@ -43,7 +43,7 @@ export default function EventOnCreation(props) {
         setPosibleContacts(dummyContacts)
     }
 
-    return (<>
+    return (<div>
 
         <span id="close-event-on-creation" onClick={() => {
             setEventElement([]);
@@ -115,5 +115,5 @@ export default function EventOnCreation(props) {
 
             <Button onClick={() => setEventOnCreation(false)} id="new-event-button">SAVE</Button>
         </form>
-    </>)
+    </div>)
 }

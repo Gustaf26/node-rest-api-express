@@ -130,19 +130,20 @@ export default function WeekCalendar() {
     }, [actualMonth])
 
 
-    return (<div id="week-calendar-container" className={eventOnCreation ? 'modal' : ''}>
-        <KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
+    return (<div id="week-container-container">
+        <span><KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
             updateCalendar('minus')
-        }} />
+        }} /></span>
+        <div id="week-calendar-container" className={eventOnCreation ? 'modal' : ''}>
 
+            {weekCells.length > 0 && weekCells.map(weekcell => {
+                return weekcell
+            })}
 
-        {weekCells.length > 0 && weekCells.map(weekcell => {
-            return weekcell
-        })}
-        <KeyboardArrowRightIcon className="right-arrow-week" onClick={() => {
+        </div>
+        <span> <KeyboardArrowRightIcon className="right-arrow-week" onClick={() => {
             updateCalendar('plus')
-        }} />
+        }} /></span>
     </div>)
-
 }
 

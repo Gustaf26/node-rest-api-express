@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react"
 
 import MainContext from "../../../contexts/MainContext"
 
-import Button from '@mui/material/Button';
 import EventOnCreation from './EventOnCreation'
 
 const weekDays = 35
@@ -11,12 +10,10 @@ const thisMonth = new Date().getMonth()
 
 const WeekCell = (props) => {
 
-    const [eventFriend, setEventFriend] = useState([])
-    const [posibleContacts, setPosibleContacts] = useState([])
-
     const { eventOnCreation, setEventOnCreation, contacts } = useContext(MainContext)
 
     const { day, dayNr, events, thisDay, dayDate, actualMonth, eventElement, setEventElement } = props.weekCellProps
+
 
     let mondays = [0, 7, 14, 21, 28]
     let tuesdays = mondays.map(day => day + 1)

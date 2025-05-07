@@ -19,7 +19,6 @@ function App() {
       <div id="container" style={{ height: eventOnCreation ? '100vh' : 'fit-content', overflow: eventOnCreation ? 'hidden' : '' }}>
         <Header />
         <aside>
-          {/* {sideOption === 'Users' && <ContactList />} */}
           <EventsList />
         </aside>
         <section>
