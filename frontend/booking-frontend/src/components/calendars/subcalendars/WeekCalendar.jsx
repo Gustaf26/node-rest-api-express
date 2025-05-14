@@ -35,7 +35,7 @@ const DayCell = (props) => {
 
 
     return (<div id={props.dayDate} key={"week-calendar-day" + weekDayNr}
-        onClick={(e) => { activateDay(e); props.setFeaturedDay(props.dayDate) }}
+        onClick={(e) => { activateDay(e); props.setFeaturedDay({ date: props.dayDate, weekDay: allWeekDaysName[weekDayNr - 1] }) }}
         onDoubleClick={(e) => {
             setEventOnCreation(true);
             setEventElement(Number(e.target.id));
@@ -79,6 +79,7 @@ export default function WeekCalendar() {
     const thisMonth = new Date().getMonth()
     const [referenceMonday, setReferenceMonday] = useState((new Date().getDate()) - (new Date().getDay()) + 1)
     const [featuredDay, setFeaturedDay] = useState()
+    const [featuredDayEvents, setFeaturedEvents] = useState([])
 
     const updateCalendar = (action) => {
 
@@ -86,7 +87,7 @@ export default function WeekCalendar() {
 
         let referenceDate = (action === 'plus') ? referenceMonday + 7
             : (action === 'minus') ? referenceMonday - 7
-                : (action === 'clear') ? 1 - (new Date(`2025-${actualMonth}-1`).getDay() + 1)
+                : (action === 'clear') ? 1 - (new Date(`2025-${actualMonth}-1`).getDay())
                     : (new Date().getDate()) - (new Date().getDay()) + 1
 
 
@@ -123,6 +124,29 @@ export default function WeekCalendar() {
 
     }, [])
 
+    useEffect(() => {
+
+        if (featuredDay) {
+
+            const feturedEvsDummy = []
+
+            console.log(featuredDay)
+
+            if (events.length > 0) events.map(event => {
+                console.log(event)
+                if (event.date === `2025-${actualMonth + 1}-${featuredDay.date}`) {
+                    feturedEvsDummy.push(<p className="event-day">
+                        <span className="event-place">{event.place}</span>-<span className="event-title">{event.title}</span>
+                    </p >)
+                }
+            })
+
+
+            setFeaturedEvents(feturedEvsDummy)
+        }
+
+    }, [featuredDay, events, actualMonth])
+
 
     useEffect(() => {
 
@@ -148,9 +172,13 @@ export default function WeekCalendar() {
                 updateCalendar('plus')
             }} /></span>
         </div>
-        {featuredDay && <div id="featured-week-day">
-            {featuredDay}
-        </div>}
+        <div id="featured-week-day">
+            {featuredDay &&
+                <p className="featured-day-info"><span>{featuredDay.weekDay}</span>
+                    <span>{featuredDay.date}</span>
+                </p>}
+            {featuredDayEvents && featuredDayEvents.map(event => event)}
+        </div>
 
     </div>)
 }

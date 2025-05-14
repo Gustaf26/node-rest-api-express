@@ -312,13 +312,45 @@ body {
     grid-row: 3 / 6;
     background-color: aliceblue;
     display: flex;
-    justify-content: center;
+    justify-content: start;
+    flex-direction: column;
     align-items: center;
+    border: 0.5px solid rgb(144, 172, 236);
+
+    & p.featured-day-info {
+
+      & span {
+        margin: 10px 5px;
+        font-weight: 600;
+        color: rgb(19, 59, 78);
+      }
+    }
 
     & {
       @media screen and (max-width:1000px) {
         display: none;
       }
+    }
+  }
+
+  & p.event-day,
+  span.event-day {
+    color: rgb(69, 46, 46);
+    background-color: rgb(237, 193, 193);
+    padding: 8px;
+    border-radius: 3px;
+
+    & span.event-place {
+      /* color: rgb(13, 82, 13); */
+      text-decoration: underline;
+    }
+
+    & span.event-title {
+      font-weight: 600;
+    }
+
+    &:hover {
+      background-color: aliceblue !important;
     }
   }
 
@@ -753,26 +785,6 @@ body {
         color: rgb(72, 151, 209);
       }
 
-    }
-
-    & span.event-day {
-      color: rgb(69, 46, 46);
-      background-color: rgb(219, 226, 228);
-      padding: 8px;
-      border-radius: 3px;
-
-      & .event-place {
-        color: rgb(13, 82, 13);
-        text-decoration: underline;
-      }
-
-      & .event-title {
-        font-weight: 600;
-      }
-
-      &:hover {
-        background-color: aliceblue !important;
-      }
     }
   }
 }
