@@ -261,9 +261,19 @@ body {
     }
   }
 
+  & #week-super-container {
+    display: grid;
+    height: fit-content;
+    padding: 10px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 100px 100px 100px 100px 100px;
+    overflow: hidden;
+  }
+
   & #week-container-container {
     width: 100%;
     display: flex;
+    grid-column: 1 / 9;
 
 
     & .left-arrow-week,
@@ -297,6 +307,21 @@ body {
     }
   }
 
+  & #featured-week-day {
+    grid-column: 1 / 9;
+    grid-row: 3 / 6;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & {
+      @media screen and (max-width:1000px) {
+        display: none;
+      }
+    }
+  }
+
   & #months-calendar-container,
   #week-calendar-container {
     flex-grow: 5;
@@ -306,6 +331,7 @@ body {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 100px 100px 100px 100px 100px;
     overflow: hidden;
+
 
     & {
       @media screen and (max-width:1000px) {

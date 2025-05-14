@@ -34,7 +34,8 @@ const DayCell = (props) => {
     }
 
 
-    return (<div id={props.dayDate} key={"week-calendar-day" + weekDayNr} onClick={(e) => activateDay(e)}
+    return (<div id={props.dayDate} key={"week-calendar-day" + weekDayNr}
+        onClick={(e) => { activateDay(e); props.setFeaturedDay(props.dayDate) }}
         onDoubleClick={(e) => {
             setEventOnCreation(true);
             setEventElement(Number(e.target.id));
@@ -77,6 +78,7 @@ export default function WeekCalendar() {
     const [weekMinusIndex, setMinusIndex] = useState(1)
     const thisMonth = new Date().getMonth()
     const [referenceMonday, setReferenceMonday] = useState((new Date().getDate()) - (new Date().getDay()) + 1)
+    const [featuredDay, setFeaturedDay] = useState()
 
     const updateCalendar = (action) => {
 
@@ -104,7 +106,7 @@ export default function WeekCalendar() {
             let dayDate = new Date(`2025-${actualMonth}-${referenceDate + j}`).getDate()
 
             allWeekdays.push(
-                <DayCell actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
+                <DayCell setFeaturedDay={setFeaturedDay} actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
                     monthDays={monthDays} weekDayNr={j + 1} todaysWeekDayNr={todaysWeekDayNr} key={"weekday" + j}>
                 </DayCell>
             )
@@ -130,20 +132,26 @@ export default function WeekCalendar() {
     }, [actualMonth])
 
 
-    return (<div id="week-container-container">
-        <span><KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
-            updateCalendar('minus')
-        }} /></span>
-        <div id="week-calendar-container" className={eventOnCreation ? 'modal' : ''}>
+    return (<div id="week-super-container">
+        <div id="week-container-container">
+            <span><KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
+                updateCalendar('minus')
+            }} /></span>
+            <div id="week-calendar-container" className={eventOnCreation ? 'modal' : ''}>
 
-            {weekCells.length > 0 && weekCells.map(weekcell => {
-                return weekcell
-            })}
+                {weekCells.length > 0 && weekCells.map(weekcell => {
+                    return weekcell
+                })}
 
+            </div>
+            <span> <KeyboardArrowRightIcon className="right-arrow-week" onClick={() => {
+                updateCalendar('plus')
+            }} /></span>
         </div>
-        <span> <KeyboardArrowRightIcon className="right-arrow-week" onClick={() => {
-            updateCalendar('plus')
-        }} /></span>
+        {featuredDay && <div id="featured-week-day">
+            {featuredDay}
+        </div>}
+
     </div>)
 }
 
