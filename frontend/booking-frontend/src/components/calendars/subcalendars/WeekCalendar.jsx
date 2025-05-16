@@ -128,21 +128,22 @@ export default function WeekCalendar() {
 
         if (featuredDay) {
 
-            const feturedEvsDummy = []
-
-            console.log(featuredDay)
+            const featuredEvsDummy = []
 
             if (events.length > 0) events.map(event => {
-                console.log(event)
                 if (event.date === `2025-${actualMonth + 1}-${featuredDay.date}`) {
-                    feturedEvsDummy.push(<p className="event-day">
+                    featuredEvsDummy.push(<p className="event-day">
                         <span className="event-place">{event.place}</span>-<span className="event-title">{event.title}</span>
                     </p >)
                 }
             })
 
+            if (featuredEvsDummy.length === 0) featuredEvsDummy.push(<p>
+                <span><em>No Events On This Day</em></span>
+            </p >)
 
-            setFeaturedEvents(feturedEvsDummy)
+
+            setFeaturedEvents(featuredEvsDummy)
         }
 
     }, [featuredDay, events, actualMonth])

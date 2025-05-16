@@ -4,6 +4,7 @@ import { useState, useContext } from "react"
 import MainContext from "../../../contexts/MainContext"
 
 import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
 
 const thisMonth = new Date().getMonth()
 
@@ -11,10 +12,13 @@ export default function EventOnCreation(props) {
 
     const [eventFriend, setEventFriend] = useState([])
     const [posibleContacts, setPosibleContacts] = useState([])
+    const [contactsShowing, setContactsShowing] = useState(false)
 
     const { eventOnCreation, events, setEventOnCreation, contacts, actualMonth } = useContext(MainContext)
 
     const { setEventElement, dayDate, dayNr, thisDay, day } = props
+
+    console.log(dayDate)
 
     let mondays = [0, 7, 14, 21, 28]
     let tuesdays = mondays.map(day => day + 1)
@@ -51,18 +55,6 @@ export default function EventOnCreation(props) {
             setEventOnCreation(false)
         }}>
             X</span>
-        <ul className="event-contacts-thumbnails">
-            {contacts && contacts.map((contact, i) => {
-                return (<li>
-                    <img onClick={() => {
-                        setPosibleContacts([]);
-                        setEventFriend((prev) => !prev.includes(contact) ? [...prev, contact] :
-                            [...prev])
-                    }} style={{ top: `${((i + 1) * 100) + 120}px` }}
-                        alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
-                </li>)
-            })}
-        </ul>
 
         <form>
             <div id="event-on-creation-date">
@@ -101,8 +93,13 @@ export default function EventOnCreation(props) {
                     <label>Other events this day:</label>
                     <div>
                         {events ? events.map(event => {
-                            return <p>{event.title}
-                                <span>x</span></p>
+
+                            if (event.date === `2025-${5}-${dayDate}`) {
+                                return <p>{event.title}
+                                    <span>x</span></p>
+                            }
+
+                            else return null
                         }) : <span>No events this day</span>}
                     </div>
                 </div>
@@ -112,8 +109,21 @@ export default function EventOnCreation(props) {
                 <label>Event Description</label>
                 <textarea placeholder="Write event here..."></textarea>
             </div>
+            <ul className={!contactsShowing ? "event-contacts-thumbnails" : "event-contacts-thumbnails animated"} onMouseOut={() => setContactsShowing(false)}
+                onMouseOver={() => setContactsShowing(true)}>
+                {contactsShowing ? contacts.map((contact, i) => {
+                    return (<li>
+                        <img onClick={() => {
+                            setPosibleContacts([]);
+                            setEventFriend((prev) => !prev.includes(contact) ? [...prev, contact] :
+                                [...prev])
+                        }} style={{ top: `${((i + 1) * 100) + 120}px` }}
+                            alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
+                    </li>)
+                }) : (<li><Avatar sx={{ backgroundColor: 'black', height: '40px', width: '30px' }} /></li>)}
+            </ul>
 
-            <Button onClick={() => setEventOnCreation(false)} id="new-event-button">SAVE</Button>
+            <Button onClick={() => setEventOnCreation(false)} id="new-event-button">INVITE</Button>
         </form>
     </div>)
 }

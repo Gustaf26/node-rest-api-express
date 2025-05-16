@@ -434,45 +434,6 @@ body {
             }
           }
 
-          & ul.event-contacts-thumbnails {
-            position: absolute;
-            top: 25vh;
-            left: 40px;
-            margin-left: 15%;
-            list-style-type: none;
-            background-color: rgba(255, 255, 255, 0.5);
-            padding: 20px 10px;
-            border-top-right-radius: 40px;
-            border-top-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            border-bottom-left-radius: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            min-height: 350px;
-
-            & {
-              @media screen and (max-width:600px) {
-                display: none;
-              }
-            }
-
-            & img.on-creation-contact-thumbnail {
-              /* position: absolute; */
-              width: 40px;
-              height: 40px;
-              border-radius: 50%;
-              object-fit: cover;
-              border: 3px solid white;
-              padding: 10px;
-
-              &:hover {
-                cursor: pointer;
-                background-color: white;
-                border: 3px solid rgb(128, 180, 217);
-              }
-            }
-          }
 
           & #event-on-creation-date {
             font-weight: 600;
@@ -487,6 +448,7 @@ body {
 
           & form {
             display: flex;
+            position: relative;
             width: 100%;
             margin: -50px 0 0 60px;
             min-width: 300px;
@@ -712,6 +674,52 @@ body {
 
                 &::placeholder {
                   color: rgb(155, 180, 200);
+                }
+              }
+            }
+
+            & ul.event-contacts-thumbnails {
+              position: absolute;
+              bottom: 80px;
+              left: 20px;
+              list-style-type: none;
+              background-color: rgba(205, 201, 201, 0.7);
+              padding: 0px;
+              border-radius: 25px;
+              display: flex;
+              justify-content: space-around;
+              align-items: center;
+              height: 40px;
+
+              /* & {
+                @media screen and (max-width:600px) {
+                  display: none;
+                }
+              } */
+
+              &:hover {
+                cursor: pointer;
+              }
+
+              & li {
+                height: 40px;
+                line-height: 35px;
+                margin: 0 5px;
+                /* opacity: 0; */
+
+                & img.on-creation-contact-thumbnail {
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                  margin: 3px 0;
+                  object-fit: cover;
+                  border: 1.5px solid rgb(155, 179, 181);
+
+                  &:hover {
+                    cursor: pointer;
+                    background-color: white;
+                    border: 1.5px solid rgb(181, 208, 227);
+                  }
                 }
               }
             }
