@@ -690,22 +690,18 @@ body {
               justify-content: space-around;
               align-items: center;
               height: 40px;
+              min-width: 40px;
 
-              /* & {
-                @media screen and (max-width:600px) {
-                  display: none;
-                }
-              } */
-
-              &:hover {
-                cursor: pointer;
+              & li.dummy-avatar {
+                height: 40px;
+                line-height: 35px;
+                margin: 0 5px;
               }
 
               & li {
                 height: 40px;
                 line-height: 35px;
                 margin: 0 5px;
-                /* opacity: 0; */
 
                 & img.on-creation-contact-thumbnail {
                   width: 30px;
@@ -721,6 +717,10 @@ body {
                     border: 1.5px solid rgb(181, 208, 227);
                   }
                 }
+              }
+
+              &:hover {
+                cursor: pointer;
               }
             }
           }

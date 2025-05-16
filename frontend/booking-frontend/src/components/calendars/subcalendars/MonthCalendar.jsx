@@ -68,7 +68,12 @@ const WeekCell = (props) => {
                 "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
         }
 
-        {eventElement === dayNr && eventOnCreation && (<EventOnCreation day={day} dayNr={dayNr} thisDay={thisDay} dayDate={dayDate} setEventElement={setEventElement} />)}
+        {eventElement === dayNr && eventOnCreation && (
+            <EventOnCreation day={day}
+                dayNr={dayNr}
+                thisDay={thisDay}
+                dayDate={dayDate}
+                setEventElement={setEventElement} />)}
 
     </div >)
 }

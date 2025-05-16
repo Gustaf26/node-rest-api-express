@@ -94,7 +94,7 @@ export default function EventOnCreation(props) {
                     <div>
                         {events ? events.map(event => {
 
-                            if (event.date === `2025-${5}-${dayDate}`) {
+                            if (event.date === dayDate) {
                                 return <p>{event.title}
                                     <span>x</span></p>
                             }
@@ -112,7 +112,7 @@ export default function EventOnCreation(props) {
             <ul className={!contactsShowing ? "event-contacts-thumbnails" : "event-contacts-thumbnails animated"} onMouseOut={() => setContactsShowing(false)}
                 onMouseOver={() => setContactsShowing(true)}>
                 {contactsShowing ? contacts.map((contact, i) => {
-                    return (<li>
+                    return (<li className="animated">
                         <img onClick={() => {
                             setPosibleContacts([]);
                             setEventFriend((prev) => !prev.includes(contact) ? [...prev, contact] :
@@ -120,7 +120,7 @@ export default function EventOnCreation(props) {
                         }} style={{ top: `${((i + 1) * 100) + 120}px` }}
                             alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
                     </li>)
-                }) : (<li><Avatar sx={{ backgroundColor: 'black', height: '40px', width: '30px' }} /></li>)}
+                }) : (<li className="dummy-avatar"><Avatar sx={{ backgroundColor: 'black', height: '40px', width: '30px' }} /></li>)}
             </ul>
 
             <Button onClick={() => setEventOnCreation(false)} id="new-event-button">INVITE</Button>

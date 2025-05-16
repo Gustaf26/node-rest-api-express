@@ -15,7 +15,7 @@ const todaysDate = new Date().getDate()
 
 const DayCell = (props) => {
 
-    const { setEventOnCreation, eventOnCreation } = useContext(MainContext)
+    const { setEventOnCreation, eventOnCreation, actualMonth, events } = useContext(MainContext)
     const [eventElement, setEventElement] = useState()
 
     let weekDayNr = props.weekDayNr
@@ -34,31 +34,29 @@ const DayCell = (props) => {
     }
 
 
-    return (<div id={props.dayDate} key={"week-calendar-day" + weekDayNr}
-        onClick={(e) => { activateDay(e); props.setFeaturedDay({ date: props.dayDate, weekDay: allWeekDaysName[weekDayNr - 1] }) }}
+    return (<div id={props.dayNr} key={"week-calendar-day" + weekDayNr}
+        onClick={(e) => { activateDay(e); props.setFeaturedDay({ date: props.dayNr, weekDay: allWeekDaysName[weekDayNr - 1] }) }}
         onDoubleClick={(e) => {
             setEventOnCreation(true);
             setEventElement(Number(e.target.id));
         }}
-        className={eventElement === props.dayDate && eventOnCreation ? 'eventOnCreation' : weekDayNr === todaysWeekDayNr && props.dayDate === todaysDate ?
-            "week-calendar-day today" : isNaN(props.dayDate) ? "week-calendar-day empty" : "week-calendar-day"}>
+        className={eventElement === props.dayNr && eventOnCreation ? 'eventOnCreation' : weekDayNr === todaysWeekDayNr && props.dayNr === todaysDate ?
+            "week-calendar-day today" : isNaN(props.dayNr) ? "week-calendar-day empty" : "week-calendar-day"}>
 
-        {props.events.map(event => {
-            if (event.date === props.dayDate) return (<span key={event.title} style={{
-                backgroundColor: event.contactType === 'friend' ? 'lightgreen'
-                    : 'crimson'
-            }}
-                className="event-day">{event.place}-{event.title}</span>)
+        {props.events && events.map(event => {
+            if (event.date === props.dayDate && actualMonth === (new Date().getMonth() + 1)) return (
+                <span key={event.title} style={{ backgroundColor: 'lightgreen' }}
+                    className="event-day">Event Day</span>)
             else return null
         })}
 
-        {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayDate == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
-            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayDate >= 1 && props.dayDate <= props.monthDays ? props.dayDate : ''}</span>}
+        {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayNr == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
+            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayNr >= 1 && props.dayNr <= props.monthDays ? props.dayNr : ''}</span>}
 
-        {eventElement === Number(props.dayDate) && eventOnCreation && (
+        {eventElement === props.dayNr && eventOnCreation && (
             <EventOnCreation
                 day={weekDayNr - 1}
-                dayNr={props.dayDate}
+                dayNr={props.dayNr}
                 thisDay={todaysDate}
                 dayDate={props.dayDate}
                 setEventElement={setEventElement} />)}
@@ -95,6 +93,9 @@ export default function WeekCalendar() {
             return
         }
 
+        setFeaturedDay('')
+        setFeaturedEvents([])
+
         setReferenceMonday(action !== 'clear' ? referenceDate : 1)
 
         if (action === 'plus') { setPlusIndex(prev => prev + 1); setMinusIndex(prev => prev - 1) }
@@ -104,10 +105,11 @@ export default function WeekCalendar() {
 
         for (let j = 0; j < 7; j++) {
 
-            let dayDate = new Date(`2025-${actualMonth}-${referenceDate + j}`).getDate()
+            let dayDate = `2025-${actualMonth}-${referenceDate + j}`
+            let dayNr = new Date(dayDate).getDate()
 
             allWeekdays.push(
-                <DayCell setFeaturedDay={setFeaturedDay} actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
+                <DayCell dayNr={dayNr} setFeaturedDay={setFeaturedDay} actualMonth={actualMonth} events={events.length > 0 ? events : []} dayDate={dayDate}
                     monthDays={monthDays} weekDayNr={j + 1} todaysWeekDayNr={todaysWeekDayNr} key={"weekday" + j}>
                 </DayCell>
             )
@@ -118,11 +120,11 @@ export default function WeekCalendar() {
 
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        setActualMonth(thisMonth)
+    //     setActualMonth(thisMonth)
 
-    }, [])
+    // }, [])
 
     useEffect(() => {
 
@@ -174,10 +176,12 @@ export default function WeekCalendar() {
             }} /></span>
         </div>
         <div id="featured-week-day">
-            {featuredDay &&
+            {featuredDay ? (
                 <p className="featured-day-info"><span>{featuredDay.weekDay}</span>
                     <span>{featuredDay.date}</span>
-                </p>}
+                </p>) : <p className="featured-day-info">
+                <em>Click on the days in the calendar above</em>
+            </p>}
             {featuredDayEvents && featuredDayEvents.map(event => event)}
         </div>
 
