@@ -43,15 +43,16 @@ const DayCell = (props) => {
         className={eventElement === props.dayNr && eventOnCreation ? 'eventOnCreation' : weekDayNr === todaysWeekDayNr && props.dayNr === todaysDate ?
             "week-calendar-day today" : isNaN(props.dayNr) ? "week-calendar-day empty" : "week-calendar-day"}>
 
+
+        {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayNr == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
+            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayNr >= 1 && props.dayNr <= props.monthDays ? props.dayNr : ''}</span>}
+
         {props.events && events.map(event => {
-            if (event.date === props.dayDate && actualMonth === (new Date().getMonth() + 1)) return (
+            if (event.date === props.dayDate) return (
                 <span key={event.title} style={{ backgroundColor: 'lightgreen' }}
                     className="event-day">Event Day</span>)
             else return null
         })}
-
-        {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayNr == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
-            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayNr >= 1 && props.dayNr <= props.monthDays ? props.dayNr : ''}</span>}
 
         {eventElement === props.dayNr && eventOnCreation && (
             <EventOnCreation
@@ -105,7 +106,7 @@ export default function WeekCalendar() {
 
         for (let j = 0; j < 7; j++) {
 
-            let dayDate = `2025-${actualMonth}-${referenceDate + j}`
+            let dayDate = `2025-${actualMonth + 1}-${referenceDate + j}`
             let dayNr = new Date(dayDate).getDate()
 
             allWeekdays.push(
