@@ -49,7 +49,7 @@ const DayCell = (props) => {
 
         {props.events && events.map(event => {
             if (event.date === props.dayDate) return (
-                <span key={event.title} style={{ backgroundColor: 'lightgreen' }}
+                <span key={event.title}
                     className="event-day">Event Day</span>)
             else return null
         })}
