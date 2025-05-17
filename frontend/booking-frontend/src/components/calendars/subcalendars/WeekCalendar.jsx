@@ -35,10 +35,10 @@ const DayCell = (props) => {
 
 
     return (<div id={props.dayNr} key={"week-calendar-day" + weekDayNr}
-        onClick={(e) => { activateDay(e); props.setFeaturedDay({ date: props.dayNr, weekDay: allWeekDaysName[weekDayNr - 1] }) }}
+        onClick={(e) => { eventOnCreation && setEventOnCreation(false); activateDay(e); props.setFeaturedDay({ date: props.dayNr, weekDay: allWeekDaysName[weekDayNr - 1] }) }}
         onDoubleClick={(e) => {
-            setEventOnCreation(true);
-            setEventElement(Number(e.target.id));
+            setEventOnCreation(prev => !prev);
+            setEventElement(!eventOnCreation ? Number(e.target.id) : '');
         }}
         className={eventElement === props.dayNr && eventOnCreation ? 'eventOnCreation' : weekDayNr === todaysWeekDayNr && props.dayNr === todaysDate ?
             "week-calendar-day today" : isNaN(props.dayNr) ? "week-calendar-day empty" : "week-calendar-day"}>
@@ -47,7 +47,7 @@ const DayCell = (props) => {
         {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayNr == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
             {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayNr >= 1 && props.dayNr <= props.monthDays ? props.dayNr : ''}</span>}
 
-        {props.events && events.map(event => {
+        {!eventOnCreation && props.events && events.map(event => {
             if (event.date === props.dayDate) return (
                 <span key={event.title}
                     className="event-day">Event Day</span>)

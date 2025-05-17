@@ -56,7 +56,7 @@ export default function EventOnCreation(props) {
         }}>
             X</span>
 
-        <form>
+        <form onClick={(e) => e.stopPropagation()}>
             <div id="event-on-creation-date">
                 <span className={dayNr === thisDay && thisMonth === actualMonth ?
                     "month-cal-day-nr today" : "month-cal-day-nr"}>{mondays.includes(day) ? 'Monday' : tuesdays.includes(day) ? 'Tuesday' : wednesdays.includes(day) ? 'Wednesday' :
@@ -66,10 +66,10 @@ export default function EventOnCreation(props) {
             </div>
             <div id="event-creation-categories">
                 <div>
-                    <label>Friends</label>
+                    <label>Atendees</label>
                     <div id="event-creation-friends-input" >
                         {eventFriend && eventFriend.map(friend => {
-                            return <p><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}
+                            return <p style={{ backgroundColor: `rgba(18, 97, ${Math.floor(Math.random() * 255)},0.2)` }} ><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}
                                 <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
                                 }>x</span></p>
                         })}
@@ -84,7 +84,7 @@ export default function EventOnCreation(props) {
                             })}
                         </ul>
                     </div>
-                    <label>Event Place</label>
+                    <label>Place</label>
                     <div id="event-creation-place">
                         <input required placeholder="Enter place"></input>
                     </div>
