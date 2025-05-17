@@ -14,19 +14,23 @@ export default function EventOnCreation(props) {
     const [posibleContacts, setPosibleContacts] = useState([])
     const [contactsShowing, setContactsShowing] = useState(false)
 
-    const { eventOnCreation, events, setEventOnCreation, contacts, actualMonth } = useContext(MainContext)
+    const { chosenDate, chosenMonth, chosenDay, events, setEventOnCreation, contacts, actualMonth } = useContext(MainContext)
 
     const { setEventElement, dayDate, dayNr, thisDay, day } = props
 
-    console.log(dayDate)
+    let daysBase = [0, 7, 14, 21, 28]
 
-    let mondays = [0, 7, 14, 21, 28]
-    let tuesdays = mondays.map(day => day + 1)
-    let wednesdays = tuesdays.map(day => day + 1)
-    let thursdays = wednesdays.map(day => day + 1)
-    let fridays = thursdays.map(day => day + 1)
-    let saturdays = fridays.map(day => day + 1)
-    let sundays = saturdays.map(day => day + 1)
+    let weekDays = [daysBase,
+        daysBase.map(day => day + 1),
+        daysBase.map(day => day + 2),
+        daysBase.map(day => day + 3),
+        daysBase.map(day => day + 4),
+        daysBase.map(day => day + 5),
+        daysBase.map(day => day + 6)
+    ]
+
+    let dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
 
     const showPossibleContacts = (e) => {
 
@@ -58,11 +62,12 @@ export default function EventOnCreation(props) {
 
         <form onClick={(e) => e.stopPropagation()}>
             <div id="event-on-creation-date">
-                <span className={dayNr === thisDay && thisMonth === actualMonth ?
-                    "month-cal-day-nr today" : "month-cal-day-nr"}>{mondays.includes(day) ? 'Monday' : tuesdays.includes(day) ? 'Tuesday' : wednesdays.includes(day) ? 'Wednesday' :
-                        thursdays.includes(day) ? 'Thursday' : fridays.includes(day) ? 'Friday' : saturdays.includes(day) ? 'Saturday' : 'Sunday'}
-                    {" "}{dayNr}
-                </span>
+                {/* <span className={dayNr === thisDay && thisMonth === actualMonth ?
+                    "month-cal-day-nr today" : "month-cal-day-nr"}>Event Date: {weekDays.map((days, i) => { return days.includes(dayNr) ? dayNames[i] : null })}
+                    {" "}{dayNr} of {chosenMonth}
+                </span> */}
+                {chosenDay && <span >Event Date: {weekDays.map((days, i) => { return days.includes(chosenDay) ? dayNames[i] : null })}
+                </span>}
             </div>
             <div id="event-creation-categories">
                 <div>

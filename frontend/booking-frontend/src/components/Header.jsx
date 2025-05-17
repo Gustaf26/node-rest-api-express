@@ -14,7 +14,7 @@ const periodButtons = ['month', 'week', 'day']
 export default function Header() {
 
     const [selectedPeriod, setPeriod] = useState(0)
-    const { chosenMonth, setActualMonth, actualMonth, setCalendarOption, setEventOnCreation } = useContext(MainContext)
+    const { chosenDate, setChosenDate, chosenMonth, setActualMonth, actualMonth, setCalendarOption, setEventOnCreation } = useContext(MainContext)
     const [alertMonthLimit, setAlertMonthLimit] = useState(false)
 
 
@@ -42,7 +42,11 @@ export default function Header() {
                     return (<Button onClick={() => { setPeriod(i); setCalendarOption(period) }} className={i === selectedPeriod && "selected-period"}>{period}</Button>)
                 })}
             </ButtonGroup>
-            <Button onClick={() => setEventOnCreation(true)} id="new-event-button">+ New Event</Button>
+            <form onSubmit={(e) => { e.preventDefault(); setChosenDate(e.target[0].value); setEventOnCreation(true) }}>
+                <input type="date" id="new-event-input" name="event-input" />
+                <Button type="submit" id="new-event-button">+ New Event</Button>
+            </form>
+
         </header>
     )
 }

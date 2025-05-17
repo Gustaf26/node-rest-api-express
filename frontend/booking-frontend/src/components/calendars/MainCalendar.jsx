@@ -6,11 +6,12 @@ import MainContext from '../../contexts/MainContext.jsx'
 
 import MonthCalendar from './subcalendars/MonthCalendar.jsx'
 import WeekCalendar from './subcalendars/WeekCalendar.jsx'
+import EventOnCreation from './subcalendars/EventOnCreation.jsx'
 // import EventOnCreation from './subcalendars/EventOnCreation.jsx'
 
 const MainCalendar = () => {
 
-    const { calendarOption } = useContext(MainContext)
+    const { calendarOption, eventOnCreation } = useContext(MainContext)
 
 
     return (
@@ -18,6 +19,7 @@ const MainCalendar = () => {
             <div>
                 {calendarOption === 'month' && <MonthCalendar />}
                 {calendarOption === 'week' && <WeekCalendar />}
+                {/* {eventOnCreation && <EventOnCreation />} */}
             </div>
         </>
     )
