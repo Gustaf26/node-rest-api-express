@@ -43,7 +43,7 @@ export default function Header() {
                 })}
             </ButtonGroup>
             <form onSubmit={(e) => { e.preventDefault(); setChosenDate(e.target[0].value); setEventOnCreation(true) }}>
-                <input type="date" id="new-event-input" name="event-input" />
+                <input onChange={(e) => setChosenDate(e.target.value)} type="date" id="new-event-input" name="event-input" />
                 <Button type="submit" id="new-event-button">+ New Event</Button>
             </form>
 

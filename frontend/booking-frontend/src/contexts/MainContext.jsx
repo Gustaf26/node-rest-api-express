@@ -28,7 +28,14 @@ export const MainContextProvider = (props) => {
     }, [actualMonth])
 
     useEffect(() => {
-        if (chosenDate) setChosenDay(Number(chosenDate.slice(chosenDate.lastIndexOf('-'), chosenDate.length)))
+        if (chosenDate) {
+            setChosenDay(Number(chosenDate.slice(chosenDate.lastIndexOf('-'), chosenDate.length)))
+
+            let month = chosenDate.indexOf('-') + 1 === '0' ?
+                chosenDate.slice(chosenDate.indexOf('-') + 2, chosenDate.lastIndexOf('-')) :
+                chosenDate.slice(chosenDate.indexOf('-') + 1, chosenDate.lastIndexOf('-'))
+            setActualMonth(Number(month - 1))
+        }
     }, [chosenDate])
 
     useEffect(() => {
