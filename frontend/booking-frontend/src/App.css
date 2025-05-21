@@ -105,6 +105,13 @@ body {
 
     & form {
       min-width: fit-content;
+      display: flex;
+      align-items: center;
+
+      & #new-event-input {
+        font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+        margin-right: 15px;
+      }
     }
 
     & button {

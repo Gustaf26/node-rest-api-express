@@ -91,12 +91,7 @@ export const MainContextProvider = (props) => {
                             if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
                         })
                     })
-                    userInfo && userInfo.nearFriends.forEach(contactId => {
-                        res.contacts.forEach(generalContact => {
 
-                            if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
-                        })
-                    })
                     setContacts(myContacts); setLoading(false)
                 })
                 .catch(err => console.log(err))

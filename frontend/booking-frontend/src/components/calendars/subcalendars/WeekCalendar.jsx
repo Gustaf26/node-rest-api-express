@@ -69,7 +69,7 @@ const DayCell = (props) => {
 
 export default function WeekCalendar() {
 
-    const { events, actualMonth, eventOnCreation, setActualMonth } = useContext(MainContext)
+    const { events, actualMonth, eventOnCreation, contacts, setActualMonth } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
     const [monthDays, setMonthDays] = useState((actualMonth) % 2 === 0 && (actualMonth) !== 2 && (actualMonth) !== 8 ? 30 : (actualMonth) % 2 === 0 ? 28 : 31)
@@ -135,9 +135,15 @@ export default function WeekCalendar() {
 
             if (events.length > 0) events.map(event => {
                 if (event.date === `2025-${actualMonth + 1}-${featuredDay.date}`) {
-                    featuredEvsDummy.push(<p className="event-day">
+                    featuredEvsDummy.push(<div className="event-day">
                         <span className="event-place">{event.place}</span>-<span className="event-title">{event.title}</span>
-                    </p >)
+                        <p>Atendees: {event.persons.map(personid => {
+                            return contacts.map(contact => {
+                                return contact.id === personid ? <span>{contact.name}</span> :
+                                    null
+                            })
+                        })}</p>
+                    </div >)
                 }
             })
 
