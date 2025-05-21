@@ -137,7 +137,7 @@ export default function WeekCalendar() {
                 if (event.date === `2025-${actualMonth + 1}-${featuredDay.date}`) {
                     featuredEvsDummy.push(<div className="event-day">
                         <span className="event-place">{event.place}</span>-<span className="event-title">{event.title}</span>
-                        <p>Atendees: {event.persons.map(personid => {
+                        <p>Invited: {event.persons.map(personid => {
                             return contacts.map(contact => {
                                 return contact.id === personid ? <span>{contact.name}</span> :
                                     null

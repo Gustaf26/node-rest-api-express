@@ -345,17 +345,21 @@ body {
     }
   }
 
-  & p.event-day,
+  & div.event-day,
   span.event-day {
     display: 'inline-block';
     margin: 10px auto;
-    background-color: rgb(137, 186, 143);
-    padding: 8px;
+    background-color: rgba(137, 186, 143, 0.7);
+    padding: 12px;
     border-radius: 3px;
 
     & span.event-place {
-      /* color: rgb(13, 82, 13); */
+      color: rgb(13, 82, 13);
       text-decoration: underline;
+    }
+
+    & p {
+      background-color: lightblue;
     }
 
     & span.event-title {
