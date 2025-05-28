@@ -87,7 +87,7 @@ routes.get('/:contactId', async (req, res, next) => {
             res.send({ 'msg': contactRow })
         }
 
-        else res.status(403).send({ "msg": "No such contact" });
+        else res.status(304).send({ "msg": "No such contact" });
 
     });
 

@@ -73,7 +73,7 @@ export const MainContextProvider = (props) => {
             })
 
             let events = await Promise.all(eventPromises)
-            setEvents([...events])
+            setEvents(events)
         }
 
         getData()
