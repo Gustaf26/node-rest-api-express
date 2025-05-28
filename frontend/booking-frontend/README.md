@@ -27,7 +27,7 @@
 <!-- Status -->
 
 <h4 align="center"> 
-	<img src="https://loom.com/i/6ac2d3403db341d1abc1fbac3d50c193" height=300 width=550/>
+	<img src="./src/assets/calendar.png" height=300 width=550/>
 </h4> 
 
 <hr>
