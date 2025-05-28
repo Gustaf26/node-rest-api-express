@@ -55,19 +55,6 @@ export const MainContextProvider = (props) => {
 
                     return res.msg.events
 
-                    // res.msg.events.forEach(async (event) => {
-                    //     return fetch(`http://127.0.0.1:3000/events/${event}`)
-                    //         .then(res => res.json())
-                    //         .then(res => {
-                    //             res.msg.persons = JSON.parse(res.msg.persons);
-                    //             // res.msg.persons.forEach(personId => {
-                    //             //     if (preliminaryUserinfo.nearFriends.includes(personId)) { res.msg.contactType = 'friend' }
-                    //             //     else { res.msg.contactType = 'contact' }
-                    //             // })
-                    //             setEvents(prev => [...prev, res.msg])
-                    //         })
-                    //         .catch(err => console.log(err))
-                    // })
                 })
                 .then(async (events) => {
                     let promises = events.map(event => {
