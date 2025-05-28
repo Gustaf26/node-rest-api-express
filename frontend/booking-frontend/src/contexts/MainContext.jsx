@@ -51,24 +51,40 @@ export const MainContextProvider = (props) => {
                     res.msg.commonContacts = commonContacts
                     res.msg.nearFriends = friends
                     res.msg.events = myEvents
-                    let preliminaryUserinfo = res.msg
                     setUserInfo(res.msg)
 
+                    return res.msg.events
 
-                    res.msg.events.forEach(async (event) => {
-                        return fetch(`http://127.0.0.1:3000/events/${event}`)
-                            .then(res => res.json())
-                            .then(res => {
-                                res.msg.persons = JSON.parse(res.msg.persons);
-                                // res.msg.persons.forEach(personId => {
-                                //     if (preliminaryUserinfo.nearFriends.includes(personId)) { res.msg.contactType = 'friend' }
-                                //     else { res.msg.contactType = 'contact' }
-                                // })
-                                setEvents(prev => [...prev, res.msg])
-                            })
-                            .catch(err => console.log(err))
-                    })
+                    // res.msg.events.forEach(async (event) => {
+                    //     return fetch(`http://127.0.0.1:3000/events/${event}`)
+                    //         .then(res => res.json())
+                    //         .then(res => {
+                    //             res.msg.persons = JSON.parse(res.msg.persons);
+                    //             // res.msg.persons.forEach(personId => {
+                    //             //     if (preliminaryUserinfo.nearFriends.includes(personId)) { res.msg.contactType = 'friend' }
+                    //             //     else { res.msg.contactType = 'contact' }
+                    //             // })
+                    //             setEvents(prev => [...prev, res.msg])
+                    //         })
+                    //         .catch(err => console.log(err))
+                    // })
                 })
+                .then(async (events) => {
+                    let promises = events.map(event => {
+                        return new Promise((resolve, reject) => {
+                            fetch(`http://127.0.0.1:3000/events/${event}`)
+                                .then(res => res.json())
+                                .then(res => {
+                                    res.msg.persons = JSON.parse(res.msg.persons);
+                                    resolve(res.msg)
+                                })
+                                .catch(err => reject(err))
+                        })
+                    })
+                    return await promises
+                })
+                .then(events => Promise.all(events))
+                .then(eventInfo => setEvents([...eventInfo]))
                 .catch(err => console.log(err))
         }
 
