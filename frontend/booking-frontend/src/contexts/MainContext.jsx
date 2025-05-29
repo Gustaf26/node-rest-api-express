@@ -21,12 +21,6 @@ export const MainContextProvider = (props) => {
     const [chosenDate, setChosenDate] = useState('')
     const [chosenDay, setChosenDay] = useState('')
     const [eventOnCreation, setEventOnCreation] = useState(false)
-    // const [dateInfo, setDateInfo] = useState({
-    //     actualMonth: thisMonth,
-    //     chosenMonth: allMonths[actualMonth],
-    //     chosenDate: '',
-    //     chosenDay: ''
-    // })
 
 
     useEffect(() => {
@@ -34,6 +28,7 @@ export const MainContextProvider = (props) => {
     }, [actualMonth])
 
     useEffect(() => {
+
         if (chosenDate) {
 
             let firstDash = chosenDate.indexOf('-') + 1 === '0' ? chosenDate.indexOf('-') + 2 :
@@ -57,13 +52,12 @@ export const MainContextProvider = (props) => {
                 return await fetch('http://127.0.0.1:3000/1')
                     .then(res => res.json())
                     .then(res => {
-                        // Turning JSON strings into JS arrays
-                        let commonContacts = JSON.parse(res.msg.commonContacts);
-                        let friends = JSON.parse(res.msg.nearFriends)
-                        let myEvents = JSON.parse(res.msg.events)
-                        res.msg.commonContacts = commonContacts
-                        res.msg.nearFriends = friends
-                        res.msg.events = myEvents
+
+                        // Turning JSON strings into JS arrays. SQLite doens´t allow to have arrays
+                        let { commonContacts, nearFriends, events } = res.msg
+                        res.msg.commonContacts = JSON.parse(commonContacts)
+                        res.msg.nearFriends = JSON.parse(nearFriends)
+                        res.msg.events = JSON.parse(events)
                         return res.msg
                     })
                     .catch(err => 'Some error')
@@ -98,7 +92,7 @@ export const MainContextProvider = (props) => {
 
             let myContacts = []
 
-            // I´m adding both common friends and near friends to the user contacts
+            // I´m adding both common friends and near friends to the user contacts, but no one else :-)
             if (userInfo) {
                 let allUserContacts = [...userInfo.commonContacts, ...userInfo.nearFriends]
                 allUserContacts.forEach(contactId => {
