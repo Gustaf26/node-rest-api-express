@@ -21,6 +21,12 @@ export const MainContextProvider = (props) => {
     const [chosenDate, setChosenDate] = useState('')
     const [chosenDay, setChosenDay] = useState('')
     const [eventOnCreation, setEventOnCreation] = useState(false)
+    // const [dateInfo, setDateInfo] = useState({
+    //     actualMonth: thisMonth,
+    //     chosenMonth: allMonths[actualMonth],
+    //     chosenDate: '',
+    //     chosenDay: ''
+    // })
 
 
     useEffect(() => {
@@ -29,12 +35,17 @@ export const MainContextProvider = (props) => {
 
     useEffect(() => {
         if (chosenDate) {
-            setChosenDay(Number(chosenDate.slice(chosenDate.lastIndexOf('-'), chosenDate.length)))
 
-            let month = chosenDate.indexOf('-') + 1 === '0' ?
-                chosenDate.slice(chosenDate.indexOf('-') + 2, chosenDate.lastIndexOf('-')) :
-                chosenDate.slice(chosenDate.indexOf('-') + 1, chosenDate.lastIndexOf('-'))
-            setActualMonth(Number(month - 1))
+            let firstDash = chosenDate.indexOf('-') + 1 === '0' ? chosenDate.indexOf('-') + 2 :
+                chosenDate.indexOf('-') + 1;
+
+            let secondDash = chosenDate.lastIndexOf('-')
+
+            let dateMonth = Number(chosenDate.slice(firstDash, secondDash)) - 1
+            let dateDay = Number(chosenDate.slice(secondDash + 1, chosenDate.length))
+
+            setChosenDay(dateDay)
+            setActualMonth(dateMonth)
         }
     }, [chosenDate])
 
@@ -46,6 +57,7 @@ export const MainContextProvider = (props) => {
                 return await fetch('http://127.0.0.1:3000/1')
                     .then(res => res.json())
                     .then(res => {
+                        // Turning JSON strings into JS arrays
                         let commonContacts = JSON.parse(res.msg.commonContacts);
                         let friends = JSON.parse(res.msg.nearFriends)
                         let myEvents = JSON.parse(res.msg.events)
@@ -129,7 +141,8 @@ export const MainContextProvider = (props) => {
         setEventOnCreation,
         chosenDate,
         chosenDay,
-        setChosenDate
+        setChosenDate,
+        // dateInfo
     };
 
     return (<MainContext.Provider value={contextValues}>
