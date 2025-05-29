@@ -95,26 +95,44 @@ export default function WeekCalendar() {
 
         let allWeekdays = []
 
-        let referenceDate = (action === 'plus') ? referenceMonday + 7
-            : (action === 'minus') ? referenceMonday - 7
-                : (action === 'clear') ? 1 - (new Date(`2025-${actualMonth}-1`).getDay())
-                    : (new Date().getDate()) - (new Date().getDay()) + 1
+        // This date will be reference for resting week days (first day in week)
+        let referenceDate
+
+        // Let´s change referenceDate according to action type
+        switch (action) {
+            case 'plus':
+                referenceDate = referenceMonday + 7
+                break;
+            case 'minus':
+                referenceDate = referenceMonday - 7
+                break;
+            case 'clear':
+                referenceDate = 1 - (new Date(`2025-${actualMonth}-1`).getDay())
+                break;
+            default:
+                referenceDate = (new Date().getDate()) - (new Date().getDay()) + 1
+        }
 
 
+        // If first date is more than all month days or less than a week, cancel updating
         if ((referenceDate) > (monthDays) || referenceDate <= -6) {
             return
         }
 
+        // Reset featured day and its events
         setFeaturedDay('')
         setFeaturedEvents([])
 
         setReferenceMonday(action !== 'clear' ? referenceDate : 1)
 
+        // Adding or substracting week
         if (action === 'plus') { setPlusIndex(prev => prev + 1); setMinusIndex(prev => prev - 1) }
         else if (action === 'minus') { setMinusIndex(prev => prev + 1); setPlusIndex(prev => prev - 1) }
+        // Or just resetting it
         else setMinusIndex(1); setPlusIndex(1)
 
 
+        // Let´s create 7 days for a week
         for (let j = 0; j < 7; j++) {
 
             let dayDate = `2025-${actualMonth + 1}-${referenceDate + j}`
@@ -133,6 +151,7 @@ export default function WeekCalendar() {
     }
 
 
+    // This side effect just shows the events in featured day
     useEffect(() => {
 
         if (featuredDay) {
@@ -155,6 +174,7 @@ export default function WeekCalendar() {
                 }
             })
 
+            // If no events that day, we show empty message
             if (featuredEvsDummy.length === 0) featuredEvsDummy.push(<p>
                 <span><em>No Events On This Day</em></span>
             </p >)
