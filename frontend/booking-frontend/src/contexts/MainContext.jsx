@@ -85,19 +85,15 @@ export const MainContextProvider = (props) => {
         function addContacts(userInfo, allConts) {
 
             let myContacts = []
-            let userInfoKeys = Object.keys(userInfo)
 
             // I´m adding both common friends and near friends to the user contacts
             if (userInfo) {
-                for (let val in userInfoKeys) {
-                    if (userInfoKeys[val] === 'commonContacts' || userInfoKeys[val] === 'nearFriends') {
-                        userInfo[userInfoKeys[val]].forEach(contactId => {
-                            allConts.forEach(generalContact => {
-                                if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
-                            })
-                        })
-                    }
-                }
+                let allUserContacts = [...userInfo.commonContacts, ...userInfo.nearFriends]
+                allUserContacts.forEach(contactId => {
+                    allConts.forEach(generalContact => {
+                        if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
+                    })
+                })
             }
 
             return myContacts
