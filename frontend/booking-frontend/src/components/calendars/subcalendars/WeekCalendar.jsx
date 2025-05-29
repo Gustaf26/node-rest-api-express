@@ -145,7 +145,6 @@ export default function WeekCalendar() {
             )
         }
 
-
         setWeekCells(allWeekdays)
 
     }
