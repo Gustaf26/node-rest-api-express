@@ -82,25 +82,33 @@ export const MainContextProvider = (props) => {
 
     useEffect(() => {
 
-        async function getUserContacts() {
+        function addContacts(userInfo, allConts) {
 
             let myContacts = []
+            let userInfoKeys = Object.keys(userInfo)
+
+            // I´m adding both common friends and near friends to the user contacts
+            if (userInfo) {
+                for (let val in userInfoKeys) {
+                    if (userInfoKeys[val] === 'commonContacts' || userInfoKeys[val] === 'nearFriends') {
+                        userInfo[userInfoKeys[val]].forEach(contactId => {
+                            allConts.forEach(generalContact => {
+                                if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
+                            })
+                        })
+                    }
+                }
+            }
+
+            return myContacts
+        }
+
+        function getUserContacts() {
 
             fetch('http://127.0.0.1:3000/')
                 .then(res => res.json())
                 .then(res => {
-                    userInfo && userInfo.commonContacts.forEach(contactId => {
-                        res.contacts.forEach(generalContact => {
-
-                            if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
-                        })
-                    })
-                    userInfo && userInfo.nearFriends.forEach(contactId => {
-                        res.contacts.forEach(generalContact => {
-
-                            if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
-                        })
-                    })
+                    let myContacts = addContacts(userInfo, res.contacts)
                     setContacts(myContacts); setLoading(false)
                 })
                 .catch(err => console.log(err))
