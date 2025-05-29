@@ -5,7 +5,7 @@ import Header from './components/Header.jsx';
 import MainContext from "./contexts/MainContext";
 // import ContactList from './components/contacts/contactList.jsx';
 import MainCalendar from './components/calendars/MainCalendar.jsx';
-import EventsList from './components/EventsList.jsx';
+import DayGoalsList from './components/DayGoalsList.jsx';
 
 import './App.css'
 
@@ -19,7 +19,7 @@ function App() {
       <div id="container" style={{ height: eventOnCreation ? '100vh' : 'fit-content', overflow: eventOnCreation ? 'hidden' : '' }}>
         <Header />
         <aside>
-          <EventsList />
+          <DayGoalsList />
         </aside>
         <section>
           <MainCalendar />

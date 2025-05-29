@@ -48,6 +48,7 @@ export const MainContextProvider = (props) => {
 
         const getData = async () => {
 
+            // First thing is to get the user info from db
             const getUserInfo = async () => {
                 return await fetch('http://127.0.0.1:3000/1')
                     .then(res => res.json())
@@ -66,6 +67,7 @@ export const MainContextProvider = (props) => {
             const userInfo = await getUserInfo()
             setUserInfo(userInfo)
 
+            // Fetching one by one the user events
             let eventPromises = userInfo.events.map(event => {
                 return new Promise((resolve, reject) => {
                     fetch(`http://127.0.0.1:3000/events/${event}`)
@@ -78,6 +80,7 @@ export const MainContextProvider = (props) => {
                 })
             })
 
+            // Awaiting for all events to be loaded
             let events = await Promise.all(eventPromises)
             setEvents(events)
         }
@@ -136,7 +139,6 @@ export const MainContextProvider = (props) => {
         chosenDate,
         chosenDay,
         setChosenDate,
-        // dateInfo
     };
 
     return (<MainContext.Provider value={contextValues}>
