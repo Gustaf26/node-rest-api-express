@@ -1,6 +1,5 @@
 
 import { useState, useEffect, useContext } from "react"
-
 import MainContext from "../../../contexts/MainContext"
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -8,14 +7,12 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import EventOnCreation from "./EventOnCreation";
 
-
 let todaysWeekDayNr = new Date().getDay()
-
 const todaysDate = new Date().getDate()
 
 const DayCell = (props) => {
 
-    const { setEventOnCreation, eventOnCreation, actualMonth, events } = useContext(MainContext)
+    const { setEventOnCreation, eventOnCreation, events } = useContext(MainContext)
     const [eventElement, setEventElement] = useState()
 
     let weekDayNr = props.weekDayNr
@@ -26,23 +23,37 @@ const DayCell = (props) => {
 
         let allDayEls = [...document.querySelectorAll('.week-calendar-day')]
 
+        // Reset all styles
         allDayEls.forEach((dayEl) => {
-
             if ([...dayEl.classList].includes('active')) { dayEl.classList.remove('active') }
         })
+        // Add style class to chosen day
         e.target.classList.add('active')
+    }
+
+    const featureDayAndReset = (e) => {
+
+        // Close modal if it is open by clicking in featuredday
+        if (eventOnCreation) setEventOnCreation(false);
+        // Changing styles for the day
+        activateDay(e);
+        // Choosing element as featured day
+        props.setFeaturedDay({ date: props.dayNr, weekDay: allWeekDaysName[weekDayNr - 1] })
     }
 
 
     return (<div id={props.dayNr} key={"week-calendar-day" + weekDayNr}
-        onClick={(e) => { eventOnCreation && setEventOnCreation(false); activateDay(e); props.setFeaturedDay({ date: props.dayNr, weekDay: allWeekDaysName[weekDayNr - 1] }) }}
+
+        onClick={(e) => featureDayAndReset(e)}
         onDoubleClick={(e) => {
             setEventOnCreation(prev => !prev);
             setEventElement(!eventOnCreation ? Number(e.target.id) : '');
         }}
-        className={eventElement === props.dayNr && eventOnCreation ? 'eventOnCreation' : weekDayNr === todaysWeekDayNr && props.dayNr === todaysDate ?
-            "week-calendar-day today" : isNaN(props.dayNr) ? "week-calendar-day empty" : "week-calendar-day"}>
-
+        className={eventElement === props.dayNr && eventOnCreation ? 'eventOnCreation' :
+            weekDayNr === todaysWeekDayNr && props.dayNr === todaysDate ?
+                "week-calendar-day today" :
+                isNaN(props.dayNr) ? "week-calendar-day empty" :
+                    "week-calendar-day"}>
 
         {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayNr == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
             {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayNr >= 1 && props.dayNr <= props.monthDays ? props.dayNr : ''}</span>}
@@ -121,11 +132,6 @@ export default function WeekCalendar() {
 
     }
 
-    // useEffect(() => {
-
-    //     setActualMonth(thisMonth)
-
-    // }, [])
 
     useEffect(() => {
 
@@ -135,7 +141,8 @@ export default function WeekCalendar() {
 
             if (events.length > 0) events.map(event => {
                 if (event.date === `2025-${actualMonth + 1}-${featuredDay.date}`) {
-                    featuredEvsDummy.push(<div className="event-day">
+
+                    featuredEvsDummy.push((<div className="event-day">
                         <span className="event-place">{event.place}</span>-<span className="event-title">{event.title}</span>
                         <p>Invited: {event.persons.map(personid => {
                             return contacts.map(contact => {
@@ -143,7 +150,8 @@ export default function WeekCalendar() {
                                     null
                             })
                         })}</p>
-                    </div >)
+                    </div >))
+
                 }
             })
 

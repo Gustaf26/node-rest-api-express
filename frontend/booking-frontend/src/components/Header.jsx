@@ -14,7 +14,7 @@ const periodOptions = ['month', 'week', 'day']
 export default function Header() {
 
     const [selectedPeriod, setPeriod] = useState(0)
-    const { chosenDate, setChosenDate, chosenMonth, setActualMonth, actualMonth, setCalendarOption, setEventOnCreation } = useContext(MainContext)
+    const { setChosenDate, chosenMonth, setActualMonth, actualMonth, setCalendarOption, setEventOnCreation } = useContext(MainContext)
     const [alertMonthLimit, setAlertMonthLimit] = useState(false)
 
     const updateMonthAndReset = (action) => {

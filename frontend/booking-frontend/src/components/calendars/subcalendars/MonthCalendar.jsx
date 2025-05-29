@@ -10,7 +10,7 @@ const thisMonth = new Date().getMonth()
 
 const WeekCell = (props) => {
 
-    const { eventOnCreation, setEventOnCreation, contacts } = useContext(MainContext)
+    const { eventOnCreation, setEventOnCreation } = useContext(MainContext)
 
     const { day, dayNr, events, thisDay, dayDate, actualMonth, eventElement, setEventElement } = props.weekCellProps
 
