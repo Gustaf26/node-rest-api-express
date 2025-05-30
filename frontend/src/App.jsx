@@ -5,6 +5,7 @@ import Header from './components/Header.jsx';
 import MainContext from "./contexts/MainContext";
 import MainCalendar from './pages/Home/calendars/MainCalendar.jsx';
 import DayGoalsList from './pages/Home/dayGoals/DayGoalsList.jsx';
+import Home from './pages/Home/Home.jsx';
 
 import './assets/App.css'
 
@@ -14,16 +15,7 @@ function App() {
 
   return (
     <>
-      <SideMenu />
-      <div id="container" style={{ height: eventOnCreation ? '100vh' : 'fit-content', overflow: eventOnCreation ? 'hidden' : '' }}>
-        <Header />
-        <aside>
-          <DayGoalsList />
-        </aside>
-        <section>
-          <MainCalendar />
-        </section>
-      </div>
+      <Home />
     </>
   )
 }

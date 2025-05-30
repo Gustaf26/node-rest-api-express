@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 
 import MainContext from "../../../../contexts/MainContext"
+import CalendarContext from "../../contexts/CalendarContext"
 
 import EventOnCreation from '../../../../components/EventOnCreation'
 
@@ -81,7 +82,8 @@ const WeekCell = (props) => {
 
 const MonthCalendar = () => {
 
-    const { events, actualMonth, eventOnCreation } = useContext(MainContext)
+    const { events, eventOnCreation } = useContext(MainContext)
+    const { actualMonth } = useContext(CalendarContext)
 
     const [weekCells, setWeekCells] = useState([])
     const [monthDays, setMonthDays] = useState((actualMonth + 1) % 2 === 0 && (actualMonth + 1) !== 2 ? 30 : (actualMonth + 1) % 2 === 0 ? 28 : 31)

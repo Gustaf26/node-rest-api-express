@@ -2,11 +2,13 @@ import { createContext, useState, useEffect } from 'react';
 
 import { BounceLoader } from "react-spinners";
 
+// import { useDateInfo } from '../pages/Home/hooks/useDateInfo';
+
 const MainContext = createContext();
 
-const thisMonth = new Date().getMonth()
+// const thisMonth = new Date().getMonth()
 
-const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+// const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 export const MainContextProvider = (props) => {
 
@@ -16,33 +18,25 @@ export const MainContextProvider = (props) => {
     const [loading, setLoading] = useState(true);
     const [sideOption, setOption] = useState('Home')
     const [calendarOption, setCalendarOption] = useState('month')
-    const [actualMonth, setActualMonth] = useState(thisMonth)
-    const [chosenMonth, setChosenMonth] = useState(allMonths[actualMonth])
-    const [chosenDate, setChosenDate] = useState('')
-    const [chosenDay, setChosenDay] = useState('')
     const [eventOnCreation, setEventOnCreation] = useState(false)
 
 
-    useEffect(() => {
-        setChosenMonth(allMonths[actualMonth])
-    }, [actualMonth])
+    // useEffect(() => {
 
-    useEffect(() => {
+    //     if (chosenDate) {
 
-        if (chosenDate) {
+    //         let firstDash = chosenDate.indexOf('-') + 1 === '0' ? chosenDate.indexOf('-') + 2 :
+    //             chosenDate.indexOf('-') + 1;
 
-            let firstDash = chosenDate.indexOf('-') + 1 === '0' ? chosenDate.indexOf('-') + 2 :
-                chosenDate.indexOf('-') + 1;
+    //         let secondDash = chosenDate.lastIndexOf('-')
 
-            let secondDash = chosenDate.lastIndexOf('-')
+    //         let dateMonth = Number(chosenDate.slice(firstDash, secondDash)) - 1
+    //         let dateDay = Number(chosenDate.slice(secondDash + 1, chosenDate.length))
 
-            let dateMonth = Number(chosenDate.slice(firstDash, secondDash)) - 1
-            let dateDay = Number(chosenDate.slice(secondDash + 1, chosenDate.length))
-
-            setChosenDay(dateDay)
-            setActualMonth(dateMonth)
-        }
-    }, [chosenDate])
+    //         setChosenDay(dateDay)
+    //         setActualMonth(dateMonth)
+    //     }
+    // }, [chosenDate])
 
     useEffect(() => {
 
@@ -129,16 +123,16 @@ export const MainContextProvider = (props) => {
         setOption,
         calendarOption,
         setCalendarOption,
-        chosenMonth,
-        setChosenMonth,
-        setActualMonth,
-        actualMonth,
+        // chosenMonth,
+        // setChosenMonth,
+        // setActualMonth,
+        // actualMonth,
         events,
         eventOnCreation,
         setEventOnCreation,
-        chosenDate,
-        chosenDay,
-        setChosenDate,
+        // chosenDate,
+        // chosenDay,
+        // setChosenDate,
     };
 
     return (<MainContext.Provider value={contextValues}>

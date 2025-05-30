@@ -5,6 +5,7 @@ import MainContext from "../../../../contexts/MainContext"
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
+import CalendarContext from "../../contexts/CalendarContext";
 import EventOnCreation from '../../../../components/EventOnCreation'
 
 let todaysWeekDayNr = new Date().getDay()
@@ -80,7 +81,8 @@ const DayCell = (props) => {
 
 export default function WeekCalendar() {
 
-    const { events, actualMonth, eventOnCreation, contacts, setActualMonth } = useContext(MainContext)
+    const { actualMonth, eventOnCreation, setActualMonth } = useContext(CalendarContext)
+    const { events, contacts } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
     const [monthDays, setMonthDays] = useState((actualMonth) % 2 === 0 && (actualMonth) !== 2 && (actualMonth) !== 8 ? 30 : (actualMonth) % 2 === 0 ? 28 : 31)

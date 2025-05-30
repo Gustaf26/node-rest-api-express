@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-
+import CalendarContext from '../pages/Home/contexts/CalendarContext';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -13,9 +13,11 @@ const periodOptions = ['month', 'week', 'day']
 
 export default function Header() {
 
-    const [selectedPeriod, setPeriod] = useState(0)
-    const { setChosenDate, chosenMonth, setActualMonth, actualMonth, setCalendarOption, setEventOnCreation } = useContext(MainContext)
+    const { setCalendarOption, setEventOnCreation } = useContext(MainContext)
+    const { setChosenDate, chosenMonth, setActualMonth, actualMonth } = useContext(CalendarContext)
+
     const [alertMonthLimit, setAlertMonthLimit] = useState(false)
+    const [selectedPeriod, setPeriod] = useState(0)
 
     const updateMonthAndReset = (action) => {
 
