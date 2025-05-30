@@ -2,13 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 
 import { BounceLoader } from "react-spinners";
 
-// import { useDateInfo } from '../pages/Home/hooks/useDateInfo';
-
 const MainContext = createContext();
-
-// const thisMonth = new Date().getMonth()
-
-// const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 export const MainContextProvider = (props) => {
 
@@ -19,24 +13,6 @@ export const MainContextProvider = (props) => {
     const [sideOption, setOption] = useState('Home')
     const [calendarOption, setCalendarOption] = useState('month')
     const [eventOnCreation, setEventOnCreation] = useState(false)
-
-
-    // useEffect(() => {
-
-    //     if (chosenDate) {
-
-    //         let firstDash = chosenDate.indexOf('-') + 1 === '0' ? chosenDate.indexOf('-') + 2 :
-    //             chosenDate.indexOf('-') + 1;
-
-    //         let secondDash = chosenDate.lastIndexOf('-')
-
-    //         let dateMonth = Number(chosenDate.slice(firstDash, secondDash)) - 1
-    //         let dateDay = Number(chosenDate.slice(secondDash + 1, chosenDate.length))
-
-    //         setChosenDay(dateDay)
-    //         setActualMonth(dateMonth)
-    //     }
-    // }, [chosenDate])
 
     useEffect(() => {
 
@@ -123,16 +99,9 @@ export const MainContextProvider = (props) => {
         setOption,
         calendarOption,
         setCalendarOption,
-        // chosenMonth,
-        // setChosenMonth,
-        // setActualMonth,
-        // actualMonth,
         events,
         eventOnCreation,
-        setEventOnCreation,
-        // chosenDate,
-        // chosenDay,
-        // setChosenDate,
+        setEventOnCreation
     };
 
     return (<MainContext.Provider value={contextValues}>

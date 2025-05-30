@@ -1,7 +1,5 @@
 import { useState, useEffect, createContext } from 'react';
 
-import { BounceLoader } from "react-spinners";
-
 const CalendarContext = createContext();
 
 const thisMonth = new Date().getMonth()
