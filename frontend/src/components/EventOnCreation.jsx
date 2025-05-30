@@ -1,7 +1,7 @@
 
 import { useState, useContext } from "react"
 
-import MainContext from "../../../contexts/MainContext"
+import MainContext from "../contexts/MainContext"
 
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';

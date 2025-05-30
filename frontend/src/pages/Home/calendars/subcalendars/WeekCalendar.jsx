@@ -1,11 +1,11 @@
 
 import { useState, useEffect, useContext } from "react"
-import MainContext from "../../../contexts/MainContext"
+import MainContext from "../../../../contexts/MainContext"
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-import EventOnCreation from "./EventOnCreation";
+import EventOnCreation from '../../../../components/EventOnCreation'
 
 let todaysWeekDayNr = new Date().getDay()
 const todaysDate = new Date().getDate()

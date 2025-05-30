@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 // import { useNavigate } from 'react-router-dom'
 
 import { BounceLoader } from "react-spinners";
-import MainContext from "../contexts/MainContext";
+import MainContext from "../../../contexts/MainContext";
 
 // import DeleteIcon from '@mui/icons-material/Delete';
 // import ModeEditIcon from '@mui/icons-material/ModeEdit';

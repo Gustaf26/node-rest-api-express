@@ -3,10 +3,10 @@ import { useContext } from 'react'
 import SideMenu from './components/menu/SideMenu.jsx'
 import Header from './components/Header.jsx';
 import MainContext from "./contexts/MainContext";
-import MainCalendar from './components/calendars/MainCalendar.jsx';
-import DayGoalsList from './components/DayGoalsList.jsx';
+import MainCalendar from './pages/Home/calendars/MainCalendar.jsx';
+import DayGoalsList from './pages/Home/dayGoals/DayGoalsList.jsx';
 
-import './App.css'
+import './assets/App.css'
 
 function App() {
 

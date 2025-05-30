@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react"
 
-import MainContext from "../../../contexts/MainContext"
+import MainContext from "../../../../contexts/MainContext"
 
-import EventOnCreation from './EventOnCreation'
+import EventOnCreation from '../../../../components/EventOnCreation'
 
 const weekDays = 35
 const today = new Date().getDate()

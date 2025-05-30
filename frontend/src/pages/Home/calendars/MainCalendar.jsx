@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import MainContext from '../../contexts/MainContext.jsx'
+import MainContext from '../../../contexts/MainContext.jsx'
 
 import MonthCalendar from './subcalendars/MonthCalendar.jsx'
 import WeekCalendar from './subcalendars/WeekCalendar.jsx'
