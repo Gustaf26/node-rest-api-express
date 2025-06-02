@@ -106,7 +106,8 @@ export const MainContextProvider = (props) => {
 
     return (<MainContext.Provider value={contextValues}>
         {loading ? (
-            <div className="d-flex justify-content-center my-5">
+            <div style={{ position: 'absolute', left: '50%', top: '30%' }}
+                className="d-flex justify-content-center my-5">
                 <BounceLoader color={"#888"} size={100} />
             </div>
         ) : props.children}
