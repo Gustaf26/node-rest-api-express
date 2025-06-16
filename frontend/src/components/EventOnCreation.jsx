@@ -16,8 +16,6 @@ export default function EventOnCreation() {
     const { events, setEventOnCreation, contacts } = useContext(MainContext)
     const { chosenMonth, chosenDay, chosenDate } = useContext(CalendarContext)
 
-    let dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
     // This function shows possible matches with contacts when typing in atendees input
     const showPossibleContacts = (e) => {
 
@@ -48,7 +46,6 @@ export default function EventOnCreation() {
     }
 
     const closeModal = () => {
-        // setEventElement([]);
         setEventFriend([]);
         setEventOnCreation(false)
     }
@@ -89,7 +86,7 @@ export default function EventOnCreation() {
                 <div id="event-creation-other-events">
                     <label>Other events this day:</label>
                     <div>
-                        {events ? events.map(event => {
+                        {events.length > 0 ? events.map(event => {
                             if (event.date === chosenDate) {
                                 return <p>{event.title}
                                     <span>x</span></p>

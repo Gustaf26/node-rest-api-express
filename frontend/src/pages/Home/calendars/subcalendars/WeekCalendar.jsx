@@ -1,22 +1,22 @@
 
 import { useState, useEffect, useContext } from "react"
+
 import MainContext from "../../../../contexts/MainContext"
+import CalendarContext from "../../contexts/CalendarContext";
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-import CalendarContext from "../../contexts/CalendarContext";
-import EventOnCreation from '../../../../components/EventOnCreation'
 
 let todaysWeekDayNr = new Date().getDay()
 const todaysDate = new Date().getDate()
 
 const DayCell = (props) => {
 
-    const { setEventOnCreation, eventOnCreation, events } = useContext(MainContext)
-    const [eventElement, setEventElement] = useState()
+    const { setEventOnCreation, events } = useContext(MainContext)
+    const { setChosenDate } = useContext(CalendarContext)
 
-    let weekDayNr = props.weekDayNr
+    let { weekDayNr, setFeaturedDay, dayNr, dayDate, monthDays, todaysWeekDayNr } = props
 
     let allWeekDaysName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fre', 'Sat', 'Sun']
 
@@ -34,54 +34,41 @@ const DayCell = (props) => {
 
     const featureDayAndReset = (e) => {
 
-        // Close modal if it is open by clicking in featuredday
-        if (eventOnCreation) setEventOnCreation(false);
-        // Changing styles for the day
-        activateDay(e);
         // Choosing element as featured day
-        props.setFeaturedDay({ date: props.dayNr, weekDay: allWeekDaysName[weekDayNr - 1] })
+        setFeaturedDay({ date: dayNr, weekDay: allWeekDaysName[weekDayNr - 1] })
+
     }
 
 
-    return (<div id={props.dayNr} key={"week-calendar-day" + weekDayNr}
+    return (<div id={dayNr} key={"week-calendar-day" + weekDayNr}
 
-        onClick={(e) => featureDayAndReset(e)}
+        onClick={(e) => { featureDayAndReset(e); activateDay(e) }}
         onDoubleClick={(e) => {
             setEventOnCreation(prev => !prev);
-            setEventElement(!eventOnCreation ? Number(e.target.id) : '');
+            setChosenDate(dayDate)
         }}
-        className={eventElement === props.dayNr && eventOnCreation ? 'eventOnCreation' :
-            weekDayNr === todaysWeekDayNr && props.dayNr === todaysDate ?
-                "week-calendar-day today" :
-                isNaN(props.dayNr) ? "week-calendar-day empty" :
-                    "week-calendar-day"}>
+        className={weekDayNr === todaysWeekDayNr && dayNr === todaysDate ?
+            "week-calendar-day today" :
+            isNaN(dayNr) ? "week-calendar-day empty" :
+                "week-calendar-day"}>
 
-        {!eventOnCreation && <span className={weekDayNr === props.todaysWeekDayNr && props.dayNr == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
-            {allWeekDaysName[weekDayNr - 1]}{"  "}{props.dayNr >= 1 && props.dayNr <= props.monthDays ? props.dayNr : ''}</span>}
+        {<span className={weekDayNr === todaysWeekDayNr && dayNr == todaysDate ? "week-cal-day-nr today" : "week-cal-day-nr"}>
+            {allWeekDaysName[weekDayNr - 1]}{"  "}{dayNr >= 1 && dayNr <= monthDays ? dayNr : ''}</span>}
 
-        {!eventOnCreation && props.events && events.map(event => {
-            if (event.date === props.dayDate) return (
+        {events && events.map(event => {
+            if (event.date === dayDate) return (
                 <span key={event.title}
                     className="event-day">Event Day</span>)
             else return null
         })}
 
-        {/* {eventElement === props.dayNr && eventOnCreation && (
-            <EventOnCreation
-                day={weekDayNr - 1}
-                dayNr={props.dayNr}
-                thisDay={todaysDate}
-                dayDate={props.dayDate}
-                setEventElement={setEventElement} />)} */}
-
     </div>)
 }
 
 
-
 export default function WeekCalendar() {
 
-    const { actualMonth, eventOnCreation, setActualMonth } = useContext(CalendarContext)
+    const { actualMonth } = useContext(CalendarContext)
     const { events, contacts } = useContext(MainContext)
 
     const [weekCells, setWeekCells] = useState([])
@@ -117,9 +104,7 @@ export default function WeekCalendar() {
 
 
         // If first date is more than all month days or less than a week, cancel updating
-        if ((referenceDate) > (monthDays) || referenceDate <= -6) {
-            return
-        }
+        if ((referenceDate) > (monthDays) || referenceDate <= -6) { return }
 
         // Reset featured day and its events
         setFeaturedDay('')
@@ -171,7 +156,6 @@ export default function WeekCalendar() {
                             })
                         })}</p>
                     </div >))
-
                 }
             })
 
@@ -179,7 +163,6 @@ export default function WeekCalendar() {
             if (featuredEvsDummy.length === 0) featuredEvsDummy.push(<p>
                 <span><em>No Events On This Day</em></span>
             </p >)
-
 
             setFeaturedEvents(featuredEvsDummy)
         }
