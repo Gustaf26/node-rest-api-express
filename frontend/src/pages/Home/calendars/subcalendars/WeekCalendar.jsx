@@ -66,13 +66,13 @@ const DayCell = (props) => {
             else return null
         })}
 
-        {eventElement === props.dayNr && eventOnCreation && (
+        {/* {eventElement === props.dayNr && eventOnCreation && (
             <EventOnCreation
                 day={weekDayNr - 1}
                 dayNr={props.dayNr}
                 thisDay={todaysDate}
                 dayDate={props.dayDate}
-                setEventElement={setEventElement} />)}
+                setEventElement={setEventElement} />)} */}
 
     </div>)
 }
@@ -200,7 +200,7 @@ export default function WeekCalendar() {
             <span><KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
                 updateCalendar('minus')
             }} /></span>
-            <div id="week-calendar-container" className={eventOnCreation ? 'modal' : ''}>
+            <div id="week-calendar-container">
 
                 {weekCells.length > 0 && weekCells.map(weekcell => {
                     return weekcell

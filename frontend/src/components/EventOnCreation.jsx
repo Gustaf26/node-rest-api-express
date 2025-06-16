@@ -6,7 +6,7 @@ import MainContext from "../contexts/MainContext"
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 
-export default function EventOnCreation(props) {
+export default function EventOnCreation() {
 
     const [eventFriend, setEventFriend] = useState([])
     const [posibleContacts, setPosibleContacts] = useState([])
@@ -14,7 +14,7 @@ export default function EventOnCreation(props) {
 
     const { chosenDay, events, setEventOnCreation, contacts } = useContext(MainContext)
 
-    const { setEventElement, dayDate } = props
+    // const { setEventElement, dayDate } = props
 
     let daysBase = [0, 7, 14, 21, 28]
 
@@ -60,12 +60,12 @@ export default function EventOnCreation(props) {
     }
 
     const closeModal = () => {
-        setEventElement([]);
+        // setEventElement([]);
         setEventFriend([]);
         setEventOnCreation(false)
     }
 
-    return (<div>
+    return (<div className="modal" >
 
         <span id="close-event-on-creation" onClick={closeModal}>
             X</span>
@@ -102,7 +102,7 @@ export default function EventOnCreation(props) {
                 <div id="event-creation-other-events">
                     <label>Other events this day:</label>
                     <div>
-                        {events ? events.map(event => {
+                        {/* {events ? events.map(event => {
 
                             if (event.date === dayDate) {
                                 return <p>{event.title}
@@ -110,7 +110,7 @@ export default function EventOnCreation(props) {
                             }
 
                             else return null
-                        }) : <span>No events this day</span>}
+                        }) : <span>No events this day</span>} */}
                     </div>
                 </div>
             </div>

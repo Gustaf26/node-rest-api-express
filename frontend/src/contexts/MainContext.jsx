@@ -20,7 +20,7 @@ export const MainContextProvider = (props) => {
 
             // First thing is to get the user info from db
             const getUserInfo = async () => {
-                return await fetch('http://127.0.0.1:3000/1')
+                return await fetch('http://localhost:3000/1')
                     .then(res => res.json())
                     .then(res => {
 
@@ -37,21 +37,24 @@ export const MainContextProvider = (props) => {
             const userInfo = await getUserInfo()
             setUserInfo(userInfo)
 
+            console.log(userInfo)
+
             // Fetching one by one the user events
-            let eventPromises = userInfo.events.map(event => {
-                return new Promise((resolve, reject) => {
-                    fetch(`http://127.0.0.1:3000/events/${event}`)
+            let eventPromises = userInfo.events?.map(async (event) => {
+                return await new Promise((resolve, reject) => {
+                    fetch(`http://localhost:3000/events/${event}`)
                         .then(res => res.json())
                         .then(res => {
                             res.msg.persons = JSON.parse(res.msg.persons);
                             resolve(res.msg)
+
                         })
                         .catch(err => reject(err))
                 })
             })
 
             // Awaiting for all events to be loaded
-            let events = await Promise.all(eventPromises)
+            let events = await Promise.all(eventPromises).then(res => res)
             setEvents(events)
         }
 
@@ -80,7 +83,7 @@ export const MainContextProvider = (props) => {
 
         function getUserContacts() {
 
-            fetch('http://127.0.0.1:3000/')
+            fetch('http://localhost:3000/')
                 .then(res => res.json())
                 .then(res => {
                     let myContacts = addContacts(userInfo, res.contacts)

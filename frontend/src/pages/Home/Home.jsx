@@ -7,6 +7,7 @@ import Header from '../../components/Header.jsx';
 import MainContext from '../../contexts/MainContext.jsx';
 import MainCalendar from './calendars/MainCalendar.jsx';
 import DayGoalsList from './dayGoals/DayGoalsList.jsx'
+import EventOnCreation from '../../components/EventOnCreation.jsx'
 
 // import './assets/App.css'
 
@@ -18,7 +19,10 @@ function Home() {
         <>
             <CalendarContextProvider>
                 <SideMenu />
-                <div id="container" style={{ height: eventOnCreation ? '100vh' : 'fit-content', overflow: eventOnCreation ? 'hidden' : '' }}>
+                <div id="container" style={{
+                    height: eventOnCreation ? '100vh' : 'fit-content',
+                    overflow: eventOnCreation ? 'hidden' : '',
+                }}>
                     <Header />
                     <aside>
                         <DayGoalsList />
@@ -26,6 +30,7 @@ function Home() {
                     <section>
                         <MainCalendar />
                     </section>
+                    {eventOnCreation && <EventOnCreation />}
                 </div>
             </CalendarContextProvider>
         </>

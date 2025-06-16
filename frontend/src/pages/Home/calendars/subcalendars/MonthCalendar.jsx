@@ -42,7 +42,7 @@ const WeekCell = (props) => {
         setEventOnCreation(true);
         setEventElement(() => Number(e.target.id));
     }}
-        className={eventElement === dayNr && eventOnCreation ? 'eventOnCreation' : dayNr === thisDay && thisMonth === actualMonth ? "month-calendar-day today"
+        className={dayNr === thisDay && thisMonth === actualMonth ? "month-calendar-day today"
             : dayNr === "" ? "month-calendar-day empty" :
                 "month-calendar-day"}>
 
@@ -69,12 +69,12 @@ const WeekCell = (props) => {
                 "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
         }
 
-        {eventElement === dayNr && eventOnCreation && (
+        {/* {eventElement === dayNr && eventOnCreation && (
             <EventOnCreation day={day}
                 dayNr={dayNr}
                 thisDay={thisDay}
                 dayDate={dayDate}
-                setEventElement={setEventElement} />)}
+                setEventElement={setEventElement} />)} */}
 
     </div >)
 }
@@ -138,7 +138,7 @@ const MonthCalendar = () => {
 
     }, [actualMonth, events, eventElement])
 
-    return (<div id="months-calendar-container" className={eventOnCreation ? 'modal' : ''}>
+    return (<div id="months-calendar-container" >
         {weekCells.length > 0 && weekCells.map(weekcell => {
             return weekcell
         })}
