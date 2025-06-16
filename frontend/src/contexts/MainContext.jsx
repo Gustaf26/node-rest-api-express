@@ -13,6 +13,7 @@ export const MainContextProvider = (props) => {
     const [sideOption, setOption] = useState('Home')
     const [calendarOption, setCalendarOption] = useState('month')
     const [eventOnCreation, setEventOnCreation] = useState(false)
+    const [dayEvent, setDayEvent] = useState({})
 
     useEffect(() => {
 
@@ -36,8 +37,6 @@ export const MainContextProvider = (props) => {
 
             const userInfo = await getUserInfo()
             setUserInfo(userInfo)
-
-            console.log(userInfo)
 
             // Fetching one by one the user events
             let eventPromises = userInfo.events?.map(async (event) => {
@@ -104,7 +103,9 @@ export const MainContextProvider = (props) => {
         setCalendarOption,
         events,
         eventOnCreation,
-        setEventOnCreation
+        setEventOnCreation,
+        dayEvent,
+        setDayEvent
     };
 
     return (<MainContext.Provider value={contextValues}>

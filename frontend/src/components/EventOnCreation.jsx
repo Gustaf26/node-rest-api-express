@@ -2,6 +2,7 @@
 import { useState, useContext } from "react"
 
 import MainContext from "../contexts/MainContext"
+import CalendarContext from "../pages/Home/contexts/CalendarContext";
 
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -12,23 +13,10 @@ export default function EventOnCreation() {
     const [posibleContacts, setPosibleContacts] = useState([])
     const [contactsShowing, setContactsShowing] = useState(false)
 
-    const { chosenDay, events, setEventOnCreation, contacts } = useContext(MainContext)
-
-    // const { setEventElement, dayDate } = props
-
-    let daysBase = [0, 7, 14, 21, 28]
-
-    let weekDays = [daysBase,
-        daysBase.map(day => day + 1),
-        daysBase.map(day => day + 2),
-        daysBase.map(day => day + 3),
-        daysBase.map(day => day + 4),
-        daysBase.map(day => day + 5),
-        daysBase.map(day => day + 6)
-    ]
+    const { events, setEventOnCreation, contacts } = useContext(MainContext)
+    const { chosenMonth, chosenDay, chosenDate } = useContext(CalendarContext)
 
     let dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
 
     // This function shows possible matches with contacts when typing in atendees input
     const showPossibleContacts = (e) => {
@@ -72,8 +60,7 @@ export default function EventOnCreation() {
 
         <form onClick={(e) => e.stopPropagation()}>
             <div id="event-on-creation-date">
-                {chosenDay && <span >Event Date: {weekDays.map((days, i) => { return days.includes(chosenDay) ? dayNames[i] : null })}
-                </span>}
+                {chosenDay && <span >Event Date: {chosenDay} of {chosenMonth}</span>}
             </div>
             <div id="event-creation-categories">
                 <div>
@@ -102,15 +89,13 @@ export default function EventOnCreation() {
                 <div id="event-creation-other-events">
                     <label>Other events this day:</label>
                     <div>
-                        {/* {events ? events.map(event => {
-
-                            if (event.date === dayDate) {
+                        {events ? events.map(event => {
+                            if (event.date === chosenDate) {
                                 return <p>{event.title}
                                     <span>x</span></p>
                             }
-
                             else return null
-                        }) : <span>No events this day</span>} */}
+                        }) : <span>No events this day</span>}
                     </div>
                 </div>
             </div>

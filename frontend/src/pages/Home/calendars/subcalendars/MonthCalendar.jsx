@@ -3,8 +3,6 @@ import { useState, useEffect, useContext } from "react"
 import MainContext from "../../../../contexts/MainContext"
 import CalendarContext from "../../contexts/CalendarContext"
 
-import EventOnCreation from '../../../../components/EventOnCreation'
-
 const weekDays = 35
 const today = new Date().getDate()
 const thisMonth = new Date().getMonth()
@@ -12,8 +10,9 @@ const thisMonth = new Date().getMonth()
 const WeekCell = (props) => {
 
     const { eventOnCreation, setEventOnCreation } = useContext(MainContext)
+    const { setChosenDate } = useContext(CalendarContext)
 
-    const { day, dayNr, events, thisDay, dayDate, actualMonth, eventElement, setEventElement } = props.weekCellProps
+    const { day, dayNr, events, dayDate, thisDay, actualMonth, eventElement, setEventElement } = props.weekCellProps
 
 
     let mondays = [0, 7, 14, 21, 28]
@@ -35,46 +34,40 @@ const WeekCell = (props) => {
         e.target.classList.add('active')
     }
 
+    const updateDayEvent = () => {
+        setChosenDate(dayDate)
+    }
+
     return (<div id={dayNr} key={'month-week-cell' + dayNr} onClick={(e) => {
         !eventOnCreation && activateDay(e);
-        eventOnCreation && eventElement !== dayNr && setEventOnCreation(false);
-    }} onDoubleClick={(e) => {
-        setEventOnCreation(true);
-        setEventElement(() => Number(e.target.id));
     }}
+        onDoubleClick={(e) => {
+            setEventOnCreation(true);
+            setEventElement(() => Number(e.target.id));
+            updateDayEvent();
+
+        }}
         className={dayNr === thisDay && thisMonth === actualMonth ? "month-calendar-day today"
             : dayNr === "" ? "month-calendar-day empty" :
                 "month-calendar-day"}>
 
-        {
-            eventElement !== dayNr && !eventOnCreation && (<span>{mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
-                thursdays.includes(day) ? 'Thu' : fridays.includes(day) ? 'Fri' : saturdays.includes(day) ? 'Sat' : 'Sun'}</span>)
-        }
+        {<span>{mondays.includes(day) ? 'Mon' : tuesdays.includes(day) ? 'Tue' : wednesdays.includes(day) ? 'Wed' :
+            thursdays.includes(day) ? 'Thu' : fridays.includes(day) ? 'Fri' : saturdays.includes(day) ? 'Sat' : 'Sun'}</span>}
 
-        {
-            eventElement !== dayNr && !eventOnCreation && events && events.map(event => {
-                if (event.date === dayDate) return (
-                    <span key={event.title} style={{
-                        backgroundColor: event.contactType === 'friend' ? 'lightgreen'
-                            : 'rgb(237, 193, 193)'
-                    }}
-                        className="event-day">
-                        <span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
-                else return null
-            })
-        }
+        {events && events.map(event => {
+            if (event.date === dayDate) return (
+                <span key={event.title} style={{
+                    backgroundColor: event.contactType === 'friend' ? 'lightgreen'
+                        : 'rgb(237, 193, 193)'
+                }}
+                    className="event-day">
+                    <span className="event-place">{event.place}</span> <span className="event-title">{event.title}</span></span>)
+            else return null
+        })}
 
-        {
-            eventElement !== dayNr && !eventOnCreation && <span className={dayNr === thisDay && thisMonth === actualMonth ?
-                "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
+        {<span className={dayNr === thisDay && thisMonth === actualMonth ?
+            "month-cal-day-nr today" : "month-cal-day-nr"}>{dayNr}</span>
         }
-
-        {/* {eventElement === dayNr && eventOnCreation && (
-            <EventOnCreation day={day}
-                dayNr={dayNr}
-                thisDay={thisDay}
-                dayDate={dayDate}
-                setEventElement={setEventElement} />)} */}
 
     </div >)
 }
@@ -82,7 +75,7 @@ const WeekCell = (props) => {
 
 const MonthCalendar = () => {
 
-    const { events, eventOnCreation } = useContext(MainContext)
+    const { events } = useContext(MainContext)
     const { actualMonth } = useContext(CalendarContext)
 
     const [weekCells, setWeekCells] = useState([])
