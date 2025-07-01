@@ -52,7 +52,9 @@ export const MainContextProvider = (props) => {
 
             // Awaiting for all events to be loaded
             let events = await Promise.all([eventPromise]).then(res => res)
-            setEvents(...events)
+
+            events = events[0].map(event => { event.persons = JSON.parse(event.persons); return event })
+            setEvents(events)
             setEventCreated(false)
         }
 
