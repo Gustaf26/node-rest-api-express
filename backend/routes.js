@@ -45,24 +45,28 @@ routes.get('/events/:eventId', async (req, res, next) => {
 
     let eventId = Number(req.params.eventId)
 
-    db = initiateDb()
+    if (!isNaN(eventId)) {
+        db = initiateDb()
 
-    let query = "SELECT * FROM events WHERE id = ?";
+        let query = "SELECT * FROM events WHERE id = ?";
+        db.get(query, [eventId], (err, contactRow) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
 
+            if (contactRow) {
+                res.send({ 'msg': contactRow })
+            }
 
-    db.get(query, [eventId], (err, contactRow) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
+            else res.status(403).send({ "msg": "No such contact" });
 
-        if (contactRow) {
-            res.send({ 'msg': contactRow })
-        }
+        });
+    }
 
-        else res.status(403).send({ "msg": "No such contact" });
-
-    });
+    else {
+        res.status(404).send({ 'msg': 'No such url accoridng to URL parameter' })
+    }
 
 });
 

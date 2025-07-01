@@ -183,13 +183,13 @@ export default function WeekCalendar() {
             <span><KeyboardArrowLeftIcon className="left-arrow-week" onClick={() => {
                 updateCalendar('minus')
             }} /></span>
-            <div id="week-calendar-container">
 
+            <div id="week-calendar-container">
                 {weekCells.length > 0 && weekCells.map(weekcell => {
                     return weekcell
                 })}
-
             </div>
+
             <span> <KeyboardArrowRightIcon className="right-arrow-week" onClick={() => {
                 updateCalendar('plus')
             }} /></span>
