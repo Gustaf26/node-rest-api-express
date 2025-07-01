@@ -40,7 +40,7 @@ export const MainContextProvider = (props) => {
 
             // Fetching one by one the user events
             let eventPromise = await new Promise((resolve, reject) => {
-                fetch(`http://localhost:3000/events`)
+                fetch(`http://localhost:3000/events?userId=${userInfo.id}`)
                     .then(res => res.json())
                     .then(res => {
                         console.log(res.msg)
@@ -52,7 +52,7 @@ export const MainContextProvider = (props) => {
 
             // Awaiting for all events to be loaded
             let events = await Promise.all([eventPromise]).then(res => res)
-            setEvents(events)
+            setEvents(...events)
             setEventCreated(false)
         }
 

@@ -10,18 +10,21 @@ let db;
 // Get all events
 eventRoutes.get('/', async (req, res) => {
 
+    let { userId } = req.query
+
     db = initiateDb()
 
-    let query = "SELECT * FROM events";
-    db.get(query, (err, contactRow) => {
+    let query = `SELECT * FROM events WHERE persons LIKE '%${userId}%'`;
+
+    db.all(query, (err, eventRow) => {
         if (err) {
             console.log(err);
             return;
         }
 
-        if (contactRow) {
-            console.log(contactRow)
-            res.send({ 'msg': contactRow })
+        if (eventRow) {
+            return res.send({ 'msg': eventRow })
+
         }
 
         else res.status(403).send({ "msg": "No such contact" });

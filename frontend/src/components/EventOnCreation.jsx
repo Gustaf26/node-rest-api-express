@@ -63,7 +63,7 @@ export default function EventOnCreation() {
 
         if (msg) console.log(msg); setEventCreated(true)
 
-        // closeModal()
+        closeModal()
 
     }
 
