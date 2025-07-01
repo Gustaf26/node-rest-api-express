@@ -4,6 +4,8 @@ import { useState, useContext } from "react"
 import MainContext from "../contexts/MainContext"
 import CalendarContext from "../pages/Home/contexts/CalendarContext";
 
+import { addEventToDb } from "../hooks/dbHooks";
+
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 
@@ -50,12 +52,23 @@ export default function EventOnCreation() {
         setEventOnCreation(false)
     }
 
+    const postEvent = (e) => {
+
+        let atendees = eventFriend.map(friend => friend.id)
+        let place = e.target[1].value
+        let eventdescription = e.target[2].value
+        let eventDate = chosenDate
+
+        addEventToDb(atendees, place, eventdescription, eventDate)
+
+    }
+
     return (<div className="modal" >
 
         <span id="close-event-on-creation" onClick={closeModal}>
             X</span>
 
-        <form onClick={(e) => e.stopPropagation()}>
+        <form onSubmit={(e) => { e.preventDefault(); postEvent(e); e.stopPropagation(); }}>
             <div id="event-on-creation-date">
                 {chosenDay && <span >Event Date: {chosenDay} of {chosenMonth}</span>}
             </div>
@@ -117,7 +130,7 @@ export default function EventOnCreation() {
 
             </ul>
 
-            <Button onClick={closeModal} id="new-event-button">INVITE</Button>
+            <Button type="submit" id="new-event-button">INVITE</Button>
         </form>
     </div>)
 }

@@ -41,7 +41,7 @@ routes.get('/', async (req, res, next) => {
 });
 
 // Get info about single event
-routes.get('/events/:eventId', async (req, res, next) => {
+routes.get('/events/:eventId', async (req, res) => {
 
     let eventId = Number(req.params.eventId)
 
@@ -97,6 +97,12 @@ routes.get('/:contactId', async (req, res, next) => {
 
 });
 
+routes.post('/events', (req, res) => {
 
+    let eventInfo = req.body
+
+    res.send({ 'msg': eventInfo })
+
+})
 
 export { routes }
