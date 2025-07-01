@@ -22,7 +22,7 @@ export const MainContextProvider = (props) => {
 
             // First thing is to get the user info from db
             const getUserInfo = async () => {
-                return await fetch('http://localhost:3000/1')
+                return await fetch('http://localhost:3000/contacts/1')
                     .then(res => res.json())
                     .then(res => {
 
@@ -84,7 +84,7 @@ export const MainContextProvider = (props) => {
 
         function getUserContacts() {
 
-            fetch('http://localhost:3000/')
+            fetch('http://localhost:3000/contacts')
                 .then(res => res.json())
                 .then(res => {
                     let myContacts = addContacts(userInfo, res.contacts)

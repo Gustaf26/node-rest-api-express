@@ -1,129 +1,129 @@
-import express from 'express';
-import { initiateDb, closeConnexion } from './connect.js'
+// import express from 'express';
+// import { initiateDb, closeConnexion } from './connect.js'
 
-const routes = express.Router();
+// const routes = express.Router();
 
-let db;
+// let db;
 
-// First function to access requests starting with /
-// It gets all the contacts in the db
-routes.get('/', async (req, res, next) => {
+// // First function to access requests starting with /
+// // It gets all the contacts in the db
+// routes.get('/', async (req, res, next) => {
 
-    // SQL syntax for SQLite database
-    let query = 'SELECT * FROM persons'
+//     // SQL syntax for SQLite database
+//     let query = 'SELECT * FROM persons'
 
-    db = initiateDb()
+//     db = initiateDb()
 
-    let contacts = { contacts: [] }
+//     let contacts = { contacts: [] }
 
-    try {
-        db.all(query, [], (err, rows) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            rows.forEach(row => contacts.contacts.push({ id: row.id, name: row.name, email: row.email, thumbnail: row.thumbnail, phone: row.phone }))
+//     try {
+//         db.all(query, [], (err, rows) => {
+//             if (err) {
+//                 console.log(err);
+//                 return;
+//             }
+//             rows.forEach(row => contacts.contacts.push({ id: row.id, name: row.name, email: row.email, thumbnail: row.thumbnail, phone: row.phone }))
 
-            if (contacts.contacts.length === 0) throw new Error('No contacts found');
+//             if (contacts.contacts.length === 0) throw new Error('No contacts found');
 
-            else { res.send({ "contacts": contacts.contacts }); }
+//             else { res.send({ "contacts": contacts.contacts }); }
 
-            closeConnexion(db)
-            next()
-        });
-
-
-    } catch (error) {
-        res.send({ "error": error });
-        closeConnexion(db)
-    }
-
-});
-
-// Get info about single event
-routes.get('/events/:eventId', async (req, res) => {
-
-    let eventId = Number(req.params.eventId)
-
-    if (!isNaN(eventId)) {
-        db = initiateDb()
-
-        let query = "SELECT * FROM events WHERE id = ?";
-        db.get(query, [eventId], (err, contactRow) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-
-            if (contactRow) {
-                res.send({ 'msg': contactRow })
-            }
-
-            else res.status(403).send({ "msg": "No such contact" });
-
-        });
-    }
-
-    else {
-        res.status(404).send({ 'msg': 'No such url accoridng to URL parameter' })
-    }
-
-});
+//             closeConnexion(db)
+//             next()
+//         });
 
 
-// Get data from a person - contact
-routes.get('/:contactId', async (req, res, next) => {
+//     } catch (error) {
+//         res.send({ "error": error });
+//         closeConnexion(db)
+//     }
 
-    let contactId = Number(req.params.contactId)
+// });
 
-    db = initiateDb()
+// // Get info about single event
+// routes.get('/events/:eventId', async (req, res) => {
 
-    let query = "SELECT * FROM persons WHERE id = ?";
+//     let eventId = Number(req.params.eventId)
+
+//     if (!isNaN(eventId)) {
+//         db = initiateDb()
+
+//         let query = "SELECT * FROM events WHERE id = ?";
+//         db.get(query, [eventId], (err, contactRow) => {
+//             if (err) {
+//                 console.log(err);
+//                 return;
+//             }
+
+//             if (contactRow) {
+//                 res.send({ 'msg': contactRow })
+//             }
+
+//             else res.status(403).send({ "msg": "No such contact" });
+
+//         });
+//     }
+
+//     else {
+//         res.status(404).send({ 'msg': 'No such url accoridng to URL parameter' })
+//     }
+
+// });
 
 
-    db.get(query, [contactId], (err, contactRow) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
+// // Get data from a person - contact
+// routes.get('/:contactId', async (req, res, next) => {
 
-        if (contactRow) {
-            res.send({ 'msg': contactRow })
-        }
+//     let contactId = Number(req.params.contactId)
 
-        else res.status(304).send({ "msg": "No such contact" });
+//     db = initiateDb()
 
-    });
+//     let query = "SELECT * FROM persons WHERE id = ?";
 
-});
 
-routes.post('/events', (req, res) => {
+//     db.get(query, [contactId], (err, contactRow) => {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         }
 
-    let { date, description, atendees, place, userId } = req.body
+//         if (contactRow) {
+//             res.send({ 'msg': contactRow })
+//         }
 
-    db = initiateDb()
+//         else res.status(304).send({ "msg": "No such contact" });
 
-    let randomId = Math.floor(Math.random(0, 10000000))
+//     });
 
-    let query = "INSERT INTO events (id, date, place, persons, title) VALUES (?, ?, ?, ?, ?)";
+// });
 
-    db.run(query, [randomId, date, place, `[${atendees.toString()}]`, description], (err) => {
-        if (err) {
-            res.status(500).send({ "error": err });
-            return;
-        }
-    })
+// routes.post('/events', (req, res) => {
 
-    query = `UPDATE persons SET events = '[${randomId}]' WHERE id = ${userId}`;
-    db.run(query, (err) => {
-        if (err) {
-            res.status(500).send({ "error": err });
-            return;
-        }
+//     let { date, description, atendees, place, userId } = req.body
 
-        else res.status(200).send({ 'msg': 'Event successfully created' })
-    })
+//     db = initiateDb()
 
-})
+//     let randomId = Math.floor(Math.random(0, 10000000))
 
-export { routes }
+//     let query = "INSERT INTO events (id, date, place, persons, title) VALUES (?, ?, ?, ?, ?)";
+
+//     db.run(query, [randomId, date, place, `[${atendees.toString()}]`, description], (err) => {
+//         if (err) {
+//             res.status(500).send({ "error": err });
+//             return;
+//         }
+//     })
+
+//     query = `UPDATE persons SET events = '[${randomId}]' WHERE id = ${userId}`;
+//     db.run(query, (err) => {
+//         if (err) {
+//             res.status(500).send({ "error": err });
+//             return;
+//         }
+
+//         else res.status(200).send({ 'msg': 'Event successfully created' })
+//     })
+
+// })
+
+// export { routes }
