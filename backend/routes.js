@@ -99,9 +99,30 @@ routes.get('/:contactId', async (req, res, next) => {
 
 routes.post('/events', (req, res) => {
 
-    let eventInfo = req.body
+    let { date, description, atendees, place, userId } = req.body
 
-    res.send({ 'msg': eventInfo })
+    db = initiateDb()
+
+    let randomId = Math.floor(Math.random(0, 10000000))
+
+    let query = "INSERT INTO events (id, date, place, persons, title) VALUES (?, ?, ?, ?, ?)";
+
+    db.run(query, [randomId, date, place, `[${atendees.toString()}]`, description], (err) => {
+        if (err) {
+            res.status(500).send({ "error": err });
+            return;
+        }
+    })
+
+    query = `UPDATE persons SET events = '[${randomId}]' WHERE id = ${userId}`;
+    db.run(query, (err) => {
+        if (err) {
+            res.status(500).send({ "error": err });
+            return;
+        }
+
+        else res.status(200).send({ 'msg': 'Event successfully created' })
+    })
 
 })
 

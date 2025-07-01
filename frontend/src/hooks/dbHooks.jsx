@@ -1,12 +1,16 @@
 
 
-export const addEventToDb = async (atendees, place, eventDescription, date) => {
+export const addEventToDb = async (atendees, place, description, date, userId) => {
+
+
+    atendees.push(userId)
 
     let event = JSON.stringify({
-        atendees,
+        atendees: atendees,
         place,
-        eventDescription,
-        date
+        description,
+        date,
+        userId
     })
 
     let eventCreated = await fetch(`http://localhost:3000/events`, {
@@ -21,7 +25,7 @@ export const addEventToDb = async (atendees, place, eventDescription, date) => {
         .then(res => res)
         .catch(err => err)
 
-    if (eventCreated.error) { console.log('Some error on the request') }
-    else { console.log(eventCreated.msg) }
+    if (eventCreated.error) { console.log(eventCreated.error) }
+    else { return eventCreated.msg }
 
 }

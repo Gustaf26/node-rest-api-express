@@ -14,6 +14,7 @@ export const MainContextProvider = (props) => {
     const [calendarOption, setCalendarOption] = useState('month')
     const [eventOnCreation, setEventOnCreation] = useState(false)
     const [dayEvent, setDayEvent] = useState({})
+    const [eventCreated, setEventCreated] = useState(false)
 
     useEffect(() => {
 
@@ -55,11 +56,12 @@ export const MainContextProvider = (props) => {
             // Awaiting for all events to be loaded
             let events = await Promise.all(eventPromises).then(res => res)
             setEvents(events)
+            setEventCreated(false)
         }
 
         getData()
 
-    }, [])
+    }, [eventCreated])
 
     useEffect(() => {
 
@@ -105,7 +107,9 @@ export const MainContextProvider = (props) => {
         eventOnCreation,
         setEventOnCreation,
         dayEvent,
-        setDayEvent
+        setDayEvent,
+        userInfo,
+        setEventCreated
     };
 
     return (<MainContext.Provider value={contextValues}>

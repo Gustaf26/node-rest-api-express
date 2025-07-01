@@ -15,7 +15,7 @@ export default function EventOnCreation() {
     const [posibleContacts, setPosibleContacts] = useState([])
     const [contactsShowing, setContactsShowing] = useState(false)
 
-    const { events, setEventOnCreation, contacts } = useContext(MainContext)
+    const { events, setEventOnCreation, contacts, userInfo, setEventCreated } = useContext(MainContext)
     const { chosenMonth, chosenDay, chosenDate } = useContext(CalendarContext)
 
     // This function shows possible matches with contacts when typing in atendees input
@@ -52,14 +52,18 @@ export default function EventOnCreation() {
         setEventOnCreation(false)
     }
 
-    const postEvent = (e) => {
+    const postEvent = async (e) => {
 
         let atendees = eventFriend.map(friend => friend.id)
         let place = e.target[1].value
         let eventdescription = e.target[2].value
         let eventDate = chosenDate
 
-        addEventToDb(atendees, place, eventdescription, eventDate)
+        let msg = await addEventToDb(atendees, place, eventdescription, eventDate, userInfo.id)
+
+        if (msg) setEventCreated(true)
+
+        // closeModal()
 
     }
 
