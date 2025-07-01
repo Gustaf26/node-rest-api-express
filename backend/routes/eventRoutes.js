@@ -6,8 +6,32 @@ import { initiateDb, closeConnexion } from '../connect.js'
 const eventRoutes = express.Router();
 
 let db;
+
+// Get all events
+eventRoutes.get('/', async (req, res) => {
+
+    db = initiateDb()
+
+    let query = "SELECT * FROM events";
+    db.get(query, (err, contactRow) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        if (contactRow) {
+            console.log(contactRow)
+            res.send({ 'msg': contactRow })
+        }
+
+        else res.status(403).send({ "msg": "No such contact" });
+
+    })
+
+});
+
 // Get info about single event
-eventRoutes.get('/:eventId', async (req, res) => {
+eventRoutes.get('/:eventId/', async (req, res) => {
 
     let eventId = Number(req.params.eventId)
 
@@ -39,28 +63,17 @@ eventRoutes.get('/:eventId', async (req, res) => {
 
 eventRoutes.post('/', (req, res) => {
 
-    let { date, description, atendees, place, userId } = req.body
+    let { date, description, atendees, place } = req.body
 
     db = initiateDb()
 
-    let randomId = Math.floor(Math.random(0, 10000000))
+    let query = "INSERT INTO events (date, place, persons, title) VALUES (?, ?, ?, ?)";
 
-    let query = "INSERT INTO events (id, date, place, persons, title) VALUES (?, ?, ?, ?, ?)";
-
-    db.run(query, [randomId, date, place, `[${atendees.toString()}]`, description], (err) => {
+    db.run(query, [date, place, `[${atendees.toString()}]`, description], (err) => {
         if (err) {
             res.status(500).send({ "error": err });
             return;
         }
-    })
-
-    query = `UPDATE persons SET events = '[${randomId}]' WHERE id = ${userId}`;
-    db.run(query, (err) => {
-        if (err) {
-            res.status(500).send({ "error": err });
-            return;
-        }
-
         else res.status(200).send({ 'msg': 'Event successfully created' })
     })
 

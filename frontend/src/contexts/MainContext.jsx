@@ -14,13 +14,13 @@ export const MainContextProvider = (props) => {
     const [calendarOption, setCalendarOption] = useState('month')
     const [eventOnCreation, setEventOnCreation] = useState(false)
     const [dayEvent, setDayEvent] = useState({})
-    const [eventCreated, setEventCreated] = useState(false)
+    const [eventCreated, setEventCreated] = useState('initial')
 
     useEffect(() => {
 
         const getData = async () => {
 
-            // First thing is to get the user info from db
+            // First thing is to get the user info (id === 1 default) from db
             const getUserInfo = async () => {
                 return await fetch('http://localhost:3000/contacts/1')
                     .then(res => res.json())
@@ -30,7 +30,6 @@ export const MainContextProvider = (props) => {
                         let { commonContacts, nearFriends, events } = res.msg
                         res.msg.commonContacts = JSON.parse(commonContacts)
                         res.msg.nearFriends = JSON.parse(nearFriends)
-                        res.msg.events = JSON.parse(events)
                         return res.msg
                     })
                     .catch(err => 'Some error')
@@ -40,26 +39,24 @@ export const MainContextProvider = (props) => {
             setUserInfo(userInfo)
 
             // Fetching one by one the user events
-            let eventPromises = userInfo.events?.map(async (event) => {
-                return await new Promise((resolve, reject) => {
-                    fetch(`http://localhost:3000/events/${event}`)
-                        .then(res => res.json())
-                        .then(res => {
-                            res.msg.persons = JSON.parse(res.msg.persons);
-                            resolve(res.msg)
+            let eventPromise = await new Promise((resolve, reject) => {
+                fetch(`http://localhost:3000/events`)
+                    .then(res => res.json())
+                    .then(res => {
+                        console.log(res.msg)
+                        resolve(res.msg)
 
-                        })
-                        .catch(err => reject(err))
-                })
+                    })
+                    .catch(err => reject(err))
             })
 
             // Awaiting for all events to be loaded
-            let events = await Promise.all(eventPromises).then(res => res)
+            let events = await Promise.all([eventPromise]).then(res => res)
             setEvents(events)
             setEventCreated(false)
         }
 
-        getData()
+        if (eventCreated) getData()
 
     }, [eventCreated])
 

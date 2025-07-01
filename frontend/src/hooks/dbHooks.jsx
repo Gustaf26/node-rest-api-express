@@ -9,8 +9,7 @@ export const addEventToDb = async (atendees, place, description, date, userId) =
         atendees: atendees,
         place,
         description,
-        date,
-        userId
+        date
     })
 
     let eventCreated = await fetch(`http://localhost:3000/events`, {
@@ -26,6 +25,6 @@ export const addEventToDb = async (atendees, place, description, date, userId) =
         .catch(err => err)
 
     if (eventCreated.error) { console.log(eventCreated.error) }
-    else { return eventCreated.msg }
+    else { return eventCreated }
 
 }

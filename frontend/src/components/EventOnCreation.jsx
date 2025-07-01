@@ -61,7 +61,7 @@ export default function EventOnCreation() {
 
         let msg = await addEventToDb(atendees, place, eventdescription, eventDate, userInfo.id)
 
-        if (msg) setEventCreated(true)
+        if (msg) console.log(msg); setEventCreated(true)
 
         // closeModal()
 
