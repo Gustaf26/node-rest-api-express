@@ -28,3 +28,20 @@ export const addEventToDb = async (atendees, place, description, date, userId) =
     else { return eventCreated }
 
 }
+
+export const deleteEventFromDb = async (event) => {
+
+    let eventCreated = await fetch(`http://localhost:3000/events/${event.id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then(res => res.json())
+        .then(res => res)
+        .catch(err => err)
+
+    return eventCreated
+
+}

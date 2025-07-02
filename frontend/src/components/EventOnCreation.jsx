@@ -4,7 +4,7 @@ import { useState, useContext } from "react"
 import MainContext from "../contexts/MainContext"
 import CalendarContext from "../pages/Home/contexts/CalendarContext";
 
-import { addEventToDb } from "../hooks/dbHooks";
+import { addEventToDb, deleteEventFromDb } from "../hooks/dbHooks";
 
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -15,7 +15,7 @@ export default function EventOnCreation() {
     const [posibleContacts, setPosibleContacts] = useState([])
     const [contactsShowing, setContactsShowing] = useState(false)
 
-    const { events, setEventOnCreation, contacts, userInfo, setEventCreated } = useContext(MainContext)
+    const { events, setEventOnCreation, contacts, userInfo, setEvents, setEventCreated } = useContext(MainContext)
     const { chosenMonth, chosenDay, chosenDate } = useContext(CalendarContext)
 
     // This function shows possible matches with contacts when typing in atendees input
@@ -67,6 +67,21 @@ export default function EventOnCreation() {
 
     }
 
+    const deleteEvent = async (eventToDelete) => {
+
+        let response = await deleteEventFromDb(eventToDelete)
+
+        console.log(response)
+
+        if (response.msg) {
+            let allEvents = events.filter(ev => ev.id !== eventToDelete.id)
+            setEvents(allEvents)
+            alert(response.msg)
+        }
+        else if (response.error) { alert('No such event') }
+        else alert('Something wrong now, try again later')
+    }
+
     return (<div className="modal" >
 
         <span id="close-event-on-creation" onClick={closeModal}>
@@ -81,7 +96,7 @@ export default function EventOnCreation() {
                     <label>Atendees</label>
                     <div id="event-creation-friends-input" >
                         {eventFriend && eventFriend.map(friend => {
-                            return <p style={{ backgroundColor: `rgba(18, 97, ${Math.floor(Math.random() * 255)},0.2)` }} ><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}
+                            return <p style={{ backgroundColor: `rgba(0, 0, ${Math.floor(Math.random() * 255)},0.2)` }} ><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}
                                 <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
                                 }>x</span></p>
                         })}
@@ -105,8 +120,8 @@ export default function EventOnCreation() {
                     <div>
                         {events.length > 0 ? events.map(event => {
                             if (event.date === chosenDate) {
-                                return <p>{event.title}
-                                    <span>x</span></p>
+                                return <p style={{ backgroundColor: `rgba(0, 0, ${Math.floor(Math.random() * 255)},0.2)` }}>{event.title}
+                                    <span onClick={() => deleteEvent(event)}>x</span></p>
                             }
                             else return null
                         }) : <span>No events this day</span>}

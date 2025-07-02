@@ -82,4 +82,22 @@ eventRoutes.post('/', (req, res) => {
 
 })
 
+eventRoutes.post('/:eventId', (req, res) => {
+
+    db = initiateDb()
+
+    let eventId = req.params.eventId
+
+    let query = `DELETE FROM events WHERE id=${eventId}`;
+
+    db.run(query, (err) => {
+        if (err) {
+            res.status(500).send({ "error": err });
+            return;
+        }
+        else res.status(200).send({ 'msg': 'Event successfully deleted' })
+    })
+
+})
+
 export { eventRoutes }

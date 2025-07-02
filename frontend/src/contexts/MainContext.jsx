@@ -108,7 +108,8 @@ export const MainContextProvider = (props) => {
         dayEvent,
         setDayEvent,
         userInfo,
-        setEventCreated
+        setEventCreated,
+        setEvents
     };
 
     return (<MainContext.Provider value={contextValues}>
