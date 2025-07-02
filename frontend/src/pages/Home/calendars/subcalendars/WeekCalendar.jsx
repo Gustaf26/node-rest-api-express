@@ -151,7 +151,7 @@ export default function WeekCalendar() {
                         <span className="event-place">{event.place}</span>-<span className="event-title">{event.title}</span>
                         <p>Invited: {event.persons.map(personid => {
                             return contacts.map(contact => {
-                                return contact.id === personid ? <span>{contact.name}</span> :
+                                return contact.id === personid ? <span><b>{contact.name}</b>{" "}</span> :
                                     null
                             })
                         })}</p>

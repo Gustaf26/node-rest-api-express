@@ -57,7 +57,11 @@ export default function Header() {
                         className={i === selectedPeriod && "selected-period"}>{period}</Button>)
                 })}
             </ButtonGroup>
-            <form onSubmit={(e) => { e.preventDefault(); setChosenDate(e.target[0].value); setEventOnCreation(true) }}>
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                if (e.target[0].value) { setChosenDate(e.target[0].value); setEventOnCreation(true) }
+                else alert('You need to pick a date');
+            }}>
                 <input onChange={(e) => setChosenDate(e.target.value)} type="date" id="new-event-input" name="event-input" />
                 <Button type="submit" id="new-event-button">+ New Event</Button>
             </form>
