@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-// import { useNavigate } from 'react-router-dom'
 
 import { BounceLoader } from "react-spinners";
 import MainContext from "../../../contexts/MainContext";
@@ -9,17 +8,15 @@ import MainContext from "../../../contexts/MainContext";
 // import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
-export default function EventsList() {
+export default function MonthGoals() {
 
-    // const [editable, setEditable] = useState('')
     const [loading, setLoading] = useState(true)
-    const { events, contacts, chosenMonth, actualMonth } = useContext(MainContext)
+    const { contacts, chosenMonth, actualMonth } = useContext(MainContext)
     const [mobile, setMobile] = useState(false)
 
     useEffect(() => {
 
         if (events) setLoading(false)
-        console.log(events)
 
     }, [events])
 
@@ -35,7 +32,7 @@ export default function EventsList() {
                 </div>
             )}
             {!loading && (<ul id="events-table">
-                <li><h3>Goals for the day</h3></li>
+                <li><h3>Goals for the month</h3></li>
             </ul>)}
         </>
     )

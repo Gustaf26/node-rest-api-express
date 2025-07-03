@@ -6,7 +6,7 @@ import SideMenu from '../../components/menu/SideMenu.jsx';
 import Header from '../../components/Header.jsx';
 import MainContext from '../../contexts/MainContext.jsx';
 import MainCalendar from './calendars/MainCalendar.jsx';
-import DayGoalsList from './dayGoals/DayGoalsList.jsx'
+import MonthGoals from './dayGoals/MonthGoals.jsx'
 import EventOnCreation from '../../components/EventOnCreation.jsx'
 
 // import './assets/App.css'
@@ -25,7 +25,7 @@ function Home() {
                 }}>
                     <Header />
                     <aside>
-                        <DayGoalsList />
+                        <MonthGoals />
                     </aside>
                     <section>
                         <MainCalendar />
