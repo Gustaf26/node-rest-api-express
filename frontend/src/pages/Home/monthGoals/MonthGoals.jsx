@@ -11,7 +11,7 @@ import MainContext from "../../../contexts/MainContext";
 export default function MonthGoals() {
 
     const [loading, setLoading] = useState(true)
-    const { contacts, chosenMonth, actualMonth } = useContext(MainContext)
+    const { contacts, chosenMonth, actualMonth, events } = useContext(MainContext)
     const [mobile, setMobile] = useState(false)
 
     useEffect(() => {

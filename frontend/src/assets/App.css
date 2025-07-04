@@ -141,109 +141,123 @@ body {
     }
   }
 
-  & aside {
-    grid-column: 1 / 2;
-    background-color: white;
-    border-radius: 10px;
-    height: fit-content;
-    overflow-x: hidden;
+  & main {
     display: flex;
-    align-items: center;
+    gap: 20px;
     justify-content: center;
-    padding: 10px;
-    font-size: 0.9em;
-    box-shadow: 2px 2px 8px grey;
-
 
     & {
-      @media screen and (max-width:1200px) {
-        grid-row: 3 / 4;
-        grid-column: 1 / 3;
-        width: 78%;
-        margin: 0 auto;
+      @media screen and (max-width:1400px) {
+        flex-direction: column;
+        align-items: center;
       }
     }
 
-    /* & {
+
+    & aside {
+      background-color: white;
+      border-radius: 10px;
+      height: fit-content;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      font-size: 0.9em;
+      box-shadow: 2px 2px 8px grey;
+      flex-grow: 1.5;
+      max-width: 500px;
+
+
+      & {
+        @media screen and (max-width:1400px) {
+          width: 78%;
+          max-width: 500px;
+          margin: 0 auto;
+        }
+      }
+
+      /* & {
       @media screen and (max-width:700px) {
         min-width: 100%;
       }
     } */
 
-    & ul#events-table {
+      & ul#events-table {
 
-      position: relative;
-      width: 100%;
-      /* overflow-y: scroll; */
-      list-style-type: none;
-      padding-left: 0;
-      border: 1px solid lightgrey;
-      height: 100%;
-      margin: 0;
-
-      & li {
-        padding: 10px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 20px 10px 0;
-        width: calc(100%);
-      }
-
-      & li.th {
-        background-color: rgb(238, 235, 235);
-        /* z-index: 5; */
-        text-align: center;
-        width: calc(100% - 30px);
-        font-weight: 600;
-        font-size: large;
-        color: rgb(37, 79, 121);
-      }
-
-
-      & ul.events-list-info-list {
-        display: flex;
+        position: relative;
         width: 100%;
-        height: fit-content;
-        padding: 0;
-        border-bottom: 0.5px solid lightgrey;
+        /* overflow-y: scroll; */
+        list-style-type: none;
+        padding-left: 0;
+        border: 1px solid lightgrey;
+        height: 100%;
+        margin: 0;
 
-        & {
-          @media screen and (max-width:1200px) {
-            flex-wrap: wrap;
-          }
+        & li {
+          padding: 10px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 10px 20px 10px 0;
+          width: calc(100%);
         }
 
-        & .events-list-span {
-          /* display: inline-block; */
-          width: 100%;
-          min-width: 100px;
-          height: 100%;
-          /* border: 0.5px solid lightgrey; */
-          height: 30px;
+        & li.th {
+          background-color: rgb(238, 235, 235);
+          /* z-index: 5; */
+          text-align: center;
+          width: calc(100% - 30px);
+          font-weight: 600;
+          font-size: large;
           color: rgb(37, 79, 121);
+        }
+
+
+        & ul.events-list-info-list {
           display: flex;
-          align-items: center;
-          justify-content: center;
+          width: 100%;
+          height: fit-content;
+          padding: 0;
+          border-bottom: 0.5px solid lightgrey;
 
           & {
             @media screen and (max-width:1200px) {
-              min-width: 45%;
-              text-align: center;
+              flex-wrap: wrap;
             }
           }
 
-          &.title {
-            font-weight: 600;
+          & .events-list-span {
+            /* display: inline-block; */
+            width: 100%;
+            min-width: 100px;
+            height: 100%;
+            /* border: 0.5px solid lightgrey; */
+            height: 30px;
             color: rgb(37, 79, 121);
-          }
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-          & img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-left: 10px;
+            & {
+              @media screen and (max-width:1200px) {
+                min-width: 45%;
+                text-align: center;
+              }
+            }
+
+            &.title {
+              font-weight: 600;
+              color: rgb(37, 79, 121);
+            }
+
+            & img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              margin-left: 10px;
+            }
           }
         }
       }

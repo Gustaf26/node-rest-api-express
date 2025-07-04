@@ -19,6 +19,18 @@ export default function Header() {
     const [alertMonthLimit, setAlertMonthLimit] = useState(false)
     const [selectedPeriod, setPeriod] = useState(0)
 
+    const setTodayEvent = () => {
+
+        let todaysDate = new Date().getDate()
+        let todaysMonth = new Date().getMonth()
+        setActualMonth(todaysMonth)
+
+        let today = "2025-" + (todaysMonth + 1).toString() + `-${todaysDate}`
+
+        setChosenDate(today)
+        setEventOnCreation(true)
+    }
+
     const updateMonthAndReset = (action) => {
 
         setAlertMonthLimit(actualMonth === 0 || actualMonth === 11 ? true : false)
@@ -39,7 +51,7 @@ export default function Header() {
 
     return (
         <header>
-            <button>Today</button>
+            <button onClick={() => setTodayEvent()}>Today</button>
             <div id="month-header-container" style={{ animation: alertMonthLimit ? 'blink 1s linear' : '' }}>
                 <KeyboardArrowLeftIcon onClick={() => {
                     updateMonthAndReset('minus')
