@@ -62,7 +62,6 @@ export default function Header() {
                     updateMonthAndReset('plus')
                 }} />
             </div>
-            <input placeholder="Search" />
             <ButtonGroup variant="contained" aria-label="Basic button group">
                 {periodOptions.map((period, i) => {
                     return (<Button onClick={() => updatePeriod(i, period)}
@@ -75,7 +74,7 @@ export default function Header() {
                 else alert('You need to pick a date');
             }}>
                 <input onChange={(e) => setChosenDate(e.target.value)} type="date" id="new-event-input" name="event-input" />
-                <Button type="submit" id="new-event-button">+ New Event</Button>
+                <Button type="submit" id="new-event-button"><span>+ New Event</span></Button>
             </form>
 
         </header>
