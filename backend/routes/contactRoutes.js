@@ -1,13 +1,13 @@
 
 
 import express from 'express';
-// import { initiateDb, closeConnexion } from '../connect.js'
 
 import { getAllContacts, getSingleContact } from '../controllers/contactsController.js';
 
 const contactRoutes = express.Router();
 
-let db;
+// I´ll put the logger here before any other route to be called, applying to them all
+// contactRoutes.use(logger)
 
 // First function to access requests starting with /
 // It gets all the contacts in the db

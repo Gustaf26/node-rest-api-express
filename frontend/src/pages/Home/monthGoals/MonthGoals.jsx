@@ -31,7 +31,7 @@ export default function MonthGoals() {
                     <BounceLoader color={"#888"} size={100} />
                 </div>
             )}<h4>Goals for the month</h4>
-            {!loading && (<ul id="events-table">
+            {!loading && (<ul id="goals-table">
                 <li><span>Learn new recipies</span></li>
                 <li><span>Go to Turning Torso</span></li>
                 <li><span>Read 4 pocket books</span></li>
