@@ -27,7 +27,7 @@ export const MainContextProvider = (props) => {
                     .then(res => {
 
                         // Turning JSON strings into JS arrays. SQLite doens´t allow to have arrays
-                        let { commonContacts, nearFriends, events } = res.msg
+                        let { commonContacts, nearFriends } = res.msg
                         res.msg.commonContacts = JSON.parse(commonContacts)
                         res.msg.nearFriends = JSON.parse(nearFriends)
                         return res.msg
@@ -39,21 +39,20 @@ export const MainContextProvider = (props) => {
             setUserInfo(userInfo)
 
             // Fetching one by one the user events
-            let eventPromise = await new Promise((resolve, reject) => {
-                fetch(`http://localhost:3000/events?userId=${userInfo.id}`)
+            let eventPromise = new Promise((resolve, reject) => {
+                // fetch(`http://localhost:3000/events?userId=${userInfo.id}`)
+                fetch(`http://localhost:3000/events?userId=1`)
                     .then(res => res.json())
                     .then(res => {
-                        console.log(res.msg)
                         resolve(res.msg)
-
                     })
                     .catch(err => reject(err))
             })
 
             // Awaiting for all events to be loaded
-            let events = await Promise.all([eventPromise]).then(res => res)
+            let events = await eventPromise.then(res => res).catch(err => err)
 
-            events = events[0].map(event => { event.persons = JSON.parse(event.persons); return event })
+            events = events.map(event => { event.persons = JSON.parse(event.persons); return event })
             setEvents(events)
             setEventCreated(false)
         }

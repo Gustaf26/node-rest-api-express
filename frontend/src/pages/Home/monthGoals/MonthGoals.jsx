@@ -30,9 +30,12 @@ export default function MonthGoals() {
                 <div style={{ marginTop: '10%' }} className="d-flex justify-content-center align-items-center">
                     <BounceLoader color={"#888"} size={100} />
                 </div>
-            )}
+            )}<h4>Goals for the month</h4>
             {!loading && (<ul id="events-table">
-                <li><h3>Goals for the month</h3></li>
+                <li><span>Learn new recipies</span></li>
+                <li><span>Go to Turning Torso</span></li>
+                <li><span>Read 4 pocket books</span></li>
+                <li><span>Record my jazz song</span></li>
             </ul>)}
         </>
     )

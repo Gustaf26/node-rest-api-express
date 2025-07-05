@@ -70,7 +70,7 @@ body {
     justify-content: space-evenly;
     align-items: center;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     height: fit-content;
     padding: 12px;
     gap: 40px;
@@ -179,12 +179,13 @@ body {
 
     & aside {
       background-color: white;
-      border-radius: 10px;
+      border-radius: 5px;
       height: fit-content;
       overflow-x: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       padding: 10px;
       font-size: 0.9em;
       box-shadow: 2px 2px 8px grey;
@@ -192,19 +193,27 @@ body {
       margin: 0 auto;
       min-width: 500px;
       max-width: 600px;
+      font-family: serif;
 
       @media screen and (max-width:700px) {
         min-width: 300px;
+      }
+
+      & h4 {
+        width: 100%;
+        text-align: centers;
+        margin: 5px auto;
+        font-weight: 700;
+        font-size: 1.2em;
+
       }
 
       & ul#events-table {
 
         position: relative;
         width: 100%;
-        /* overflow-y: scroll; */
         list-style-type: none;
         padding-left: 0;
-        border: 1px solid lightgrey;
         height: 100%;
         margin: 0;
 
@@ -853,18 +862,10 @@ body {
 @keyframes move-eventElement-to-center {
 
   0% {
-    /* position: absolute;
-    left: 25%;
-    top: 25%; */
     opacity: 0;
   }
 
   100% {
-    /* position: absolute;
-    left: 25%;
-    top: 25%;
-    width: 50%;
-    height: 50%; */
     opacity: 1;
   }
 }

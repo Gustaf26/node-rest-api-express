@@ -1,15 +1,9 @@
-
-
-import express from 'express';
 import { initiateDb, closeConnexion } from '../connect.js'
-
-const personRoutes = express.Router();
 
 let db;
 
-// First function to access requests starting with /
-// It gets all the contacts in the db
-personRoutes.get('/', async (req, res, next) => {
+
+export const getAllContacts = async (req, res, next) => {
 
     // SQL syntax for SQLite database
     let query = 'SELECT * FROM persons'
@@ -40,10 +34,9 @@ personRoutes.get('/', async (req, res, next) => {
         closeConnexion(db)
     }
 
-});
+}
 
-// Get data from a person - contact
-personRoutes.get('/:contactId', async (req, res, next) => {
+export const getSingleContact = async (req, res, next) => {
 
     let contactId = Number(req.params.contactId)
 
@@ -66,6 +59,4 @@ personRoutes.get('/:contactId', async (req, res, next) => {
 
     });
 
-});
-
-export { personRoutes }
+}
