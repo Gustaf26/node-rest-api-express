@@ -76,7 +76,7 @@ export default function Header() {
                     updateMonthAndReset('plus')
                 }} />
             </div>
-            <ButtonGroup variant="contained" aria-label="Basic button group">
+            <ButtonGroup aria-label="Basic button group">
                 {periodOptions.map((period, i) => {
                     return (<Button onClick={() => updatePeriod(i, period)}
                         className={i === selectedPeriod && "selected-period"}>{period}</Button>)

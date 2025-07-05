@@ -32,10 +32,11 @@ export default function MonthGoals() {
                 </div>
             )}<h4>Goals for the month</h4>
             {!loading && (<ul id="goals-table">
-                <li><span>Learn new recipies</span></li>
+                <li className="checked"><span>Learn new recipies</span></li>
                 <li><span>Go to Turning Torso</span></li>
                 <li><span>Read 4 pocket books</span></li>
                 <li><span>Record my jazz song</span></li>
+                <li><input type="text" placeholder="Write a new goal" /><button id="goal-button">+</button></li>
             </ul>)}
         </>
     )
