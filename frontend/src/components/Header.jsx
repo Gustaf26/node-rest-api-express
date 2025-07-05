@@ -49,6 +49,20 @@ export default function Header() {
         setPeriod(index); setCalendarOption(period)
     }
 
+    const formatDate = value => {
+
+        let formattedDate = value[5] === '0' ? value.slice(0, 5) + value.slice(6, 10)
+            : value
+
+        let secondDash = formattedDate.lastIndexOf('-')
+
+        formattedDate = formattedDate[secondDash + 1] === '0' ? formattedDate.slice(0, secondDash + 1) + formattedDate.slice(secondDash + 2, formattedDate.length)
+            : formattedDate
+
+        setChosenDate(formattedDate)
+
+    }
+
     return (
         <header>
             <button onClick={() => setTodayEvent()}>Today</button>
@@ -70,10 +84,10 @@ export default function Header() {
             </ButtonGroup>
             <form onSubmit={(e) => {
                 e.preventDefault();
-                if (e.target[0].value) { setChosenDate(e.target[0].value); setEventOnCreation(true) }
+                if (e.target[0].value) { formatDate(e.target[0].value); setEventOnCreation(true) }
                 else alert('You need to pick a date');
             }}>
-                <input onChange={(e) => setChosenDate(e.target.value)} type="date" id="new-event-input" name="event-input" />
+                <input onChange={(e) => formatDate(e.target.value)} type="date" id="new-event-input" name="event-input" />
                 <Button type="submit" id="new-event-button"><span>+ New Event</span></Button>
             </form>
 

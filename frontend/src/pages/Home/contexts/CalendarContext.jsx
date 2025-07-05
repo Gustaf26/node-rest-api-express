@@ -27,7 +27,8 @@ export const CalendarContextProvider = (props) => {
             let secondDash = chosenDate.lastIndexOf('-')
 
             let dateMonth = Number(chosenDate.slice(firstDash, secondDash)) - 1
-            let dateDay = Number(chosenDate.slice(secondDash + 1, chosenDate.length))
+            let dateDay = chosenDate.slice(secondDash + 1, chosenDate.length)
+            dateDay = dateDay[0] === '0' ? dateDay[1] : dateDay
 
             setChosenDay(dateDay)
             setActualMonth(dateMonth)

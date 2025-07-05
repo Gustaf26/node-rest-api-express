@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors())
 
 app.use('/contacts', errorHandler, contactRoutes);
-app.use('/events', errorHandler, eventRoutes);
+app.use('/events', eventRoutes);
 
 app.use(errorHandler)
 
