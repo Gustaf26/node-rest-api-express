@@ -22,7 +22,7 @@ export const MainContextProvider = (props) => {
 
             // First thing is to get the user info (id === 1 default) from db
             const getUserInfo = async () => {
-                return await fetch('http://localhost:3000/contacts/1')
+                return await fetch('http://localhost:3000/contacts/1?userId=1')
                     .then(res => res.json())
                     .then(res => {
 
@@ -63,30 +63,13 @@ export const MainContextProvider = (props) => {
 
     useEffect(() => {
 
-        function addContacts(userInfo, allConts) {
-
-            let myContacts = []
-
-            // I´m adding both common friends and near friends to the user contacts, but no one else :-)
-            if (userInfo) {
-                let allUserContacts = [...userInfo.commonContacts, ...userInfo.nearFriends]
-                allUserContacts.forEach(contactId => {
-                    allConts.forEach(generalContact => {
-                        if (Number(generalContact.id) === Number(contactId)) myContacts.push(generalContact)
-                    })
-                })
-            }
-
-            return myContacts
-        }
-
         function getUserContacts() {
 
-            fetch('http://localhost:3000/contacts')
+            fetch('http://localhost:3000/contacts?userId=1')
                 .then(res => res.json())
                 .then(res => {
-                    let myContacts = addContacts(userInfo, res.contacts)
-                    setContacts(myContacts); setLoading(false)
+                    setContacts(res.contacts);
+                    setLoading(false)
                 })
                 .catch(err => console.log(err))
         }

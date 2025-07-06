@@ -5,35 +5,54 @@ let db;
 
 export const getAllContacts = async (req, res, next) => {
 
+    let { userId } = req.query
+
     // SQL syntax for SQLite database
-    let query = 'SELECT * FROM persons'
+    let query = `SELECT nearFriends FROM persons WHERE id=${Number(userId)}`
 
     db = initiateDb()
 
-    let contacts = { contacts: [] }
+    let contacts = []
 
-    try {
-        db.all(query, [], (err, rows) => {
-            if (err) {
-                console.log(err);
-                return;
+
+    db.get(query, [], async (err, rows) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        if (rows.length === 0) res.send({ msg: contacts })
+
+        else {
+
+            contacts = JSON.parse(rows.nearFriends)
+
+            let allinfo = []
+
+            const getData = (contact) => {
+
+                new Promise((resolve, reject) => {
+
+                    let query = `SELECT * FROM persons WHERE id=${Number(contact)}`
+
+                    db.get(query, [], (err, row) => {
+                        if (err) {
+                            console.log(err);
+                            reject(null)
+                        }
+                        resolve(row)
+                    })
+                }).then(res => allinfo.push(res))
             }
-            rows.forEach(row => contacts.contacts.push({ id: row.id, name: row.name, email: row.email, thumbnail: row.thumbnail, phone: row.phone }))
 
-            if (contacts.contacts.length === 0) throw new Error('No contacts found');
+            contacts.forEach(contact => getData(contact))
 
-            else { res.send({ "contacts": contacts.contacts }); }
-
-            closeConnexion(db)
-            next()
-        });
-
-
-    } catch (error) {
-        res.send({ "error": error });
+            setTimeout(() => {
+                res.send({ "contacts": allinfo });
+            }, 2000)
+        }
         closeConnexion(db)
-    }
-
+    });
 }
 
 export const getSingleContact = async (req, res, next) => {

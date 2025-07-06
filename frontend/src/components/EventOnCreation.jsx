@@ -69,7 +69,7 @@ export default function EventOnCreation() {
 
     const deleteEvent = async (eventToDelete) => {
 
-        let response = await deleteEventFromDb(eventToDelete)
+        let response = await deleteEventFromDb(eventToDelete, userInfo.id)
 
         console.log(response)
 

@@ -82,6 +82,14 @@ body {
         gap: 20px;
       }
     }
+
+    & .header-option-button {
+
+      &:hover {
+        border: 1px solid rgb(18, 97, 153) !important;
+        color: rgb(18, 97, 153);
+      }
+    }
   }
 
   & #month-header-container {
@@ -647,7 +655,6 @@ body {
 /* SECTION FOR CALENDARS */
 
 & section {
-  /* grid-area: 2 / 2 / 3 / 3; */
   background-color: white;
   border-radius: 10px;
   height: fit-content;
@@ -656,8 +663,6 @@ body {
   margin: 0 auto;
   flex-grow: 3;
   box-shadow: 2px 2px 8px rgb(178, 176, 176);
-  /* position: relative; */
-
 
   & {
     @media screen and (max-width:1200px) {
@@ -743,21 +748,12 @@ body {
   span.event-day {
     display: 'inline-block';
     margin: 10px auto;
-    background-color: rgba(137, 186, 143, 0.7);
+    background-color: rgba(186, 202, 206, 0.7);
     padding: 12px;
     border-radius: 3px;
 
-    & span.event-place {
-      color: rgb(13, 82, 13);
-      text-decoration: underline;
-    }
-
     & p {
       background-color: lightblue;
-    }
-
-    & span.event-title {
-      font-weight: 600;
     }
 
     &:hover {
@@ -791,13 +787,12 @@ body {
         display: none;
       }
     }
-
   }
 
 
   & .month-calendar-day,
   .week-calendar-day {
-    border: 0.5px solid lightgrey;
+    border: 0.5px solid rgb(194, 218, 239);
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -820,7 +815,13 @@ body {
     & span.event-place,
     span.event-title {
       font-family: serif;
-      font-weight: 400;
+      font-weight: 500;
+      color: rgb(46, 83, 110);
+      text-transform: capitalize;
+      display: inline-block;
+      width: 100%;
+      background-color: white;
+
     }
 
     &.empty {
@@ -863,7 +864,6 @@ body {
       &.today {
         color: rgb(72, 151, 209);
       }
-
     }
   }
 }

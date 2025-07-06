@@ -79,7 +79,9 @@ export default function Header() {
             <ButtonGroup aria-label="Basic button group">
                 {periodOptions.map((period, i) => {
                     return (<Button onClick={() => updatePeriod(i, period)}
-                        className={i === selectedPeriod && "selected-period"}>{period}</Button>)
+                        className={i === selectedPeriod ? "header-option-button selected-period" :
+                            "header-option-button"
+                        }>{period}</Button>)
                 })}
             </ButtonGroup>
             <form onSubmit={(e) => {
