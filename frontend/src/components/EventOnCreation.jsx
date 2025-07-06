@@ -87,7 +87,7 @@ export default function EventOnCreation() {
         <span id="close-event-on-creation" onClick={closeModal}>
             X</span>
 
-        <form onSubmit={(e) => { e.preventDefault(); postEvent(e); e.stopPropagation(); }}>
+        <form id="event-on-creation-form" onSubmit={(e) => { e.preventDefault(); postEvent(e); e.stopPropagation(); }}>
             <div id="event-on-creation-date">
                 {chosenDay && <span >Event Date: {chosenDay} of {chosenMonth}</span>}
             </div>
@@ -96,9 +96,13 @@ export default function EventOnCreation() {
                     <label>Atendees</label>
                     <div id="event-creation-friends-input" >
                         {eventFriend && eventFriend.map(friend => {
-                            return <p style={{ backgroundColor: `rgba(0, 0, ${Math.floor(Math.random() * 255)},0.2)` }} ><img className="event-creation-friends-img" src={friend.thumbnail} />{friend.name}
-                                <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
-                                }>x</span></p>
+                            return <p style={{ backgroundColor: `rgba(18, 97, 153,${Math.random() * 5}` }} >
+                                <img className="event-creation-friends-img" src={friend.thumbnail} />
+                                {friend.name}
+                                {/* {We can add some trash and update icons here on hover} */}
+                                {/* <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
+                                }>x</span> */}
+                            </p>
                         })}
                         <input placeholder="Search for friend..." onChange={(e) => { showPossibleContacts(e) }}></input>
 
@@ -117,11 +121,13 @@ export default function EventOnCreation() {
                 </div>
                 <div id="event-creation-other-events">
                     <label>Other events this day:</label>
-                    <div>
+                    <div id="event-creation-other-events-area">
                         {events.length > 0 ? events.map(event => {
                             if (event.date === chosenDate) {
-                                return <p style={{ backgroundColor: `rgba(0, 0, ${Math.floor(Math.random() * 255)},0.2)` }}>{event.title}
-                                    <span onClick={() => deleteEvent(event)}>x</span></p>
+                                return <p style={{ backgroundColor: `rgba(18, 97, 153,${Math.random() * 5}` }}>{event.title}
+                                    {/* {We can add some trash and update icons here on hover} */}
+                                    {/* <span onClick={() => deleteEvent(event)}>x</span> */}
+                                </p>
                             }
                             else return null
                         }) : <span>No events this day</span>}
@@ -144,12 +150,12 @@ export default function EventOnCreation() {
                             alt="contact-picture" className="on-creation-contact-thumbnail" src={contact.thumbnail} />
                     </li>)
                 }) : (<li className="dummy-avatar">
-                    <Avatar sx={{ backgroundColor: 'black', height: '40px', width: '30px' }} />
+                    <Avatar sx={{ backgroundColor: 'rgba(0,0,0,0.2)', height: '40px', width: '40px' }} />
                 </li>)}
 
             </ul>
 
-            <Button type="submit" id="new-event-button">INVITE</Button>
+            <Button type="submit">INVITE</Button>
         </form>
     </div>)
 }
