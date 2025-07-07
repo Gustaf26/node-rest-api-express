@@ -87,6 +87,7 @@ body {
     padding: 12px;
     gap: 40px;
     justify-content: center;
+    color: rgb(18, 97, 153);
 
     & {
       @media screen and (max-width:1400px) {
@@ -99,6 +100,13 @@ body {
       @media screen and (max-width:400px) {
         width: calc(100% - 12px);
       }
+    }
+
+    & #today-button {
+      border: 1px solid rgb(125, 171, 205) !important;
+      color: rgb(18, 97, 153);
+      border-radius: 3px;
+      line-height: 100%;
     }
 
     & .header-option-button {
@@ -540,6 +548,43 @@ body {
           width: calc(100% - 20px);
         }
 
+        & #event-creation-friends-input {
+
+          & p {
+            position: relative;
+
+            & span {
+              display: none;
+            }
+
+            &:hover {
+              cursor: pointer;
+
+              & span {
+                display: block;
+                position: absolute;
+                margin-left: 0;
+                padding: 0;
+                top: 0;
+                left: 0;
+                width: 100%;
+                border-radius: 30px;
+                background-color: rgba(255, 255, 255, 0.9);
+                border: 0.5px solid rgb(144, 172, 236);
+                height: 100%;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                & svg {
+                  margin: 0 3px;
+                }
+              }
+            }
+          }
+        }
+
         & #event-creation-friends-input,
         #event-creation-other-events-area {
           display: flex;
@@ -660,7 +705,11 @@ body {
                 text-align: center;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-around;
+
+                & svg {
+                  margin: 0 3px;
+                }
               }
             }
           }
@@ -930,8 +979,7 @@ body {
       }
     }
 
-    & span.event-place,
-    span.event-title {
+    & span.event-title {
       font-family: serif;
       font-weight: 500;
       color: rgb(46, 83, 110);
@@ -939,7 +987,8 @@ body {
       display: inline-block;
       width: 100%;
       background-color: white;
-
+      line-height: 30px;
+      height: fit-content;
     }
 
     &.empty {

@@ -35,7 +35,7 @@ function Home() {
                             <MainCalendar />
                         </section>
                     </main>
-                    {eventOnCreation && <EventOnCreation />}
+                    {eventOnCreation ? <EventOnCreation eventOnCreation={eventOnCreation} /> : null}
                 </div>
             </CalendarContextProvider>
         </>

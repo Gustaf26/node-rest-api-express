@@ -6,15 +6,20 @@ const MainContext = createContext();
 
 export const MainContextProvider = (props) => {
 
+    // Contact info logic
     const [contacts, setContacts] = useState([])
-    const [events, setEvents] = useState([])
     const [userInfo, setUserInfo] = useState()
+
+    // Event logic
+    const [events, setEvents] = useState([])
+    const [eventOnCreation, setEventOnCreation] = useState(null)
+    const [dayEvent, setDayEvent] = useState({})
+    const [eventCreated, setEventCreated] = useState('initial')
+
+    // Site rendering logic
     const [loading, setLoading] = useState(true);
     const [sideOption, setOption] = useState('Home')
     const [calendarOption, setCalendarOption] = useState('month')
-    const [eventOnCreation, setEventOnCreation] = useState(false)
-    const [dayEvent, setDayEvent] = useState({})
-    const [eventCreated, setEventCreated] = useState('initial')
 
     useEffect(() => {
 

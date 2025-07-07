@@ -65,7 +65,7 @@ export default function Header() {
 
     return (
         <header>
-            <button onClick={() => setTodayEvent()}>Today</button>
+            <button id="today-button" onClick={() => setTodayEvent()}>Today</button>
             <div id="month-header-container" style={{ animation: alertMonthLimit ? 'blink 1s linear' : '' }}>
                 <KeyboardArrowLeftIcon onClick={() => {
                     updateMonthAndReset('minus')

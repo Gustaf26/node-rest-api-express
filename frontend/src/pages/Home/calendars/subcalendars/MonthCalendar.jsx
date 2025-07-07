@@ -42,7 +42,7 @@ const WeekCell = (props) => {
         !eventOnCreation && activateDay(e);
     }}
         onDoubleClick={(e) => {
-            setEventOnCreation(true);
+            setEventOnCreation({ date: dayDate, id: Math.floor(Math.random() * 100000), persons: [], place: '', title: '' });
             setEventElement(() => Number(e.target.id));
             updateDayEvent();
 
@@ -56,7 +56,7 @@ const WeekCell = (props) => {
 
         {events && events.map(event => {
             if (event.date === dayDate) return (
-                <span className="event-title">{event.title}</span>
+                <span onDoubleClick={(e) => { e.stopPropagation(); setEventOnCreation(event) }} className="event-title">{event.title}</span>
             )
             else return null
         })}

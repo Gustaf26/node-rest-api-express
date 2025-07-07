@@ -1,5 +1,5 @@
 
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 
 import MainContext from "../contexts/MainContext"
 import CalendarContext from "../pages/Home/contexts/CalendarContext";
@@ -9,8 +9,9 @@ import { addEventToDb, deleteEventFromDb } from "../hooks/dbHooks";
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 
-export default function EventOnCreation() {
+export default function EventOnCreation({ eventOnCreation }) {
 
     const [eventFriend, setEventFriend] = useState([])
     const [posibleContacts, setPosibleContacts] = useState([])
@@ -18,6 +19,22 @@ export default function EventOnCreation() {
 
     const { events, setEventOnCreation, contacts, userInfo, setEvents, setEventCreated } = useContext(MainContext)
     const { chosenMonth, chosenDay, chosenDate } = useContext(CalendarContext)
+
+    // Set the event atendees in the UI
+    useEffect(() => {
+
+        if (eventOnCreation.persons) {
+
+            let dummyFriends = []
+            eventOnCreation.persons.forEach(person => {
+                contacts.forEach(contact => {
+                    if (contact.id === person) dummyFriends.push(contact)
+                })
+            })
+            setEventFriend(dummyFriends)
+        }
+
+    }, [eventOnCreation])
 
     // This function shows possible matches with contacts when typing in atendees input
     const showPossibleContacts = (e) => {
@@ -83,6 +100,11 @@ export default function EventOnCreation() {
         else alert('Something wrong now, try again later')
     }
 
+    const updateEvent = (event) => {
+
+
+    }
+
     return (<div className="modal" >
 
         <span id="close-event-on-creation" onClick={closeModal}>
@@ -90,7 +112,7 @@ export default function EventOnCreation() {
 
         <form id="event-on-creation-form" onSubmit={(e) => { e.preventDefault(); postEvent(e); e.stopPropagation(); }}>
             <div id="event-on-creation-date">
-                {chosenDay && <span >Event Date: {chosenDay} of {chosenMonth}</span>}
+                {<span >Event Date: {eventOnCreation.date}</span>}
             </div>
             <div id="event-creation-categories">
                 <div>
@@ -100,9 +122,10 @@ export default function EventOnCreation() {
                             return <p style={{ backgroundColor: `rgba(18, 97, 153,${Math.random() * 5}` }} >
                                 <img className="event-creation-friends-img" src={friend.thumbnail} />
                                 {friend.name}
-                                {/* {We can add some trash and update icons here on hover} */}
-                                {/* <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
-                                }>x</span> */}
+                                <span onClick={() => setEventFriend((prev) => [...prev.filter(pers => pers !== friend)])
+                                }>
+                                    <DeleteForeverIcon color='warning' />
+                                </span>
                             </p>
                         })}
                         <input placeholder="Search for friend..." onChange={(e) => { showPossibleContacts(e) }}></input>
@@ -117,17 +140,20 @@ export default function EventOnCreation() {
                     </div>
                     <label>Place</label>
                     <div id="event-creation-place">
-                        <input required placeholder="Enter place"></input>
+                        <input required placeholder="Enter place" defaultValue={eventOnCreation.place ?? ''} />
                     </div>
                 </div>
                 <div id="event-creation-other-events">
                     <label>Other events this day</label>
                     <div id="event-creation-other-events-area">
                         {events.length > 0 ? events.map(event => {
-                            if (event.date === chosenDate) {
+                            if (event.date === eventOnCreation.date && event.id !== eventOnCreation.id) {
                                 return <p style={{ backgroundColor: `rgba(18, 97, 153,${Math.random() * 5}` }}>
                                     {event.title}
-                                    <span onClick={() => deleteEvent(event)}><DeleteForeverIcon color='warning' /></span>
+                                    <span>
+                                        <DeleteForeverIcon onClick={() => deleteEvent(event)} color='warning' />
+                                        <EditIcon onClick={() => updateEvent(event)} color="info" />
+                                    </span>
                                 </p>
                             }
                             else return null
@@ -138,7 +164,7 @@ export default function EventOnCreation() {
 
             <div className="event-creation-description">
                 <label>Event Description</label>
-                <textarea placeholder="Write event here..."></textarea>
+                <textarea placeholder="Write event here...">{eventOnCreation.title ?? ''}</textarea>
             </div>
 
             <ul className={!contactsShowing ? "event-contacts-thumbnails" : "event-contacts-thumbnails animated"}
@@ -156,7 +182,7 @@ export default function EventOnCreation() {
 
             </ul>
 
-            <Button type="submit">INVITE</Button>
+            <Button type="submit">{eventOnCreation.title ? 'UPDATE' : 'INVITE'}</Button>
         </form>
     </div>)
 }
