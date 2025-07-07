@@ -8,6 +8,7 @@ import { addEventToDb, deleteEventFromDb } from "../hooks/dbHooks";
 
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function EventOnCreation() {
 
@@ -120,13 +121,13 @@ export default function EventOnCreation() {
                     </div>
                 </div>
                 <div id="event-creation-other-events">
-                    <label>Other events this day:</label>
+                    <label>Other events this day</label>
                     <div id="event-creation-other-events-area">
                         {events.length > 0 ? events.map(event => {
                             if (event.date === chosenDate) {
-                                return <p style={{ backgroundColor: `rgba(18, 97, 153,${Math.random() * 5}` }}>{event.title}
-                                    {/* {We can add some trash and update icons here on hover} */}
-                                    {/* <span onClick={() => deleteEvent(event)}>x</span> */}
+                                return <p style={{ backgroundColor: `rgba(18, 97, 153,${Math.random() * 5}` }}>
+                                    {event.title}
+                                    <span onClick={() => deleteEvent(event)}><DeleteForeverIcon color='warning' /></span>
                                 </p>
                             }
                             else return null
