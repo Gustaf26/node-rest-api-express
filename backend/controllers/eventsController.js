@@ -1,8 +1,8 @@
 
-import { initiateDb, closeConnexion } from '../connect.js'
+// import { initiateDb, closeConnexion } from '../connect.js'
+import { initiateDb } from '../connect.js'
 
-
-let db;
+const db = initiateDb()
 
 // Get all events
 export const getAllEvents = async (req, res, next) => {

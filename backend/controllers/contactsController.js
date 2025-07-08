@@ -1,6 +1,9 @@
-import { initiateDb, closeConnexion } from '../connect.js'
+// import { initiateDb, closeConnexion } from '../connect.js'
 
-let db;
+
+import { initiateDb } from '../connect.js'
+
+const db = initiateDb()
 
 
 export const getAllContacts = async (req, res, next) => {
