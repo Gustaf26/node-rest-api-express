@@ -895,32 +895,60 @@ body {
     align-items: center;
     border: 0.5px solid rgb(144, 172, 236);
 
-    & p.featured-day-info {
-
-      & span {
-        margin: 10px 5px;
-        font-weight: 600;
-        color: rgb(19, 59, 78);
-      }
+    & span.event-title,
+    span.event-place {
+      font-family: serif;
     }
 
-    & {
-      @media screen and (max-width:1000px) {
-        display: none;
+    & #week-featured-event-info {
+
+      background-color: rgba(220, 232, 241, 0.6);
+      width: 40%;
+      padding: 10px;
+
+      & p {
+
+        & span {
+          margin: 10px 5px;
+          font-weight: 600;
+          color: rgb(19, 59, 78);
+        }
+      }
+
+      & {
+        @media screen and (max-width:1000px) {
+          display: none;
+        }
       }
     }
   }
 
-  & div.event-day,
-  span.event-day {
+  & div.event-day {
     display: 'inline-block';
     margin: 10px auto;
-    background-color: rgba(186, 202, 206, 0.7);
+    background-color: rgba(212, 226, 237, 0.4);
+    padding: 12px;
+    border-radius: 3px;
+    width: 30%;
+
+    & p {
+      background-color: rgba(188, 206, 219, 0.8);
+    }
+
+    &:hover {
+      background-color: aliceblue !important;
+    }
+  }
+
+  & span.event-day {
+    display: 'inline-block';
+    margin: 10px auto;
+    background-color: rgba(188, 207, 222, 0.6);
     padding: 12px;
     border-radius: 3px;
 
     & p {
-      background-color: lightblue;
+      background-color: rgba(212, 219, 224, 0.8);
     }
 
     &:hover {

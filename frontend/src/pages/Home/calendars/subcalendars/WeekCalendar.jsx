@@ -44,7 +44,7 @@ const DayCell = (props) => {
 
         onClick={(e) => { featureDayAndReset(e); activateDay(e) }}
         onDoubleClick={(e) => {
-            setEventOnCreation(prev => !prev);
+            setEventOnCreation({ date: dayDate, id: Math.floor(Math.random() * 100000), persons: [], place: '', title: '' });
             setChosenDate(dayDate)
         }}
         className={weekDayNr === todaysWeekDayNr && dayNr === todaysDate ?
@@ -58,7 +58,7 @@ const DayCell = (props) => {
         {events && events.map(event => {
             if (event.date === dayDate) return (
                 <span key={event.title}
-                    className="event-day">Event Day</span>)
+                    className="event-day" onDoubleClick={(e) => { e.stopPropagation(); setEventOnCreation(event) }}>Event Day</span>)
             else return null
         })}
 
@@ -147,11 +147,11 @@ export default function WeekCalendar() {
             if (events.length > 0) events.map(event => {
                 if (event.date === `2025-${actualMonth + 1}-${featuredDay.date}`) {
 
-                    featuredEvsDummy.push((<div className="event-day">
+                    featuredEvsDummy.push((<div id="week-featured-event-info">
                         <span className="event-place">{event.place}</span>-<span className="event-title">{event.title}</span>
                         <p>Invited: {event.persons.map(personid => {
                             return contacts.map(contact => {
-                                return contact.id === personid ? <span><b>{contact.name}</b>{" "}</span> :
+                                return contact.id === personid ? <span>{contact.name}{" "}</span> :
                                     null
                             })
                         })}</p>
