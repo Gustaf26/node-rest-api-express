@@ -48,19 +48,14 @@ const client = new MongoClient(uri);
 
 async function initiateDb() {
 
-    try {
-        const database = client.db('Calendar');
-        // const events = database.collection('events');
+    const db = client.db('Calendar');
+    // const events = database.collection('events');
 
-        // // Queries for a movie that has a title value of 'Back to the Future'
-        // const query = { place: 'Pandora' };
-        // const event = await events.findOne(query);
-        return database
-
-    } finally {
-        await client.close();
-    }
-
+    // // // Queries for a movie that has a title value of 'Back to the Future'
+    // const query = { place: 'Pandora' };
+    // const event = await events.findOne(query);
+    // console.log(event)
+    return { db: db, client: client }
 
 }
 

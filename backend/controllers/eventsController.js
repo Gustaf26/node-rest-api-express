@@ -2,8 +2,6 @@
 // import { initiateDb, closeConnexion } from '../connect.js'
 import { initiateDb } from '../connect.js'
 
-const db = initiateDb()
-
 // Get all events
 export const getAllEvents = async (req, res, next) => {
 
@@ -14,24 +12,20 @@ export const getAllEvents = async (req, res, next) => {
         return next(error);
     }
 
-    db = initiateDb()
+    try {
+        const { db, client } = await initiateDb()
+        const eventsCollection = db.collection('events')
 
-    let query = `SELECT * FROM events WHERE persons LIKE '%${userId}%'`;
+        let events = await eventsCollection.find({ persons: { $regex: `[${userId}]` } }).toArray()
 
+        res.send({ msg: events })
 
-    db.all(query, (err, eventRow) => {
-        if (err) {
-            console.log(err)
-        }
-
-        if (eventRow) {
-            res.send({ 'msg': eventRow })
-
-        }
-
-        else res.status(403).send({ "msg": "No such contact" });
-
-    })
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
+    }
 
 }
 

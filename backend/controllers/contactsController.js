@@ -3,82 +3,70 @@
 
 import { initiateDb } from '../connect.js'
 
-const db = initiateDb()
-
 
 export const getAllContacts = async (req, res, next) => {
 
     let { userId } = req.query
 
     // SQL syntax for SQLite database
-    let query = `SELECT nearFriends FROM persons WHERE id=${Number(userId)}`
+    // let query = `SELECT nearFriends FROM persons WHERE id=${Number(userId)}`
 
-    db = initiateDb()
+    try {
+        const { db, client } = await initiateDb()
 
-    let contacts = []
+        const contactsCollection = db.collection('persons')
 
+        let contacts = await contactsCollection.find({ id: Number(userId) }).project({ nearFriends: 1 }).toArray()
 
-    db.get(query, [], async (err, rows) => {
-        if (err) {
-            console.log(err);
-            return;
+        contacts = JSON.parse(contacts[0].nearFriends)
+
+        let fullContactsInfo = []
+
+        const getContactsInfo = async (contact) => {
+
+            let contactPromise = new Promise(async (resolve, reject) => {
+
+                resolve(await contactsCollection.find({ id: Number(contact) }).toArray())
+
+            })
+
+            contactPromise.then(res => { fullContactsInfo.push(...res) })
+
         }
 
-        if (rows.length === 0) res.send({ msg: contacts })
+        contacts.forEach(async (contact) => {
+            await getContactsInfo(contact)
+        })
 
-        else {
+        setTimeout(() => {
+            res.send({ contacts: fullContactsInfo })
+        }, 1500)
 
-            contacts = JSON.parse(rows.nearFriends)
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
+    }
 
-            let allinfo = []
-
-            const getData = (contact) => {
-
-                new Promise((resolve, reject) => {
-
-                    let query = `SELECT * FROM persons WHERE id=${Number(contact)}`
-
-                    db.get(query, [], (err, row) => {
-                        if (err) {
-                            console.log(err);
-                            reject(null)
-                        }
-                        resolve(row)
-                    })
-                }).then(res => allinfo.push(res))
-            }
-
-            contacts.forEach(contact => getData(contact))
-
-            setTimeout(() => {
-                res.send({ "contacts": allinfo });
-            }, 2000)
-        }
-        closeConnexion(db)
-    });
 }
 
 export const getSingleContact = async (req, res, next) => {
 
     let contactId = Number(req.params.contactId)
 
-    db = initiateDb()
+    try {
+        const { db, client } = await initiateDb()
+        const contactsCollection = db.collection('persons')
 
-    let query = "SELECT * FROM persons WHERE id = ?";
+        let person = await contactsCollection.findOne({ id: contactId })
 
-
-    db.get(query, [contactId], (err, contactRow) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-
-        if (contactRow) {
-            res.send({ 'msg': contactRow })
-        }
-
-        else res.status(304).send({ "msg": "No such contact" });
-
-    });
+        res.send({ msg: person })
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
+    }
 
 }
