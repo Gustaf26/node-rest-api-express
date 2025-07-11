@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from "react"
 import MainContext from "../contexts/MainContext"
 import CalendarContext from "../pages/Home/contexts/CalendarContext";
 
-import { addEventToDb, deleteEventFromDb } from "../hooks/dbHooks";
+import { addEventToDb, deleteEventFromDb, updateEventInDb } from "../hooks/dbHooks";
 
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -70,14 +70,15 @@ export default function EventOnCreation({ eventOnCreation }) {
         setEventOnCreation(false)
     }
 
-    const postEvent = async (e) => {
+    const handleSubmit = async (e, action) => {
 
         let atendees = eventFriend.map(friend => friend.id)
         let place = e.target[1].value
         let eventdescription = e.target[2].value
         let eventDate = chosenDate
 
-        let msg = await addEventToDb(atendees, place, eventdescription, eventDate, userInfo.id)
+        let msg = action === 'update' ? await updateEventInDb(atendees, place, eventdescription, eventDate, eventOnCreation.id, userInfo.id) :
+            await addEventToDb(atendees, place, eventdescription, eventDate, userInfo.id)
 
         if (msg) console.log(msg); setEventCreated(true)
 
@@ -89,8 +90,6 @@ export default function EventOnCreation({ eventOnCreation }) {
 
         let response = await deleteEventFromDb(eventToDelete, userInfo.id)
 
-        console.log(response)
-
         if (response.msg) {
             let allEvents = events.filter(ev => ev.id !== eventToDelete.id)
             setEvents(allEvents)
@@ -100,17 +99,13 @@ export default function EventOnCreation({ eventOnCreation }) {
         else alert('Something wrong now, try again later')
     }
 
-    const updateEvent = (event) => {
-
-
-    }
 
     return (<div className="modal" >
 
         <span id="close-event-on-creation" onClick={closeModal}>
             X</span>
 
-        <form id="event-on-creation-form" onSubmit={(e) => { e.preventDefault(); postEvent(e); e.stopPropagation(); }}>
+        <form id="event-on-creation-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(e, eventOnCreation.title ? 'update' : 'create'); e.stopPropagation(); }}>
             <div id="event-on-creation-date">
                 {<span >Event Date: {eventOnCreation.date}</span>}
             </div>

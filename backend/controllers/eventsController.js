@@ -29,53 +29,92 @@ export const getAllEvents = async (req, res, next) => {
 
 }
 
-// Get info about single event
+// Update single event
 
-export const getSingleEvent = async (req, res) => {
+export const updateEvent = async (req, res, next) => {
 
-    let eventId = Number(req.params.eventId)
+    let eventId = req.params.eventId
 
-    if (!isNaN(eventId)) {
-        db = initiateDb()
+    let { date, description, persons, place } = req.body
 
-        let query = "SELECT * FROM events WHERE id = ?";
-        db.get(query, [eventId], (err, contactRow) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-
-            if (contactRow) {
-                res.send({ 'msg': contactRow })
-            }
-
-            else res.status(403).send({ "msg": "No such contact" });
-
-        });
+    if (!eventId) {
+        let error = new Error('No event id provided')
+        return next(error);
     }
 
-    else {
-        res.status(404).send({ 'msg': 'No such url accoridng to URL parameter' })
+    try {
+        const { db, client } = await initiateDb()
+        const eventsCollection = db.collection('events')
+
+        let updatedEvent = await eventsCollection.updateOne({ id: Number(eventId) },
+            { '$set': { date: date, title: description, persons, place: place } })
+
+        if (updatedEvent.matchedCount > 0) {
+            res.send({ msg: 'Event successfully updated' })
+        }
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
     }
 
 }
 
+// Get info about single event
 
-export const createEvent = (req, res) => {
+// export const getSingleEvent = async (req, res) => {
 
-    let { date, description, atendees, place } = req.body
+//     let eventId = Number(req.params.eventId)
 
-    db = initiateDb()
+//     if (!isNaN(eventId)) {
+//         db = initiateDb()
 
-    let query = "INSERT INTO events (date, place, persons, title) VALUES (?, ?, ?, ?)";
+//         let query = "SELECT * FROM events WHERE id = ?";
+//         db.get(query, [eventId], (err, contactRow) => {
+//             if (err) {
+//                 console.log(err);
+//                 return;
+//             }
 
-    db.run(query, [date, place, `[${atendees.toString()}]`, description], (err) => {
-        if (err) {
-            res.status(500).send({ "error": err });
-            return;
+//             if (contactRow) {
+//                 res.send({ 'msg': contactRow })
+//             }
+
+//             else res.status(403).send({ "msg": "No such contact" });
+
+//         });
+//     }
+
+//     else {
+//         res.status(404).send({ 'msg': 'No such url accoridng to URL parameter' })
+//     }
+
+// }
+
+
+export const createEvent = async (req, res) => {
+
+    let { date, description, persons, place } = req.body
+
+    try {
+        const { db, client } = await initiateDb()
+        const eventsCollection = db.collection('events')
+
+        let ranNum = Math.floor(Math.random() * 100000)
+
+        let createdEvent = await eventsCollection.insertOne({ id: ranNum, date: date, title: description, persons, place })
+
+        if (createdEvent.acknowledged === true) {
+            res.send({ msg: 'Event successfully created' })
         }
-        else res.status(200).send({ 'msg': 'Event successfully created' })
-    })
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
+    }
+
 
 }
 
