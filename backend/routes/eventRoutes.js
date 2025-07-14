@@ -2,7 +2,7 @@
 
 import express from 'express';
 
-import { getAllEvents, getSingleEvent, createEvent, deleteEvent } from '../controllers/eventsController.js';
+import { getAllEvents, createEvent, deleteEvent, updateEvent } from '../controllers/eventsController.js';
 
 import errorHandler from '../middleware/errorMiddelware.js';
 
@@ -12,7 +12,8 @@ const eventRoutes = express.Router();
 // eventRoutes.use(logger)
 
 eventRoutes.route('/').get(errorHandler, getAllEvents)
-eventRoutes.route('/:eventId/').get(errorHandler, getSingleEvent)
+eventRoutes.route('/:eventId/').put(errorHandler, updateEvent)
+// .get(errorHandler, getSingleEvent)
 
 eventRoutes.route('/').post(errorHandler, createEvent);
 eventRoutes.route('/:eventId/').post(errorHandler, deleteEvent)

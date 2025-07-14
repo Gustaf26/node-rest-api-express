@@ -1,8 +1,6 @@
 
-import { initiateDb, closeConnexion } from '../connect.js'
-
-
-let db;
+// import { initiateDb, closeConnexion } from '../connect.js'
+import { initiateDb } from '../connect.js'
 
 // Get all events
 export const getAllEvents = async (req, res, next) => {
@@ -14,74 +12,109 @@ export const getAllEvents = async (req, res, next) => {
         return next(error);
     }
 
-    db = initiateDb()
+    try {
+        const { db, client } = await initiateDb()
+        const eventsCollection = db.collection('events')
 
-    let query = `SELECT * FROM events WHERE persons LIKE '%${userId}%'`;
+        let events = await eventsCollection.find({ persons: { $regex: `[${userId}]` } }).toArray()
 
+        res.send({ msg: events })
 
-    db.all(query, (err, eventRow) => {
-        if (err) {
-            console.log(err)
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
+    }
+
+}
+
+// Update single event
+
+export const updateEvent = async (req, res, next) => {
+
+    let eventId = req.params.eventId
+
+    let { date, description, persons, place } = req.body
+
+    if (!eventId) {
+        let error = new Error('No event id provided')
+        return next(error);
+    }
+
+    try {
+        const { db, client } = await initiateDb()
+        const eventsCollection = db.collection('events')
+
+        let updatedEvent = await eventsCollection.updateOne({ id: Number(eventId) },
+            { '$set': { date: date, title: description, persons, place: place } })
+
+        if (updatedEvent.matchedCount > 0) {
+            res.send({ msg: 'Event successfully updated' })
         }
-
-        if (eventRow) {
-            res.send({ 'msg': eventRow })
-
-        }
-
-        else res.status(403).send({ "msg": "No such contact" });
-
-    })
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
+    }
 
 }
 
 // Get info about single event
 
-export const getSingleEvent = async (req, res) => {
+// export const getSingleEvent = async (req, res) => {
 
-    let eventId = Number(req.params.eventId)
+//     let eventId = Number(req.params.eventId)
 
-    if (!isNaN(eventId)) {
-        db = initiateDb()
+//     if (!isNaN(eventId)) {
+//         db = initiateDb()
 
-        let query = "SELECT * FROM events WHERE id = ?";
-        db.get(query, [eventId], (err, contactRow) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
+//         let query = "SELECT * FROM events WHERE id = ?";
+//         db.get(query, [eventId], (err, contactRow) => {
+//             if (err) {
+//                 console.log(err);
+//                 return;
+//             }
 
-            if (contactRow) {
-                res.send({ 'msg': contactRow })
-            }
+//             if (contactRow) {
+//                 res.send({ 'msg': contactRow })
+//             }
 
-            else res.status(403).send({ "msg": "No such contact" });
+//             else res.status(403).send({ "msg": "No such contact" });
 
-        });
-    }
+//         });
+//     }
 
-    else {
-        res.status(404).send({ 'msg': 'No such url accoridng to URL parameter' })
-    }
+//     else {
+//         res.status(404).send({ 'msg': 'No such url accoridng to URL parameter' })
+//     }
 
-}
+// }
 
 
-export const createEvent = (req, res) => {
+export const createEvent = async (req, res) => {
 
-    let { date, description, atendees, place } = req.body
+    let { date, description, persons, place } = req.body
 
-    db = initiateDb()
+    try {
+        const { db, client } = await initiateDb()
+        const eventsCollection = db.collection('events')
 
-    let query = "INSERT INTO events (date, place, persons, title) VALUES (?, ?, ?, ?)";
+        let ranNum = Math.floor(Math.random() * 100000)
 
-    db.run(query, [date, place, `[${atendees.toString()}]`, description], (err) => {
-        if (err) {
-            res.status(500).send({ "error": err });
-            return;
+        let createdEvent = await eventsCollection.insertOne({ id: ranNum, date: date, title: description, persons, place })
+
+        if (createdEvent.acknowledged === true) {
+            res.send({ msg: 'Event successfully created' })
         }
-        else res.status(200).send({ 'msg': 'Event successfully created' })
-    })
+    }
+    catch {
+        let error = new Error('No events for that persons')
+        error.status = 400
+        return next(error);
+    }
+
 
 }
 

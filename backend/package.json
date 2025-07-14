@@ -23,7 +23,9 @@
   "dependencies": {
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.1.0",
     "express": "^5.1.0",
+    "mongodb": "6.17",
     "sqlite3": "^5.1.7"
   }
 }

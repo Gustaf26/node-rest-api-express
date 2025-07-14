@@ -56,7 +56,7 @@ const WeekCell = (props) => {
 
         {events && events.map(event => {
             if (event.date === dayDate) return (
-                <span onDoubleClick={(e) => { e.stopPropagation(); setEventOnCreation(event) }} className="event-title">{event.title}</span>
+                <span onDoubleClick={(e) => { e.stopPropagation(); setEventOnCreation(event); updateDayEvent(); }} className="event-title">{event.title}</span>
             )
             else return null
         })}
