@@ -27,7 +27,7 @@
 <!-- Status -->
 
 <h4 align="center"> 
-<img alt="project presentation" src="demo.png"/>
+<img alt="project presentation" height=500 width=700 src="demo.png"/>
 	🚧  Node_test_REST_API 🚀 Under construction...  🚧
 </h4> 
 
