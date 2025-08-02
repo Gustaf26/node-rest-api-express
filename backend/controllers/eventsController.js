@@ -139,9 +139,9 @@ export const deleteEvent = async (req, res) => {
         const { db, client } = await initiateDb()
         const eventsCollection = db.collection('events')
 
-        let deletedEvent = await eventsCollection.deleteOne({ id: eventId })
+        let deletedEvent = await eventsCollection.deleteOne({ id: Number(eventId) })
 
-        if (deletedEvent.acknowledged === true) {
+        if (deletedEvent.acknowledged === true && deletedEvent.deletedCount === 1) {
             res.send({ msg: 'Event successfully deleted' })
         }
     }
