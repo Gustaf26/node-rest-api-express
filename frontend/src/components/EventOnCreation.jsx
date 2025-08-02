@@ -18,7 +18,7 @@ export default function EventOnCreation({ eventOnCreation }) {
     const [contactsShowing, setContactsShowing] = useState(false)
 
     const { events, setEventOnCreation, contacts, userInfo, setEvents, setEventCreated } = useContext(MainContext)
-    const { chosenMonth, chosenDay, chosenDate } = useContext(CalendarContext)
+    const { chosenDate } = useContext(CalendarContext)
 
     // Set the event atendees in the UI
     useEffect(() => {
@@ -94,6 +94,7 @@ export default function EventOnCreation({ eventOnCreation }) {
             let allEvents = events.filter(ev => ev.id !== eventToDelete.id)
             setEvents(allEvents)
             alert(response.msg)
+            closeModal()
         }
         else if (response.error) { alert('No such event') }
         else alert('Something wrong now, try again later')
@@ -177,7 +178,12 @@ export default function EventOnCreation({ eventOnCreation }) {
 
             </ul>
 
-            <Button type="submit">{eventOnCreation.title ? 'UPDATE' : 'INVITE'}</Button>
+            <div id="action-buttons-update-box">
+                <Button type="submit">{eventOnCreation.title ? 'UPDATE' : 'INVITE'}</Button>
+                {eventOnCreation.title ? <DeleteForeverIcon sx={{ width: '50px', fontSize: 'xx-large' }}
+                    onClick={() => deleteEvent(eventOnCreation)} color='warning' /> : null}
+            </div>
+
         </form>
     </div>)
 }

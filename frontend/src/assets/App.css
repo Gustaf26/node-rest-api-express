@@ -814,6 +814,20 @@ body {
         cursor: pointer;
       }
     }
+
+    & #action-buttons-update-box {
+      display: flex;
+      align-items: center;
+
+      & svg:hover {
+        cursor: pointer;
+        color: orange;
+      }
+
+      & button:hover {
+        background-color: rgb(125, 171, 205);
+      }
+    }
   }
 }
 
