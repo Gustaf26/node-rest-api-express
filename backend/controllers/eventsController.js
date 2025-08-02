@@ -1,5 +1,4 @@
 
-// import { initiateDb, closeConnexion } from '../connect.js'
 import { initiateDb } from '../connect.js'
 
 // Get all events
