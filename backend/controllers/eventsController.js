@@ -117,20 +117,37 @@ export const createEvent = async (req, res) => {
 
 }
 
-export const deleteEvent = (req, res) => {
+export const deleteEvent = async (req, res) => {
 
-    db = initiateDb()
+    // db = initiateDb()
+
+    // let eventId = req.params.eventId
+
+    // let query = `DELETE FROM events WHERE id=${eventId}`;
+
+    // db.run(query, (err) => {
+    //     if (err) {
+    //         res.status(500).send({ "error": err });
+    //         return;
+    //     }
+    //     else res.status(200).send({ 'msg': 'Event successfully deleted' })
+    // })
 
     let eventId = req.params.eventId
 
-    let query = `DELETE FROM events WHERE id=${eventId}`;
+    try {
+        const { db, client } = await initiateDb()
+        const eventsCollection = db.collection('events')
 
-    db.run(query, (err) => {
-        if (err) {
-            res.status(500).send({ "error": err });
-            return;
+        let deletedEvent = await eventsCollection.deleteOne({ id: eventId })
+
+        if (deletedEvent.acknowledged === true) {
+            res.send({ msg: 'Event successfully deleted' })
         }
-        else res.status(200).send({ 'msg': 'Event successfully deleted' })
-    })
-
+    }
+    catch {
+        let error = new Error('No events for that persons with that id')
+        error.status = 400
+        return next(error);
+    }
 }
