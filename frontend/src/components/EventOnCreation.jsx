@@ -18,7 +18,7 @@ export default function EventOnCreation({ eventOnCreation }) {
     const [contactsShowing, setContactsShowing] = useState(false)
 
     const { events, setEventOnCreation, contacts, userInfo, setEvents, setEventCreated } = useContext(MainContext)
-    const { chosenDate } = useContext(CalendarContext)
+    const { chosenDate, setChosenDate } = useContext(CalendarContext)
 
     // Set the event atendees in the UI
     useEffect(() => {
@@ -100,6 +100,20 @@ export default function EventOnCreation({ eventOnCreation }) {
         else alert('Something wrong now, try again later')
     }
 
+    const formatDate = value => {
+
+        let formattedDate = value[5] === '0' ? value.slice(0, 5) + value.slice(6, 10)
+            : value
+
+        let secondDash = formattedDate.lastIndexOf('-')
+
+        formattedDate = formattedDate[secondDash + 1] === '0' ? formattedDate.slice(0, secondDash + 1) + formattedDate.slice(secondDash + 2, formattedDate.length)
+            : formattedDate
+
+        setChosenDate(formattedDate)
+
+    }
+
 
     return (<div className="modal" >
 
@@ -108,7 +122,8 @@ export default function EventOnCreation({ eventOnCreation }) {
 
         <form id="event-on-creation-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(e, eventOnCreation.title ? 'update' : 'create'); e.stopPropagation(); }}>
             <div id="event-on-creation-date">
-                {<span >Event Date: {eventOnCreation.date}</span>}
+                {eventOnCreation.title ? <input onChange={(e) => formatDate(e.target.value)} type="date" id="new-event-input" name="event-input" /> :
+                    <span >Event Date: {eventOnCreation.date}</span>}
             </div>
             <div id="event-creation-categories">
                 <div>
